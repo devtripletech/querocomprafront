@@ -63,18 +63,18 @@ export function AccountCard() {
         </div>
         <div className="flex items-center pt-4">
           <Contact className="mr-2 h-4 w-4 text-zinc-600" />
-          <h2 className="text-base font-normal">Edvan Almeida de Lima</h2>
+          <h2 className="text-base font-normal">Mário Thomas Drumond</h2>
         </div>
         <div className="flex items-center pt-2">
           <Phone className="mr-2 h-4 w-4 text-zinc-600" />
-          <h2 className="text-base font-normal">+5583981565157</h2>
+          <h2 className="text-base font-normal">+5511999999</h2>
         </div>
         <div className="flex items-center pt-2">
           <MapPin className="mr-2 h-4 w-4 text-zinc-600" />
-          <h2 className="text-base font-normal">Rua Padre Guerel, 291</h2>
+          <h2 className="text-base font-normal">Rua Sodalita, 205</h2>
         </div>
         <span className="ml-6 block text-sm">
-          Ipiranga, São José do Egito, PE. CEP 56700-000
+          Sapucaia II, Contagem, MG. CEP 32071-184
         </span>
       </div>
     </div>

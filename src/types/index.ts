@@ -173,4 +173,5 @@ export interface EmailAddresses {
 export enum productsCategoryType {
   Service = "service",
   Product = "product",
+  map = "map",
 }
