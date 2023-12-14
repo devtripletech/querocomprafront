@@ -1,0 +1,17 @@
+import { SiteFooter } from "@/components/layouts/site-footer"
+import { SiteHeader } from "@/components/layouts/site-header"
+import { currentUser } from "../_actions/user"
+
+export default async function LobbyLayout({
+  children,
+}: React.PropsWithChildren) {
+  const user = await currentUser()
+
+  return (
+    <div className="relative flex min-h-screen flex-col">
+      <SiteHeader email={user} />
+      <main className="flex-1">{children}</main>
+      <SiteFooter />
+    </div>
+  )
+}
