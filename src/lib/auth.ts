@@ -2,29 +2,9 @@ import type { NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import GithubProvider from "next-auth/providers/github"
 import GoogleProvider, { GoogleProfile } from "next-auth/providers/google"
-import { PrismaAdapter } from "./adapters/prisma-adapter"
 
 export const authOptions: NextAuthOptions = {
-  adapter: PrismaAdapter(),
   providers: [
-    GithubProvider({
-      clientId: process.env.GITHUB_ID as string,
-      clientSecret: process.env.GITHUB_SECRET as string,
-    }),
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-
-      profile(profile: GoogleProfile) {
-        return {
-          id: profile.sub,
-          name: profile.name,
-          username: "",
-          email: profile.email,
-          avatar_url: profile.picture,
-        }
-      },
-    }),
     CredentialsProvider({
       // The name to display on the sign in form (e.g. 'Sign in with...')
       name: "Credentials",
