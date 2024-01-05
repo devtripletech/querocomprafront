@@ -68,6 +68,7 @@ import {
   LayoutGrid,
   KeyRound,
   UserRound,
+  Boxes,
 } from "lucide-react"
 
 export type Icon = typeof LucideIcon
@@ -141,6 +142,7 @@ export const Icons = {
   clothing: Shirt,
   shoes: Footprints,
   accessories: HardHat,
+  boxes: Boxes,
   logo: (props: IconProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"

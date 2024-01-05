@@ -56,17 +56,15 @@ export function AuthForm() {
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true)
 
-    signIn("credentials", {
+    signIn("Credentials", {
       ...data,
       redirect: false,
     })
       .then((callback) => {
         if (callback?.error) {
-          toast.error("Invalid credentials!")
+          toast.error("usuário ou senha inválido")
         } else {
-          router.push(
-            decodeURIComponent(callbackUrl ?? "/dashboard/attendance")
-          )
+          router.push(decodeURIComponent(callbackUrl ?? "/dashboard/account"))
         }
       })
       .finally(() => setIsLoading(false))

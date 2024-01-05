@@ -23,9 +23,8 @@ import { Label } from "../ui/label"
 import { SidebarSubNav } from "../layouts/sidebar-sub-nav"
 import { accountDashboardConfig } from "@/config/dashboard"
 import { EditPasswordDialog } from "../dialog/edit-password-dialog"
-import { EditEmailDialog } from "../dialog/edit-email-dialog"
 
-export function AccountAccessCard() {
+export function AccountAccessCard({ userId }: { userId: number }) {
   return (
     <div className="flex flex-col gap-4 w-full">
       <div className="flex items-center">
@@ -42,12 +41,9 @@ export function AccountAccessCard() {
                 <Input
                   className="border-none"
                   type="email"
-                  placeholder="eadelima@outlook.com"
+                  placeholder="nome@localhost.com"
                   disabled
                 />
-                <EditEmailDialog email={"edvan.lima@tripletech.com.br"}>
-                  <span className="text-sm cursor-pointer">Alterar</span>
-                </EditEmailDialog>
               </div>
             </div>
             <div>
@@ -60,7 +56,7 @@ export function AccountAccessCard() {
                   placeholder="***********"
                   disabled
                 />
-                <EditPasswordDialog>
+                <EditPasswordDialog userId={userId}>
                   <span className="text-sm cursor-pointer">Alterar</span>
                 </EditPasswordDialog>
               </div>

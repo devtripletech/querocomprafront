@@ -1,19 +1,41 @@
-import { productsCategoryType } from "@/types"
 import * as z from "zod"
 
+export const createProductSchema = z.object({
+  id_usuario: z.string(),
+  id_categoria: z.string().optional(),
+  negociado: z.string().optional(),
+  valor: z.string(),
+  nome: z.string(),
+  descricao: z.string().optional(),
+  images: z
+    .unknown()
+    .refine((val) => {
+      if (!Array.isArray(val)) return false
+      if (val.some((file) => !(file instanceof File))) return false
+      return true
+    }, "Must be an array of File")
+    .optional()
+    .nullable()
+    .default(null),
+})
+
 export const productSchema = z.object({
-  name: z.string().min(1, {
-    message: "Must be at least 1 character",
+  id_produto: z.string().optional(),
+  id_categoria: z.string().optional(),
+  nome: z.string().min(1, {
+    message: "O nome é obrigatório",
   }),
-  description: z.string().optional(),
-  category: z
-    .nativeEnum(productsCategoryType)
-    .default(productsCategoryType.Service),
-  subcategory: z.string().optional().nullable(),
-  price: z.string().regex(/^\d+(\.\d{1,2})?$/, {
-    message: "Must be a valid price",
-  }),
-  inventory: z.number(),
+  img_01: z.string().optional(),
+  img_02: z.string().optional(),
+  img_03: z.string().optional(),
+  ativo: z.number().optional(),
+  data_cadastrou: z.string().optional(),
+  id_usuario: z.number().optional(),
+  negociado: z.number().optional(),
+  valor: z.coerce.number(),
+  id_tipo: z.number().optional(),
+  descricao: z.string().optional(),
+  id_user: z.string().optional(),
   images: z
     .unknown()
     .refine((val) => {
@@ -49,3 +71,5 @@ export const getProductsSchema = z.object({
   store_ids: z.string().optional().nullable(),
   active: z.string().optional().nullable(),
 })
+
+export type Product = z.infer<typeof productSchema>

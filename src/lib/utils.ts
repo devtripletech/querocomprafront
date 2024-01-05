@@ -16,9 +16,9 @@ export function formatPrice(
     notation?: Intl.NumberFormatOptions["notation"]
   } = {}
 ) {
-  const { currency = "USD", notation = "compact" } = options
+  const { currency = "BRL", notation = "compact" } = options
 
-  return new Intl.NumberFormat("en-US", {
+  return new Intl.NumberFormat("pt-BR", {
     style: "currency",
     currency,
     notation,

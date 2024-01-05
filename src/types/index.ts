@@ -49,6 +49,7 @@ export interface Option {
 
 export type FileWithPreview = FileWithPath & {
   preview: string
+  name: string
 }
 
 export interface StoredFile {

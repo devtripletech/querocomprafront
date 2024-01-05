@@ -45,7 +45,6 @@ export function UpdateEmailPreferencesForm({
   })
 
   function onSubmit(data: Inputs) {
-    console.log(data)
     startTransition(async () => {
       try {
         await updateEmailPreferencesAction({

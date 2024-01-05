@@ -6,8 +6,8 @@ export const authSchema = z.object({
   }),
   password: z
     .string()
-    .min(8, {
-      message: "A senha deve ter pelo menos 8 caracteres",
+    .min(3, {
+      message: "A senha deve ter pelo menos 3 caracteres",
     })
     .max(100),
 })
@@ -36,13 +36,14 @@ export const checkEmailSchema = z.object({
   email: authSchema.shape.email,
 })
 
-export const resetPasswordSchema = z
+export const updatePasswordSchema = z
   .object({
+    id_user: z.coerce.number(),
     password: authSchema.shape.password,
+    newPassword: authSchema.shape.password,
     confirmPassword: authSchema.shape.password,
-    code: verifyEmailSchema.shape.code,
   })
-  .refine((data) => data.password === data.confirmPassword, {
+  .refine((data) => data.newPassword === data.confirmPassword, {
     message: "Senhas não combinam",
     path: ["confirmPassword"],
   })
@@ -56,7 +57,10 @@ export const userPrivateMetadataSchema = z.object({
 })
 
 export const userPayloadSchema = z.object({
-  role: z.number(),
-  email: z.string(),
+  id: z.string(),
+  id_user: z.number(),
+  uservalido: z.number(),
+  accessToken: z.string(),
+  status: z.boolean(),
 })
 export type UserPayload = z.infer<typeof userPayloadSchema>

@@ -11,6 +11,8 @@ import { Shell } from "@/components/shells/shell"
 import { SidebarSubNav } from "@/components/layouts/sidebar-sub-nav"
 import { accountDashboardConfig } from "@/config/dashboard"
 import { AccountCard } from "@/components/cards/account-card"
+import { redirect } from "next/navigation"
+import { currentUser, getUserAction } from "@/app/_actions/user"
 
 export const metadata: Metadata = {
   metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),
@@ -18,6 +20,18 @@ export const metadata: Metadata = {
   description: "Gerencie as informações de conta e dados pessoais",
 }
 
-export default function AccountPage() {
-  return <AccountCard />
+export default async function AccountPage() {
+  const user = await currentUser()
+
+  if (!user) {
+    redirect("/signin")
+  }
+
+  const userData = await getUserAction(user?.id_user)
+
+  // TODO
+  // if (user.uservalido === 0) {
+  //   redirect("/dashboard/account/personal")
+  // }
+  return <AccountCard user={userData} />
 }

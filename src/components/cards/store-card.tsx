@@ -11,20 +11,21 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { Product } from "@/lib/validations/product"
 
 interface StoreCardProps {
-  store: CuratedStore
+  product: Product
   href: string
 }
 
-export function StoreCard({ store, href }: StoreCardProps) {
+export function StoreCard({ product, href }: StoreCardProps) {
   return (
     <Link href={href}>
-      <span className="sr-only">{store.name}</span>
+      <span className="sr-only">{product.nome}</span>
       <Card className="h-full overflow-hidden">
         <AspectRatio ratio={21 / 9}>
           <div className="absolute inset-0 bg-gradient-to-t from-transparent to-zinc-950/50" />
-          <Badge
+          {/* <Badge
             className={cn(
               "pointer-events-none absolute right-2 top-2 rounded-sm px-2 py-1 font-semibold",
               store.stripeAccountId
@@ -33,18 +34,18 @@ export function StoreCard({ store, href }: StoreCardProps) {
             )}
           >
             {store.stripeAccountId ? "Active" : "Inactive"}
-          </Badge>
+          </Badge> */}
           <div
             className="h-full rounded-t-md border-b"
-            style={getRandomPatternStyle(String(store.id))}
+            style={getRandomPatternStyle(String(product.id_produto))}
           />
         </AspectRatio>
         <CardHeader className="space-y-2">
-          <CardTitle className="line-clamp-1">{store.name}</CardTitle>
+          <CardTitle className="line-clamp-1">{product.nome}</CardTitle>
           <CardDescription className="line-clamp-1">
-            {store.description?.length
-              ? store.description
-              : `Explore ${store.name} products`}
+            {product.descricao?.length
+              ? product.descricao
+              : `Explore ${product.nome} products`}
           </CardDescription>
         </CardHeader>
       </Card>

@@ -23,7 +23,7 @@ export function SidebarSubNav({
   const pathname = usePathname()
 
   if (!items?.length) return null
-  console.log(items?.length)
+
   return (
     <div
       className={cn(

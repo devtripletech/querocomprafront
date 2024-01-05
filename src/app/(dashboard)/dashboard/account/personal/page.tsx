@@ -13,6 +13,8 @@ import { accountDashboardConfig } from "@/config/dashboard"
 import { AccountCard } from "@/components/cards/account-card"
 import { AccountAccessCard } from "@/components/cards/account-access-card"
 import { AccountPersonalCard } from "@/components/cards/account-personal-card"
+import { currentUser, getUserAction } from "@/app/_actions/user"
+import { redirect } from "next/navigation"
 
 export const metadata: Metadata = {
   metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),
@@ -20,6 +22,14 @@ export const metadata: Metadata = {
   description: "Manage your account settings",
 }
 
-export default function AccountPersonalPage() {
-  return <AccountPersonalCard />
+export default async function AccountPersonalPage() {
+  const user = await currentUser()
+
+  if (!user) {
+    redirect("/signin")
+  }
+
+  const userData = await getUserAction(user?.id_user)
+
+  return <AccountPersonalCard userValid={user.uservalido} user={userData} />
 }

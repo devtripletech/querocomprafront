@@ -17,7 +17,8 @@ import { AddToCartForm } from "@/components/forms/add-to-cart-form"
 import { Breadcrumbs } from "@/components/pagers/breadcrumbs"
 import { ProductImageCarousel } from "@/components/product-image-carousel"
 import { Shell } from "@/components/shells/shell"
-import { Image, Product, productsCategoryType } from "@/types"
+import { Image, Product, StoredFile, productsCategoryType } from "@/types"
+import { getProductByIdAction } from "@/app/_actions/product"
 
 interface ProductPageProps {
   params: {
@@ -28,7 +29,7 @@ interface ProductPageProps {
 export async function generateMetadata({
   params,
 }: ProductPageProps): Promise<Metadata> {
-  const productId = Number(params.productId)
+  const productId = params.productId
 
   const img = [
     { id: "1", name: "ar condicionado", url: "/images/ar-condicionado.webp" },
@@ -61,14 +62,14 @@ export async function generateMetadata({
 }
 
 export default async function ProductPage({ params }: ProductPageProps) {
-  const productId = Number(params.productId)
+  const productId = params.productId
   const img = [
     { id: "1", name: "ar condicionado", url: "/images/ar-condicionado.webp" },
     { id: "2", name: "ar condicionado", url: "/images/ar-condicionado-2.webp" },
     { id: "3", name: "ar condicionado", url: "/images/ar-condicionado-3.webp" },
     { id: "4", name: "ar condicionado", url: "/images/ar-condicionado-4.webp" },
   ] as Image[]
-  const product = {
+  const product2 = {
     id: 1,
     name: "Ar Condicionado Hi Wall LG Dual Inverter Voice 9.000 Btus Frio 220v R-32",
     description:
@@ -85,36 +86,40 @@ export default async function ProductPage({ params }: ProductPageProps) {
     subcategory: "",
   } as Product
 
+  const product = await getProductByIdAction(productId)
+
   if (!product) {
     notFound()
   }
 
-  const store = {} as any
-
-  const otherProducts = store ? [] : []
+  const images = [
+    { id: "1", name: "", url: product.img_01 },
+    { id: "2", name: "", url: product.img_02 },
+    { id: "3", name: "", url: product.img_03 },
+  ] as StoredFile[]
 
   return (
     <Shell>
       <Breadcrumbs
         segments={[
           {
-            title: "Products",
+            title: "Produtos",
             href: "/products",
           },
+          // {
+          //   title: toTitleCase(product?.category),
+          //   href: `/products?category=${product.category}`,
+          // },
           {
-            title: toTitleCase(product?.category),
-            href: `/products?category=${product.category}`,
-          },
-          {
-            title: product.name,
-            href: `/product/${product.id}`,
+            title: product.nome,
+            href: `/product/${product.id_produto}`,
           },
         ]}
       />
       <div className="flex flex-col gap-8 md:flex-row md:gap-16">
         <ProductImageCarousel
           className="w-full md:w-1/2"
-          images={product.images ?? []}
+          images={images ?? []}
           options={{
             loop: true,
           }}
@@ -122,16 +127,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
         <Separator className="mt-4 md:hidden" />
         <div className="flex w-full flex-col gap-4 md:w-1/2">
           <div className="space-y-2">
-            <h2 className="line-clamp-1 text-2xl font-bold">{product.name}</h2>
-
-            {store ? (
-              <Link
-                href={`/products?store_ids=${store.id}`}
-                className="line-clamp-1 inline-block text-base text-muted-foreground hover:underline"
-              >
-                {store.name}
-              </Link>
-            ) : null}
+            <h2 className="line-clamp-1 text-2xl font-bold">{product.nome}</h2>
           </div>
           <Separator className="my-1.5" />
           {/* <AddToCartForm productId={productId} /> */}
@@ -140,31 +136,13 @@ export default async function ProductPage({ params }: ProductPageProps) {
             <AccordionItem value="description">
               <AccordionTrigger>Descrição</AccordionTrigger>
               <AccordionContent>
-                {product.description ??
-                  "No description is available for this product."}
+                {product.descricao ??
+                  "Nenhuma descrição está disponível para este produto."}
               </AccordionContent>
             </AccordionItem>
           </Accordion>
         </div>
       </div>
-      {store && otherProducts.length > 0 ? (
-        <div className="overflow-hidden md:pt-6">
-          <h2 className="line-clamp-1 flex-1 text-2xl font-bold">
-            More products from {store.name}
-          </h2>
-          <div className="overflow-x-auto pb-2 pt-6">
-            <div className="flex w-fit gap-4">
-              {otherProducts.map((product: any) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  className="min-w-[260px]"
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-      ) : null}
     </Shell>
   )
 }

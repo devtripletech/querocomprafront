@@ -20,6 +20,10 @@ import { Shell } from "@/components/shells/shell"
 import { ProductCardSkeleton } from "@/components/skeletons/product-card-skeleton"
 import { StoreCardSkeleton } from "@/components/skeletons/store-card-skeleton"
 import { Image } from "@/types"
+import { currentUser } from "../_actions/user"
+import { UserPayload } from "@/lib/validations/auth"
+import { redirect } from "next/navigation"
+import { listProductsAction } from "../_actions/product"
 
 const img = [
   { id: "1", name: "ar condicionado", url: "/images/ar-condicionado.webp" },
@@ -45,9 +49,20 @@ const productList = [
 
 export default async function IndexPage() {
   // See the unstable_cache API docs: https://nextjs.org/docs/app/api-reference/functions/unstable_cache
+
+  const user = (await currentUser()) as unknown as UserPayload
+
+  if (!user) {
+    redirect("/signin")
+  }
+
+  // if (user.uservalido === 0) {
+  //   redirect("/dashboard/account/personal")
+  // }
+
   const someProducts = await cache(
     async () => {
-      return productList
+      return listProductsAction()
     },
     ["lobby-products"],
     {
@@ -56,45 +71,16 @@ export default async function IndexPage() {
     }
   )()
 
-  const someStores = await cache(
-    async () => {
-      return productList
-    },
-    ["lobby-stores"],
-    {
-      revalidate: 3600,
-      tags: ["lobby-stores"],
-    }
-  )()
-
-  async function getGithubStars(): Promise<number | null> {
-    try {
-      const response = await fetch(
-        "https://api.github.com/repos/sadmann7/skateshop",
-        {
-          headers: {
-            Accept: "application/vnd.github+json",
-          },
-          next: {
-            revalidate: 60,
-          },
-        }
-      )
-
-      if (!response.ok) {
-        return null
-      }
-
-      const data = (await response.json()) as { stargazers_count: number }
-
-      return data.stargazers_count
-    } catch (err) {
-      console.error(err)
-      return null
-    }
-  }
-
-  const githubStars = await getGithubStars()
+  // const someStores = await cache(
+  //   async () => {
+  //     return productList
+  //   },
+  //   ["lobby-stores"],
+  //   {
+  //     revalidate: 3600,
+  //     tags: ["lobby-stores"],
+  //   }
+  // )()
 
   const randomProductCategory =
     productCategories[Math.floor(Math.random() * productCategories.length)]
@@ -135,7 +121,7 @@ export default async function IndexPage() {
               ))}
             >
               {someProducts.map((product: any) => (
-                <ProductCard key={product.id} product={product} />
+                <ProductCard key={product.id_produto} product={product} />
               ))}
             </React.Suspense>
           </div>
@@ -148,9 +134,9 @@ export default async function IndexPage() {
               })
             )}
           >
-            View all products
+            Ver todos os produtos
             <ArrowRightIcon className="ml-2 h-4 w-4" aria-hidden="true" />
-            <span className="sr-only">View all products</span>
+            <span className="sr-only">Ver todos os produtos</span>
           </Link>
         </div>
       </section>

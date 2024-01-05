@@ -18,13 +18,18 @@ import {
 import { MainNav } from "@/components/layouts/main-nav"
 import { MobileNav } from "@/components/layouts/mobile-nav"
 import { Icons } from "../icons"
+import { User } from "@/lib/validations/user"
+import { redirect } from "next/navigation"
 
 interface SiteHeaderProps {
-  email: string | null
+  user?: User
 }
 
-export async function SiteHeader({ email }: SiteHeaderProps) {
-  const initials = `${email?.charAt(0).toLocaleUpperCase() ?? ""}`
+export async function SiteHeader({ user }: SiteHeaderProps) {
+  let initials
+  if (user) {
+    initials = `${user.nome?.charAt(0).toLocaleUpperCase() ?? ""}`
+  }
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background">
@@ -36,7 +41,7 @@ export async function SiteHeader({ email }: SiteHeaderProps) {
         />
         <div className="flex flex-1 items-center justify-end space-x-4">
           <nav className="flex items-center space-x-2">
-            {email ? (
+            {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
@@ -52,26 +57,16 @@ export async function SiteHeader({ email }: SiteHeaderProps) {
                   <DropdownMenuLabel className="font-normal">
                     <div className="flex flex-col space-y-1">
                       <p className="text-sm font-medium leading-none">
-                        {email}
+                        {user.nome}
                       </p>
                       <p className="text-xs leading-none text-muted-foreground">
-                        {email}
+                        {user.email}
                       </p>
                     </div>
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
                     <DropdownMenuItem asChild>
-                      <Link href="/dashboard/attendance">
-                        <Icons.terminal
-                          className="mr-2 h-4 w-4"
-                          aria-hidden="true"
-                        />
-                        Lançamento
-                        <DropdownMenuShortcut>⌘D</DropdownMenuShortcut>
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild disabled>
                       <Link href="/dashboard/account">
                         <Icons.user
                           className="mr-2 h-4 w-4"
@@ -107,7 +102,7 @@ export async function SiteHeader({ email }: SiteHeaderProps) {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Link href="/">
+              <Link href="/signin">
                 <div
                   className={buttonVariants({
                     size: "sm",

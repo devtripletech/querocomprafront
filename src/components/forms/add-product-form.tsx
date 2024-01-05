@@ -3,14 +3,12 @@
 import * as React from "react"
 import Image from "next/image"
 
-import { productsCategoryType, type FileWithPreview } from "@/types"
+import { type FileWithPreview } from "@/types"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { generateReactHelpers } from "@uploadthing/react/hooks"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { type z } from "zod"
 
-import { getSubcategories } from "@/config/products"
 import { catchError, isArrayOfFile } from "@/lib/utils"
 import { productSchema } from "@/lib/validations/product"
 import { Button } from "@/components/ui/button"
@@ -24,20 +22,12 @@ import {
   UncontrolledFormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { FileDialog } from "@/components/file-dialog"
 import { Icons } from "@/components/icons"
 import { Zoom } from "@/components/zoom-image"
-import { addProductAction, checkProductAction } from "@/app/_actions/product"
-import type { OurFileRouter } from "@/app/api/uploadthing/core"
+import { addProductAction } from "@/app/_actions/product"
+import { revalidatePath } from "next/cache"
 
 interface AddProductFormProps {
   storeId: number
@@ -45,75 +35,58 @@ interface AddProductFormProps {
 
 type Inputs = z.infer<typeof productSchema>
 
-const { useUploadThing } = generateReactHelpers<OurFileRouter>()
-
 export function AddProductForm({ storeId }: AddProductFormProps) {
   const [files, setFiles] = React.useState<FileWithPreview[] | null>(null)
 
+  const [isUploading, setUploading] = React.useState(false)
   const [isPending, startTransition] = React.useTransition()
-
-  const { isUploading, startUpload } = useUploadThing("productImage")
 
   const form = useForm<Inputs>({
     resolver: zodResolver(productSchema),
     defaultValues: {
-      name: "",
-      description: "",
-      price: "",
-      inventory: NaN,
-      category: productsCategoryType.Service,
-      subcategory: "",
+      nome: "",
+      id_usuario: 6,
+      descricao: "",
+      valor: 0,
       images: [],
     },
   })
 
-  const subcategories = getSubcategories(form.watch("category"))
-
   function onSubmit(data: Inputs) {
     startTransition(async () => {
       try {
-        await checkProductAction({
-          name: data.name,
-        })
-
         if (isArrayOfFile(data.images)) {
-          toast.promise(
-            startUpload(data.images)
-              .then((res) => {
-                const formattedImages = res?.map((image) => ({
-                  id: image.key,
-                  name: image.key.split("_")[1] ?? image.key,
-                  url: image.url,
-                }))
-                return formattedImages ?? null
-              })
-              .then((images) => {
-                return addProductAction({
-                  ...data,
-                  storeId,
-                  images,
-                })
-              }),
+          setUploading(true)
+          const body = new FormData()
+          body.append("id_usuario", String(data.id_usuario))
+          body.append("id_categoria", "0")
+          body.append("negociado", "0")
+          body.append("valor", String(data.valor))
+          body.append("nome", String(data.nome))
+          body.append("file", data.images[0])
+          body.append("file2", data.images[0])
+          body.append("file3", data.images[0])
+          // console.log(data.images[0])
+          const response = await fetch(
+            `http://apptnote.eastus.cloudapp.azure.com:3333/produto/`,
             {
-              loading: "Uploading images...",
-              success: "Product added successfully.",
-              error: "Error uploading images.",
+              method: "POST",
+              body,
             }
           )
+          revalidatePath("/dashboard/products")
+
+          setUploading(false)
         } else {
           await addProductAction({
             ...data,
-            storeId,
             images: null,
           })
 
           toast.success("Product added successfully.")
         }
-
-        form.reset()
-        setFiles(null)
-      } catch (err) {
-        catchError(err)
+      } catch (e) {
+        console.log(e)
       }
     })
   }
@@ -126,12 +99,12 @@ export function AddProductForm({ storeId }: AddProductFormProps) {
       >
         <FormField
           control={form.control}
-          name="name"
+          name="nome"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Name</FormLabel>
+              <FormLabel>Nome</FormLabel>
               <FormControl>
-                <Input placeholder="Type product name here." {...field} />
+                <Input placeholder="Nome do produto aqui." {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -139,10 +112,10 @@ export function AddProductForm({ storeId }: AddProductFormProps) {
         />
         <FormField
           control={form.control}
-          name="description"
+          name="descricao"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Description</FormLabel>
+              <FormLabel>Descrição</FormLabel>
               <FormControl>
                 <Textarea
                   placeholder="Type product description here."
@@ -153,105 +126,19 @@ export function AddProductForm({ storeId }: AddProductFormProps) {
             </FormItem>
           )}
         />
+
         <div className="flex flex-col items-start gap-6 sm:flex-row">
           <FormField
             control={form.control}
-            name="category"
+            name="valor"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel>Category</FormLabel>
-                <Select
-                  value={field.value}
-                  onValueChange={(value: typeof field.value) =>
-                    field.onChange(value)
-                  }
-                >
-                  <FormControl>
-                    <SelectTrigger className="capitalize">
-                      <SelectValue placeholder={field.value} />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectGroup>
-                      {Object.values(productsCategoryType.Service).map(
-                        (option) => (
-                          <SelectItem
-                            key={option}
-                            value={option}
-                            className="capitalize"
-                          >
-                            {option}
-                          </SelectItem>
-                        )
-                      )}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="subcategory"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormLabel>Subcategory</FormLabel>
-                <Select
-                  value={field.value?.toString()}
-                  onValueChange={field.onChange}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select a subcategory" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectGroup>
-                      {subcategories.map((option) => (
-                        <SelectItem key={option.value} value={option.value}>
-                          {option.label}
-                        </SelectItem>
-                      ))}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-        <div className="flex flex-col items-start gap-6 sm:flex-row">
-          <FormField
-            control={form.control}
-            name="price"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormLabel>Price</FormLabel>
+                <FormLabel>Valor</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Type product price here."
                     value={field.value}
                     onChange={field.onChange}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="inventory"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormLabel>Inventory</FormLabel>
-                <FormControl>
-                  <Input
-                    type="number"
-                    inputMode="numeric"
-                    placeholder="Type product inventory here."
-                    value={Number.isNaN(field.value) ? "" : field.value}
-                    onChange={(e) => field.onChange(e.target.valueAsNumber)}
                   />
                 </FormControl>
                 <FormMessage />
@@ -293,9 +180,7 @@ export function AddProductForm({ storeId }: AddProductFormProps) {
           />
         </FormItem>
         <Button
-          onClick={() =>
-            void form.trigger(["name", "description", "price", "inventory"])
-          }
+          onClick={() => void form.trigger(["nome", "descricao", "valor"])}
           className="w-fit"
           disabled={isPending}
         >
@@ -305,7 +190,7 @@ export function AddProductForm({ storeId }: AddProductFormProps) {
               aria-hidden="true"
             />
           )}
-          Add Product
+          Adicionar Produto
           <span className="sr-only">Add Product</span>
         </Button>
       </form>

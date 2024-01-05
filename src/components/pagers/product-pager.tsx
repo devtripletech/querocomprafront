@@ -6,11 +6,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons"
 import { toast } from "sonner"
 
 import { Button } from "@/components/ui/button"
-import {
-  getNextProductIdAction,
-  getPreviousProductIdAction,
-} from "@/app/_actions/product"
-import { Product } from "@/types"
+import { Product } from "@/lib/validations/product"
 
 interface ProductPagerProps {
   product: Product
@@ -28,13 +24,13 @@ export function ProductPager({ product }: ProductPagerProps) {
         onClick={() => {
           startTransition(async () => {
             try {
-              const prevProductId = await getPreviousProductIdAction({
-                id: product.id,
-                storeId: product.storeId,
-              })
-              router.push(
-                `/dashboard/stores/${product.storeId}/products/${prevProductId}`
-              )
+              // const prevProductId = await getPreviousProductIdAction({
+              //   id: product.id,
+              //   storeId: product.storeId,
+              // })
+              // router.push(
+              //   `/dashboard/stores/${product.storeId}/products/${prevProductId}`
+              // )
             } catch (error) {
               error instanceof Error
                 ? toast.error(error.message)
@@ -53,13 +49,13 @@ export function ProductPager({ product }: ProductPagerProps) {
         onClick={() => {
           startTransition(async () => {
             try {
-              const nextProductId = await getNextProductIdAction({
-                id: product.id,
-                storeId: product.storeId,
-              })
-              router.push(
-                `/dashboard/stores/${product.storeId}/products/${nextProductId}`
-              )
+              // const nextProductId = await getNextProductIdAction({
+              //   id: product.id,
+              //   storeId: product.storeId,
+              // })
+              // router.push(
+              //   `/dashboard/stores/${product.storeId}/products/${nextProductId}`
+              // )
             } catch (error) {
               error instanceof Error
                 ? toast.error(error.message)
@@ -70,7 +66,7 @@ export function ProductPager({ product }: ProductPagerProps) {
         disabled={isPending}
       >
         <ChevronRightIcon className="h-4 w-4" aria-hidden="true" />
-        <span className="sr-only">Next product</span>
+        <span className="sr-only">Próximo produto</span>
       </Button>
     </div>
   )

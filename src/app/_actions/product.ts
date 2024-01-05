@@ -8,102 +8,37 @@ import { z } from "zod"
 
 import { getSubcategories, productTags } from "@/config/products"
 import {
+  Product,
+  createProductSchema,
   getProductSchema,
   getProductsSchema,
   productSchema,
 } from "@/lib/validations/product"
-import { Product, productsCategoryType } from "@/types"
 
-export async function seedProducts({
-  storeId,
-  count,
-}: {
-  storeId: number
-  count?: number
-}) {
-  const productCount = count ?? 10
+import { notFound, redirect } from "next/navigation"
 
-  const data: Product[] = []
-
-  for (let i = 0; i < productCount; i++) {
-    const category = productsCategoryType.Service
-
-    const subcategories = getSubcategories(category)
-
-    data.push({
-      id: new Date().getTime() + new Date().getMilliseconds() + i,
-      name: faker.commerce.productName(),
-      description: faker.commerce.productDescription(),
-      price: faker.commerce.price(),
-      images: Array.from({ length: 3 }).map(() => ({
-        id: faker.string.uuid(),
-        name: faker.system.fileName(),
-        url: faker.image.urlLoremFlickr({
-          category,
-          width: 640,
-          height: 480,
-        }),
-      })),
-      category,
-      subcategory:
-        faker.helpers.shuffle(subcategories)[0]?.value ??
-        subcategories[0]?.value ??
-        "decks",
-      storeId,
-      inventory: faker.number.float({ min: 50, max: 100 }),
-      rating: faker.number.float({ min: 0, max: 5 }),
-      tags: productTags.slice(0, faker.number.float({ min: 0, max: 5 })),
-      createdAt: faker.date.past(),
-      updatedAt: faker.date.past(),
-    })
-  }
-
-  // await db.delete(products).where(eq(products.storeId, storeId))
-
-  // await db.insert(products).values(data)
-}
-
-export async function filterProductsAction(query: string) {
-  if (query.length === 0) return null
-
-  const filteredProducts = [] as any
-
-  const productsByCategory = Object.values(productsCategoryType.Service).map(
-    (category) => ({
-      category,
-      products: filteredProducts.filter(
-        (product: any) => product.category === category
-      ),
-    })
-  )
-
-  return productsByCategory
-}
-
-export async function getProductsAction(
-  rawInput: z.infer<typeof getProductsSchema>
-) {
+export const listProductsAction = async (): Promise<Product[]> => {
   try {
     noStore()
+    const res = await fetch(
+      `http://apptnote.eastus.cloudapp.azure.com:3333/produto`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          // Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+    if (res.status === 401 || res.status === 400) redirect("/signin")
 
-    const input = getProductsSchema.parse(rawInput)
+    const items = await res.json()
 
-    const [column, order] = (input.sort?.split(".") as [
-      keyof Product | undefined,
-      "asc" | "desc" | undefined
-    ]) ?? ["createdAt", "desc"]
-    const [minPrice, maxPrice] = input.price_range?.split("-") ?? []
-    const categories =
-      (input.categories?.split(".") as Product["category"][]) ?? []
-    const subcategories = input.subcategories?.split(".") ?? []
-    const storeIds = input.store_ids?.split(".").map(Number) ?? []
+    if (items?.error) throw new Error(items?.error)
 
-    const { items, count } = {} as any
+    // const count = items.length
 
-    return {
-      items,
-      count,
-    }
+    return items.resultado
   } catch (err) {
     console.error(err)
     throw err instanceof Error
@@ -114,31 +49,70 @@ export async function getProductsAction(
   }
 }
 
-export async function checkProductAction(input: { name: string; id?: number }) {
-  const productWithSameName = {} as any
+export const getProductByIdAction = async (
+  productId: string
+): Promise<Product> => {
+  try {
+    noStore()
+    const res = await fetch(
+      `http://apptnote.eastus.cloudapp.azure.com:3333/produto/${productId}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          // Authorization: `Bearer ${token}`,
+        },
+      }
+    )
+    if (res.status === 401 || res.status === 400) redirect("/signin")
 
-  if (productWithSameName) {
-    throw new Error("Product name already taken.")
+    const item = await res.json()
+
+    if (item?.error) throw new Error(item?.error)
+
+    // const count = items.length
+
+    return item.resultado
+  } catch (err) {
+    console.error(err)
+    throw err instanceof Error
+      ? err.message
+      : err instanceof z.ZodError
+      ? err.issues.map((issue) => issue.message).join("\n")
+      : new Error("Unknown error.")
   }
 }
 
 const extendedProductSchema = productSchema.extend({
-  storeId: z.number(),
   images: z
     .array(z.object({ id: z.string(), name: z.string(), url: z.string() }))
     .nullable(),
 })
 
 export async function addProductAction(
-  rawInput: z.infer<typeof extendedProductSchema>
+  rawInput: z.infer<typeof productSchema>
 ) {
-  const input = extendedProductSchema.parse(rawInput)
+  // const input = extendedProductSchema.parse(rawInput)
 
-  const productWithSameName = {} as any
+  // const productWithSameName = {} as any
 
-  if (productWithSameName) {
-    throw new Error("Product name already taken.")
-  }
+  // if (productWithSameName) {
+  //   throw new Error("Product name already taken.")
+  // }
+  // const body = new FormData()
+  // body.append("id_usuario", String(rawInput.id_usuario))
+  // body.append("id_categoria", "0")
+  // body.append("negociado", "0")
+  // body.append("valor", String(rawInput.valor))
+  // body.append("nome", String(rawInput.nome))
+  // body.append("file", rawInput.images[0])
+  // body.append("file2", rawInput.images[0])
+  // body.append("file3", rawInput.images[0])
+
+  revalidatePath("/dashboard/products")
+  // if (response.status === 401 || response.status === 400) redirect("/signin")
+
+  //await response.json()
 
   // await db.insert(products).values({
   //   ...input,
@@ -146,25 +120,48 @@ export async function addProductAction(
   //   images: input.images,
   // })
 
-  revalidatePath(`/dashboard/stores/${input.storeId}/products.`)
+  revalidatePath(`/dashboard/products.`)
 }
 
 const extendedProductSchemaWithId = extendedProductSchema.extend({
-  id: z.number(),
+  id_produto: z.number(),
 })
 
 export async function updateProductAction(
-  input: z.infer<typeof extendedProductSchemaWithId>
+  input: z.infer<typeof extendedProductSchema>
 ) {
-  const product = {} as Product
+  if (!input.id_produto) {
+    notFound()
+  }
+  const product = await getProductByIdAction(input.id_produto)
 
   if (!product) {
-    throw new Error("Product not found.")
+    throw new Error("Produto não encontrado.")
   }
 
-  // await db.update(products).set(input).where(eq(products.id, input.id))
+  const res = await fetch(
+    `http://apptnote.eastus.cloudapp.azure.com:3333/produto/${input.id_produto}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        // Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        id_usuario: input.id_usuario,
+        id_categoria: "",
+        negociado: "",
+        valor: input.valor,
+        nome: input.valor,
+        file: "",
+        file2: "",
+        file3: "",
+      }),
+    }
+  )
+  if (res.status === 401 || res.status === 400) redirect("/signin")
 
-  revalidatePath(`/dashboard/stores/${input.storeId}/products/${input.id}`)
+  revalidatePath(`/dashboard/products/${input.id_produto}`)
 }
 
 export async function deleteProductAction(
@@ -181,50 +178,4 @@ export async function deleteProductAction(
   // await db.delete(products).where(eq(products.id, input.id))
 
   revalidatePath(`/dashboard/stores/${input.storeId}/products`)
-}
-
-export async function getNextProductIdAction(
-  rawInput: z.infer<typeof getProductSchema>
-) {
-  try {
-    const input = getProductSchema.parse(rawInput)
-
-    const product = {} as any
-
-    if (!product) {
-      throw new Error("Product not found.")
-    }
-
-    return product.id
-  } catch (err) {
-    console.error(err)
-    throw err instanceof Error
-      ? err.message
-      : err instanceof z.ZodError
-      ? err.issues.map((issue) => issue.message).join("\n")
-      : new Error("Unknown error.")
-  }
-}
-
-export async function getPreviousProductIdAction(
-  rawInput: z.infer<typeof getProductSchema>
-) {
-  try {
-    const input = getProductSchema.parse(rawInput)
-
-    const product = {} as any
-
-    if (!product) {
-      throw new Error("Product not found.")
-    }
-
-    return product.id
-  } catch (err) {
-    console.error(err)
-    throw err instanceof Error
-      ? err.message
-      : err instanceof z.ZodError
-      ? err.issues.map((issue) => issue.message).join("\n")
-      : new Error("Unknown error.")
-  }
 }

@@ -1,34 +1,44 @@
 import type { NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
-import GithubProvider from "next-auth/providers/github"
-import GoogleProvider, { GoogleProfile } from "next-auth/providers/google"
 
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
-      // The name to display on the sign in form (e.g. 'Sign in with...')
       name: "Credentials",
-      // The credentials is used to generate a suitable form on the sign in page.
-      // You can specify whatever fields you are expecting to be submitted.
-      // e.g. domain, username, password, 2FA token, etc.
-      // You can pass any HTML attribute to the <input> tag through the object.
+      id: "Credentials",
       credentials: {
-        username: { label: "Username", type: "text", placeholder: "" },
+        email: { label: "email", type: "text" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials, req) {
-        // You need to provide your own logic here that takes the credentials
-        // submitted and returns either a object representing a user or value
-        // that is false/null if the credentials are invalid.
-        // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
-        // You can also use the `req` object to obtain additional parameters
-        // (i.e., the request IP address)
-        const res = await fetch("/your/endpoint", {
-          method: "POST",
-          body: JSON.stringify(credentials),
-          headers: { "Content-Type": "application/json" },
-        })
-        const user = await res.json()
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials?.password) {
+          throw new Error("Invalid credentials")
+        }
+        const { email, password } = credentials as {
+          email: string
+          password: string
+        }
+
+        const res = await fetch(
+          "http://apptnote.eastus.cloudapp.azure.com:3333/login",
+          {
+            method: "POST",
+            body: JSON.stringify({
+              password,
+              email,
+            }),
+            headers: { "Content-Type": "application/json" },
+          }
+        )
+        const data = await res.json()
+
+        const user = {
+          id: data?.id_user,
+          id_user: data?.id_user,
+          uservalido: data?.uservalido,
+          accessToken: data?.token,
+          status: data?.status,
+        }
 
         // If no error and we have user data, return it
         if (res.ok && user) {
@@ -45,9 +55,11 @@ export const authOptions: NextAuthOptions = {
         ...session,
         user: {
           ...session.user,
-          accessToken: token.accessToken,
-          role: token.role,
-          Key: token.randomKey,
+          id_user: token?.id_user,
+          uservalido: token?.uservalido,
+          accessToken: token?.accessToken,
+          status: token?.status,
+          // Key: token.randomKey,
         },
       }
     },
@@ -55,10 +67,12 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         const u = user as unknown as any
         return {
-          ...token,
-          accessToken: u.accessToken,
-          role: u.role,
-          Key: u.randomKey,
+          // ...token,
+          id_user: u?.id_user,
+          uservalido: u?.uservalido,
+          accessToken: u?.accessToken,
+          status: u?.status,
+          // Key: u.randomKey,
         }
       }
       return token

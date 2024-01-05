@@ -11,6 +11,12 @@ export const dashboardConfig: DashboardConfig = {
       icon: "avatar",
       items: [],
     },
+    {
+      title: "Produto",
+      href: "/dashboard/products",
+      icon: "boxes",
+      items: [],
+    },
   ],
 }
 

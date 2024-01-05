@@ -21,120 +21,46 @@ import {
 import { DataTable } from "@/components/data-table/data-table"
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header"
 import { deleteProductAction } from "@/app/_actions/product"
-import { Product, productsCategoryType } from "@/types"
+import { Product } from "@/lib/validations/product"
 
-type AwaitedProduct = Pick<
-  Product,
-  "id" | "name" | "category" | "price" | "inventory" | "rating" | "createdAt"
->
-
-interface ProductsTableShellProps {
-  transaction: Promise<{
-    items: AwaitedProduct[]
-    count: number
-  }>
+interface ProductsTableShellProps<TData, TValue> {
+  transaction: Product[]
   limit: number
-  storeId: number
 }
 
-export function ProductsTableShell({
+export function ProductsTableShell<TData, TValue>({
   transaction,
   limit,
-  storeId,
-}: ProductsTableShellProps) {
-  const { items: data, count } = React.use(transaction)
-  const pageCount = Math.ceil(count / limit)
-
+}: ProductsTableShellProps<TData, TValue>) {
   const [isPending, startTransition] = React.useTransition()
   const [selectedRowIds, setSelectedRowIds] = React.useState<number[]>([])
 
   // Memoize the columns so they don't re-render on every render
-  const columns = React.useMemo<ColumnDef<AwaitedProduct, unknown>[]>(
+  const columns = React.useMemo<ColumnDef<Product>[]>(
     () => [
       {
-        id: "select",
-        header: ({ table }) => (
-          <Checkbox
-            checked={table.getIsAllPageRowsSelected()}
-            onCheckedChange={(value) => {
-              table.toggleAllPageRowsSelected(!!value)
-              setSelectedRowIds((prev) =>
-                prev.length === data.length ? [] : data.map((row) => row.id)
-              )
-            }}
-            aria-label="Select all"
-            className="translate-y-[2px]"
-          />
-        ),
-        cell: ({ row }) => (
-          <Checkbox
-            checked={row.getIsSelected()}
-            onCheckedChange={(value) => {
-              row.toggleSelected(!!value)
-              setSelectedRowIds((prev) =>
-                value
-                  ? [...prev, row.original.id]
-                  : prev.filter((id) => id !== row.original.id)
-              )
-            }}
-            aria-label="Select row"
-            className="translate-y-[2px]"
-          />
-        ),
-        enableSorting: false,
-        enableHiding: false,
-      },
-      {
-        accessorKey: "name",
+        accessorKey: "nome",
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title="Name" />
+          <DataTableColumnHeader column={column} title="Nome" />
         ),
       },
       {
-        accessorKey: "category",
+        accessorKey: "id_categoria",
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title="Category" />
+          <DataTableColumnHeader column={column} title="Categoria" />
         ),
         cell: ({ cell }) => {
-          const categories = Object.values(productsCategoryType)
-          const category = cell.getValue() as Product["category"]
-
-          if (!categories.includes(category)) return null
-
-          return (
-            <Badge variant="outline" className="capitalize">
-              {category}
-            </Badge>
-          )
+          return ""
         },
       },
       {
-        accessorKey: "price",
+        accessorKey: "valor",
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title="Price" />
+          <DataTableColumnHeader column={column} title="Valor" />
         ),
         cell: ({ cell }) => formatPrice(cell.getValue() as number),
       },
-      {
-        accessorKey: "inventory",
-        header: ({ column }) => (
-          <DataTableColumnHeader column={column} title="Inventory" />
-        ),
-      },
-      {
-        accessorKey: "rating",
-        header: ({ column }) => (
-          <DataTableColumnHeader column={column} title="Rating" />
-        ),
-      },
-      {
-        accessorKey: "createdAt",
-        header: ({ column }) => (
-          <DataTableColumnHeader column={column} title="Created At" />
-        ),
-        cell: ({ cell }) => formatDate(cell.getValue() as Date),
-        enableColumnFilter: false,
-      },
+
       {
         id: "actions",
         cell: ({ row }) => (
@@ -150,37 +76,36 @@ export function ProductsTableShell({
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-[160px]">
               <DropdownMenuItem asChild>
-                <Link
-                  href={`/dashboard/stores/${storeId}/products/${row.original.id}`}
-                >
-                  Edit
+                <Link href={`/dashboard/products/${row.original.id_produto}`}>
+                  Editar
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link href={`/product/${row.original.id}`}>View</Link>
+                <Link href={`/product/${row.original.id_produto}`}>
+                  Visualizar
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 onClick={() => {
-                  startTransition(() => {
-                    row.toggleSelected(false)
-
-                    toast.promise(
-                      deleteProductAction({
-                        id: row.original.id,
-                        storeId,
-                      }),
-                      {
-                        loading: "Deleting...",
-                        success: () => "Product deleted successfully.",
-                        error: (err: unknown) => catchError(err),
-                      }
-                    )
-                  })
+                  // startTransition(() => {
+                  //   row.toggleSelected(false)
+                  //   toast.promise(
+                  //     deleteProductAction({
+                  //       id: Number(row.original.id_produto),
+                  //       storeId,
+                  //     }),
+                  //     {
+                  //       loading: "Deleting...",
+                  //       success: () => "Product deleted successfully.",
+                  //       error: (err: unknown) => catchError(err),
+                  //     }
+                  //   )
+                  // })
                 }}
                 disabled={isPending}
               >
-                Delete
+                Deletar
                 <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -188,56 +113,32 @@ export function ProductsTableShell({
         ),
       },
     ],
-    [data, isPending, storeId]
+    []
   )
 
   function deleteSelectedRows() {
-    toast.promise(
-      Promise.all(
-        selectedRowIds.map((id) =>
-          deleteProductAction({
-            id,
-            storeId,
-          })
-        )
-      ),
-      {
-        loading: "Deleting...",
-        success: () => {
-          setSelectedRowIds([])
-          return "Products deleted successfully."
-        },
-        error: (err: unknown) => {
-          setSelectedRowIds([])
-          return catchError(err)
-        },
-      }
-    )
+    // toast.promise(
+    //   Promise.all(
+    //     selectedRowIds.map((id) =>
+    //       deleteProductAction({
+    //         id,
+    //         storeId,
+    //       })
+    //     )
+    //   ),
+    //   {
+    //     loading: "Deleting...",
+    //     success: () => {
+    //       setSelectedRowIds([])
+    //       return "Products deleted successfully."
+    //     },
+    //     error: (err: unknown) => {
+    //       setSelectedRowIds([])
+    //       return catchError(err)
+    //     },
+    //   }
+    // )
   }
 
-  return (
-    <DataTable
-      columns={columns}
-      data={data}
-      pageCount={pageCount}
-      // filterableColumns={[
-      //   {
-      //     id: "category",
-      //     title: "Category",
-      //     options: productsCategoryType.map((category: any) => ({
-      //       label: `${category.charAt(0).toUpperCase()}${category.slice(1)}`,
-      //       value: category,
-      //     })),
-      //   },
-      // ]}
-      searchableColumns={[
-        {
-          id: "name",
-          title: "names",
-        },
-      ]}
-      newRowLink={`/dashboard/stores/${storeId}/products/new`}
-      deleteRowsAction={() => void deleteSelectedRows()}
-    />
-  )
+  return <DataTable columns={columns} data={transaction} />
 }

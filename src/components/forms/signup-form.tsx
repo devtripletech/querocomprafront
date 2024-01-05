@@ -38,6 +38,7 @@ export function SignUpForm() {
       password: "",
     },
   })
+  console.log
 
   function onSubmit(data: Inputs) {
     if (!isLoaded) return

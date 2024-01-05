@@ -25,8 +25,12 @@ import { Input } from "../ui/input"
 import { Label } from "../ui/label"
 import { SidebarSubNav } from "../layouts/sidebar-sub-nav"
 import { accountDashboardConfig } from "@/config/dashboard"
+import { User } from "@/lib/validations/user"
 
-export function AccountCard() {
+interface AccountCardProps {
+  user: User
+}
+export function AccountCard({ user }: AccountCardProps) {
   return (
     <div className="flex flex-col gap-4 w-full">
       <div className="rounded-md border px-6 py-8 gap-2">
@@ -42,7 +46,7 @@ export function AccountCard() {
         </div>
         <div className="flex items-center pt-4">
           <Mail className="mr-2 h-4 w-4 text-zinc-600" />
-          <h2 className="text-base font-normal">edvan.lima@tripletech.com</h2>
+          <h2 className="text-base font-normal">{user.email}</h2>
         </div>
         <div className="flex items-center pt-2">
           <Lock className="mr-2 h-4 w-4 text-zinc-600" />
@@ -62,19 +66,29 @@ export function AccountCard() {
           </Link>
         </div>
         <div className="flex items-center pt-4">
-          <Contact className="mr-2 h-4 w-4 text-zinc-600" />
-          <h2 className="text-base font-normal">Mário Thomas Drumond</h2>
+          {user.nome && (
+            <>
+              <Contact className="mr-2 h-4 w-4 text-zinc-600" />
+              <h2 className="text-base font-normal">{user.nome}</h2>
+            </>
+          )}
         </div>
         <div className="flex items-center pt-2">
-          <Phone className="mr-2 h-4 w-4 text-zinc-600" />
-          <h2 className="text-base font-normal">+5511999999</h2>
+          {user.celular && (
+            <>
+              <Phone className="mr-2 h-4 w-4 text-zinc-600" />
+              <h2 className="text-base font-normal">{user.celular}</h2>
+            </>
+          )}
         </div>
         <div className="flex items-center pt-2">
           <MapPin className="mr-2 h-4 w-4 text-zinc-600" />
-          <h2 className="text-base font-normal">Rua Sodalita, 205</h2>
+          <h2 className="text-base font-normal">
+            {user.endereco}, {user.complemento}
+          </h2>
         </div>
         <span className="ml-6 block text-sm">
-          Sapucaia II, Contagem, MG. CEP 32071-184
+          {user.bairro}, {user.cidade}, {user.uf}. CEP {user.cep}
         </span>
       </div>
     </div>

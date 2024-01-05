@@ -19,14 +19,11 @@ import {
 } from "@/components/ui/card"
 import { Icons } from "@/components/icons"
 
-import { Product } from "@/types"
 import { useRouter } from "next/navigation"
+import { Product } from "@/lib/validations/product"
 
 interface ProductCardProps extends React.HTMLAttributes<HTMLDivElement> {
-  product: Pick<
-    Product,
-    "id" | "name" | "price" | "images" | "category" | "inventory"
-  >
+  product: Product
   variant?: "default" | "switchable"
   isAddedToCart?: boolean
   onSwitch?: () => Promise<void>
@@ -48,15 +45,13 @@ export function ProductCard({
       className={cn("h-full overflow-hidden rounded-sm", className)}
       {...props}
     >
-      <Link aria-label={product.name} href={`/product/${product.id}`}>
+      <Link aria-label={product.nome} href={`/product/${product.id_produto}`}>
         <CardHeader className="border-b p-0">
           <AspectRatio ratio={4 / 3}>
-            {product?.images?.length ? (
+            {product?.img_01?.length ? (
               <Image
-                src={
-                  product.images[0]?.url ?? "/images/product-placeholder.webp"
-                }
-                alt={product.images[0]?.name ?? product.name}
+                src={product.img_01 ?? "/images/product-placeholder.webp"}
+                alt={product.nome}
                 className="object-cover"
                 sizes="(min-width: 1024px) 20vw, (min-width: 768px) 25vw, (min-width: 640px) 33vw, (min-width: 475px) 50vw, 100vw"
                 fill
@@ -77,13 +72,13 @@ export function ProductCard({
             )}
           </AspectRatio>
         </CardHeader>
-        <span className="sr-only">{product.name}</span>
+        <span className="sr-only">{product.nome}</span>
       </Link>
-      <Link href={`/product/${product.id}`} tabIndex={-1}>
+      <Link href={`/product/${product.id_produto}`} tabIndex={-1}>
         <CardContent className="grid gap-2.5 p-4">
           {/* <CardTitle className="line-clamp-1">{product.name}</CardTitle> */}
           <CardDescription className="line-clamp-2">
-            {product.name}
+            {product.nome}
           </CardDescription>
         </CardContent>
       </Link>
@@ -94,7 +89,7 @@ export function ProductCard({
             size="sm"
             className="h-8 w-full rounded-sm"
             onClick={() => {
-              router.push(`/product/${product.id}`)
+              router.push(`/product/${product.id_produto}`)
             }}
             disabled={isPending}
           >

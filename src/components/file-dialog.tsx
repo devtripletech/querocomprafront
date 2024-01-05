@@ -35,7 +35,7 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 
 interface FileDialogProps<
   TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 > extends React.HTMLAttributes<HTMLDivElement> {
   name: TName
   setValue: UseFormSetValue<TFieldValues>
@@ -76,7 +76,9 @@ export function FileDialog<TFieldValues extends FieldValues>({
         rejectedFiles.forEach(({ errors }) => {
           if (errors[0]?.code === "file-too-large") {
             toast.error(
-              `File is too large. Max size is ${formatBytes(maxSize)}`
+              `O arquivo é muito grande. O tamanho máximo é ${formatBytes(
+                maxSize
+              )}`
             )
             return
           }
@@ -116,13 +118,13 @@ export function FileDialog<TFieldValues extends FieldValues>({
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="outline" disabled={disabled}>
-          Upload Images
-          <span className="sr-only">Upload Images</span>
+          Carregar imagens
+          <span className="sr-only">Carregar imagens</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[480px]">
         <p className="absolute left-5 top-4 text-base font-medium text-muted-foreground">
-          Upload your images
+          Carregue suas imagens
         </p>
         <div
           {...getRootProps()}
@@ -158,16 +160,19 @@ export function FileDialog<TFieldValues extends FieldValues>({
                 aria-hidden="true"
               />
               <p className="mt-2 text-base font-medium text-muted-foreground">
-                Drag {`'n'`} drop file here, or click to select file
+                Arraste {`'e'`} solte o arquivo aqui ou clique para selecionar o
+                arquivo
               </p>
               <p className="text-sm text-slate-500">
-                Please upload file with size less than {formatBytes(maxSize)}
+                Faça upload do arquivo com tamanho menor que{" "}
+                {formatBytes(maxSize)}
               </p>
             </div>
           )}
         </div>
         <p className="text-center text-sm font-medium text-muted-foreground">
-          You can upload up to {maxFiles} {maxFiles === 1 ? "file" : "files"}
+          Você pode fazer upload de até {maxFiles}{" "}
+          {maxFiles === 1 ? "arquivo" : "arquivos"}
         </p>
         {files?.length ? (
           <div className="grid gap-5">
@@ -191,8 +196,8 @@ export function FileDialog<TFieldValues extends FieldValues>({
             onClick={() => setFiles(null)}
           >
             <TrashIcon className="mr-2 h-4 w-4" aria-hidden="true" />
-            Remove All
-            <span className="sr-only">Remove all</span>
+            Remover tudo
+            <span className="sr-only">Remover tudo</span>
           </Button>
         ) : null}
       </DialogContent>
@@ -281,7 +286,7 @@ function FileCard({ i, file, files, setFiles }: FileCardProps) {
                 size="icon"
                 className="h-7 w-7"
               >
-                <CropIcon className="h-4 w-4 text-white" aria-hidden="true" />
+                <CropIcon className="h-4 w-4 text-primary" aria-hidden="true" />
                 <span className="sr-only">Crop image</span>
               </Button>
             </DialogTrigger>
@@ -352,7 +357,7 @@ function FileCard({ i, file, files, setFiles }: FileCardProps) {
             setFiles(files.filter((_, j) => j !== i))
           }}
         >
-          <Cross2Icon className="h-4 w-4 text-white" aria-hidden="true" />
+          <Cross2Icon className="h-4 w-4 text-primary" aria-hidden="true" />
           <span className="sr-only">Remove file</span>
         </Button>
       </div>

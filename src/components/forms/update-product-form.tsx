@@ -4,7 +4,6 @@ import * as React from "react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 
-import { productsCategoryType, type FileWithPreview, Product } from "@/types"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { generateReactHelpers } from "@uploadthing/react/hooks"
 import { useForm } from "react-hook-form"
@@ -13,7 +12,7 @@ import { type z } from "zod"
 
 import { getSubcategories } from "@/config/products"
 import { catchError, isArrayOfFile } from "@/lib/utils"
-import { productSchema } from "@/lib/validations/product"
+import { Product, productSchema } from "@/lib/validations/product"
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -37,12 +36,9 @@ import { Textarea } from "@/components/ui/textarea"
 import { FileDialog } from "@/components/file-dialog"
 import { Icons } from "@/components/icons"
 import { Zoom } from "@/components/zoom-image"
-import {
-  checkProductAction,
-  deleteProductAction,
-  updateProductAction,
-} from "@/app/_actions/product"
+import { updateProductAction } from "@/app/_actions/product"
 import type { OurFileRouter } from "@/app/api/uploadthing/core"
+import { FileWithPreview } from "@/types"
 
 interface UpdateProductFormProps {
   product: Product
@@ -57,42 +53,25 @@ export function UpdateProductForm({ product }: UpdateProductFormProps) {
   const [files, setFiles] = React.useState<FileWithPreview[] | null>(null)
   const [isPending, startTransition] = React.useTransition()
 
-  React.useEffect(() => {
-    if (product.images && product.images.length > 0) {
-      setFiles(
-        product.images.map((image) => {
-          const file = new File([], image.name, {
-            type: "image",
-          })
-          const fileWithPreview = Object.assign(file, {
-            preview: image.url,
-          })
-
-          return fileWithPreview
-        })
-      )
-    }
-  }, [product])
-
   const { isUploading, startUpload } = useUploadThing("productImage")
 
   const form = useForm<Inputs>({
     resolver: zodResolver(productSchema),
     defaultValues: {
-      category: product.category,
-      subcategory: product.subcategory,
+      nome: "",
+      images: [],
     },
   })
 
-  const subcategories = getSubcategories(form.watch("category"))
+  // const subcategories = getSubcategories(form.watch("category"))
 
   function onSubmit(data: Inputs) {
     startTransition(async () => {
       try {
-        await checkProductAction({
-          name: data.name,
-          id: product.id,
-        })
+        // await checkProductAction({
+        //   name: data.name,
+        //   id: product.id,
+        // })
 
         const images = isArrayOfFile(data.images)
           ? await startUpload(data.images).then((res) => {
@@ -105,12 +84,12 @@ export function UpdateProductForm({ product }: UpdateProductFormProps) {
             })
           : null
 
-        await updateProductAction({
-          ...data,
-          storeId: product.storeId,
-          id: product.id,
-          images: images,
-        })
+        // await updateProductAction({
+        //   ...data,
+        //   storeId: product.storeId,
+        //   id: product.id,
+        //   images: images,
+        // })
 
         toast.success("Product updated successfully.")
         setFiles(null)
@@ -127,130 +106,47 @@ export function UpdateProductForm({ product }: UpdateProductFormProps) {
         onSubmit={(...args) => void form.handleSubmit(onSubmit)(...args)}
       >
         <FormItem>
-          <FormLabel>Name</FormLabel>
+          <FormLabel>Nome</FormLabel>
           <FormControl>
             <Input
-              aria-invalid={!!form.formState.errors.name}
-              placeholder="Type product name here."
-              {...form.register("name")}
-              defaultValue={product.name}
+              aria-invalid={!!form.formState.errors.nome}
+              placeholder="Digite o nome do produto aqui."
+              {...form.register("nome")}
+              defaultValue={product.nome}
             />
           </FormControl>
           <UncontrolledFormMessage
-            message={form.formState.errors.name?.message}
+            message={form.formState.errors.nome?.message}
           />
         </FormItem>
         <FormItem>
-          <FormLabel>Description</FormLabel>
+          <FormLabel>Descrição</FormLabel>
           <FormControl>
             <Textarea
-              placeholder="Type product description here."
-              {...form.register("description")}
-              defaultValue={product.description ?? ""}
+              placeholder="Digite a descrição do produto aqui."
+              {...form.register("descricao")}
+              defaultValue={product.descricao ?? ""}
             />
           </FormControl>
           <UncontrolledFormMessage
-            message={form.formState.errors.description?.message}
+            message={form.formState.errors.descricao?.message}
           />
         </FormItem>
-        <div className="flex flex-col items-start gap-6 sm:flex-row">
-          <FormField
-            control={form.control}
-            name="category"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormLabel>Category</FormLabel>
-                <FormControl>
-                  <Select
-                    value={field.value}
-                    onValueChange={(value: typeof field.value) =>
-                      field.onChange(value)
-                    }
-                    defaultValue={product.category}
-                  >
-                    <SelectTrigger className="capitalize">
-                      <SelectValue placeholder={field.value} />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        {Object.values(productsCategoryType).map((option) => (
-                          <SelectItem
-                            key={option}
-                            value={option}
-                            className="capitalize"
-                          >
-                            {option}
-                          </SelectItem>
-                        ))}
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="subcategory"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormLabel>Subcategory</FormLabel>
-                <FormControl>
-                  <Select
-                    value={field.value?.toString()}
-                    onValueChange={field.onChange}
-                  >
-                    <SelectTrigger className="capitalize">
-                      <SelectValue placeholder={field.value} />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        {subcategories.map((option) => (
-                          <SelectItem key={option.value} value={option.value}>
-                            {option.label}
-                          </SelectItem>
-                        ))}
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
+
         <div className="flex flex-col items-start gap-6 sm:flex-row">
           <FormItem className="w-full">
-            <FormLabel>Price</FormLabel>
+            <FormLabel>Valor</FormLabel>
             <FormControl>
               <Input
                 type="number"
                 inputMode="numeric"
-                placeholder="Type product price here."
-                {...form.register("price")}
-                defaultValue={product.price}
+                placeholder="Digite o preço do produto aqui."
+                {...form.register("valor")}
+                defaultValue={product.valor}
               />
             </FormControl>
             <UncontrolledFormMessage
-              message={form.formState.errors.price?.message}
-            />
-          </FormItem>
-          <FormItem className="w-full">
-            <FormLabel>Inventory</FormLabel>
-            <FormControl>
-              <Input
-                type="number"
-                inputMode="numeric"
-                placeholder="Type product inventory here."
-                {...form.register("inventory", {
-                  valueAsNumber: true,
-                })}
-                defaultValue={product.inventory}
-              />
-            </FormControl>
-            <UncontrolledFormMessage
-              message={form.formState.errors.inventory?.message}
+              message={form.formState.errors.valor?.message}
             />
           </FormItem>
         </div>
@@ -295,19 +191,19 @@ export function UpdateProductForm({ product }: UpdateProductFormProps) {
                 aria-hidden="true"
               />
             )}
-            Update Product
-            <span className="sr-only">Update product</span>
+            Atualizar produto
+            <span className="sr-only">Atualizar produto</span>
           </Button>
           <Button
             variant="destructive"
             onClick={() => {
               startTransition(async () => {
-                void form.trigger(["name", "price", "inventory"])
-                await deleteProductAction({
-                  storeId: product.storeId,
-                  id: product.id,
-                })
-                router.push(`/dashboard/stores/${product.storeId}/products`)
+                void form.trigger(["nome", "valor"])
+                // await deleteProductAction({
+                //   storeId: product.storeId,
+                //   id: product.id,
+                // })
+                // router.push(`/dashboard/stores/${product.storeId}/products`)
               })
             }}
             disabled={isPending}
@@ -318,8 +214,8 @@ export function UpdateProductForm({ product }: UpdateProductFormProps) {
                 aria-hidden="true"
               />
             )}
-            Delete Product
-            <span className="sr-only">Delete product</span>
+            Excluir produto
+            <span className="sr-only">Excluir produto</span>
           </Button>
         </div>
       </form>

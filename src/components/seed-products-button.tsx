@@ -6,7 +6,6 @@ import { toast } from "sonner"
 import { cn } from "@/lib/utils"
 import { Button, type ButtonProps } from "@/components/ui/button"
 import { Icons } from "@/components/icons"
-import { seedProducts } from "@/app/_actions/product"
 
 interface SeedProductsProps extends ButtonProps {
   storeId: number
@@ -27,10 +26,10 @@ export function SeedProducts({
       size="sm"
       onClick={() => {
         startTransition(async () => {
-          await seedProducts({
-            storeId,
-            count,
-          })
+          // await seedProducts({
+          //   storeId,
+          //   count,
+          // })
           toast.success("Products seeded successfully.")
         })
       }}

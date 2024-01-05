@@ -13,10 +13,6 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import {
-  updateCPFSchema,
-  updatePasswordSchema,
-} from "@/lib/validations/personal"
 import { z } from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -34,19 +30,24 @@ import {
   FormMessage,
 } from "../ui/form"
 import { Textarea } from "../ui/textarea"
+import { updatePasswordAction } from "@/app/_actions/user"
+import { updatePasswordSchema } from "@/lib/validations/auth"
 
 type Inputs = z.infer<typeof updatePasswordSchema>
 
 export function EditPasswordDialog({
   children,
+  userId,
 }: {
   children: React.ReactNode
+  userId: number
 }) {
   const [isPending, startTransition] = React.useTransition()
   // react-hook-form
   const form = useForm<Inputs>({
     resolver: zodResolver(updatePasswordSchema),
     defaultValues: {
+      id_user: Number(userId),
       password: "",
       newPassword: "",
       confirmPassword: "",
@@ -56,10 +57,9 @@ export function EditPasswordDialog({
   function onSubmit(data: Inputs) {
     startTransition(async () => {
       try {
-        console.log(data)
-        // toast.success(res.status)
-
-        // form.reset()
+        const res = await updatePasswordAction(data)
+        toast.success(res.mensagem)
+        form.reset()
 
         //router.push("/dashboard/client")
       } catch (err) {
