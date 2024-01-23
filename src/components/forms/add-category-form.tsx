@@ -40,6 +40,7 @@ interface AddCategoryFormProps {
 type Inputs = z.infer<typeof createCategorySchema>
 
 export function AddCategoryForm({ userId }: AddCategoryFormProps) {
+  const router = useRouter()
   const [isPending, startTransition] = React.useTransition()
 
   const form = useForm<Inputs>({
@@ -54,6 +55,7 @@ export function AddCategoryForm({ userId }: AddCategoryFormProps) {
       try {
         await addCategoryAction(data)
         toast.success("Categoria criada com sucesso!")
+        router.push(decodeURIComponent("/dashboard/categories"))
       } catch (e) {
         console.log(e)
         toast.error("Não foi possível criar a categoria")
