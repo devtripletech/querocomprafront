@@ -76,9 +76,9 @@ export function ProductCard({
       </Link>
       <Link href={`/product/${product.id_produto}`} tabIndex={-1}>
         <CardContent className="grid gap-2.5 p-4">
-          {/* <CardTitle className="line-clamp-1">{product.name}</CardTitle> */}
+          <CardTitle className="line-clamp-1 text-lg">{product.nome}</CardTitle>
           <CardDescription className="line-clamp-2">
-            {product.nome}
+            {formatPrice(product.valor)}
           </CardDescription>
         </CardContent>
       </Link>

@@ -73,12 +73,9 @@ export const listProductsWithParamsAction = async (
     url.searchParams.set("sort", input.sort.toString())
   }
 
-  console.log(input.categories)
   if (input.categories && input.categories !== undefined) {
     url.searchParams.set("categories", input.categories.toString())
   }
-
-  console.log(url)
 
   try {
     noStore()
@@ -181,7 +178,7 @@ export async function addProductAction(
 ) {
   revalidatePath("/dashboard/products")
 
-  revalidatePath(`/dashboard/products.`)
+  revalidatePath(`/`)
 }
 
 const extendedProductSchemaWithId = extendedProductSchema.extend({
