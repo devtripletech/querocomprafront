@@ -3,7 +3,6 @@ import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { toast } from "sonner"
 import * as z from "zod"
-import { User } from "@/types"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -106,14 +105,6 @@ export function isArrayOfFile(files: unknown): files is File[] {
 
 export function absoluteUrl(path: string) {
   return `${env.NEXT_PUBLIC_APP_URL}${path}`
-}
-
-export function getUserEmail(user: User | null) {
-  const email =
-    user?.emailAddresses?.find((e) => e.id === user.primaryEmailAddressId)
-      ?.emailAddress ?? ""
-
-  return email
 }
 
 export function catchError(err: unknown) {

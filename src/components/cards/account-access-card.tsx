@@ -24,7 +24,13 @@ import { SidebarSubNav } from "../layouts/sidebar-sub-nav"
 import { accountDashboardConfig } from "@/config/dashboard"
 import { EditPasswordDialog } from "../dialog/edit-password-dialog"
 
-export function AccountAccessCard({ userId }: { userId: number }) {
+export function AccountAccessCard({
+  userId,
+  email,
+}: {
+  userId: number
+  email: string
+}) {
   return (
     <div className="flex flex-col gap-4 w-full">
       <div className="flex items-center">
@@ -41,7 +47,7 @@ export function AccountAccessCard({ userId }: { userId: number }) {
                 <Input
                   className="border-none"
                   type="email"
-                  placeholder="nome@localhost.com"
+                  placeholder={email}
                   disabled
                 />
               </div>

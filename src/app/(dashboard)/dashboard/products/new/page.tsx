@@ -17,6 +17,7 @@ import {
   PageHeaderHeading,
 } from "@/components/page-header"
 import { Shell } from "@/components/shells/shell"
+import { listCategoriesAction } from "@/app/_actions/categories"
 
 export const metadata: Metadata = {
   metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),
@@ -39,6 +40,8 @@ export default async function NewProductPage({ params }: NewProductPageProps) {
     redirect("/sigin")
   }
 
+  const categories = await listCategoriesAction()
+
   return (
     <Shell variant="sidebar">
       <PageHeader
@@ -60,7 +63,7 @@ export default async function NewProductPage({ params }: NewProductPageProps) {
           <Card className="w-full max-w-2xl">
             <CardHeader className="space-y-1"></CardHeader>
             <CardContent>
-              <AddProductForm storeId={storeId} />
+              <AddProductForm userId={user.id_user} categories={categories} />
             </CardContent>
           </Card>
         </div>

@@ -28,14 +28,27 @@ import { Icons } from "@/components/icons"
 import { Zoom } from "@/components/zoom-image"
 import { addProductAction } from "@/app/_actions/product"
 import { revalidatePath } from "next/cache"
+import { useRouter } from "next/navigation"
+import { resolve, resolve6 } from "dns"
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select"
+import { Category } from "@/lib/validations/category"
 
 interface AddProductFormProps {
-  storeId: number
+  userId: number
+  categories: Category[]
 }
 
 type Inputs = z.infer<typeof productSchema>
 
-export function AddProductForm({ storeId }: AddProductFormProps) {
+export function AddProductForm({ userId, categories }: AddProductFormProps) {
+  const router = useRouter()
   const [files, setFiles] = React.useState<FileWithPreview[] | null>(null)
 
   const [isUploading, setUploading] = React.useState(false)
@@ -45,7 +58,7 @@ export function AddProductForm({ storeId }: AddProductFormProps) {
     resolver: zodResolver(productSchema),
     defaultValues: {
       nome: "",
-      id_usuario: 6,
+      id_usuario: userId,
       descricao: "",
       valor: 0,
       images: [],
@@ -59,24 +72,25 @@ export function AddProductForm({ storeId }: AddProductFormProps) {
           setUploading(true)
           const body = new FormData()
           body.append("id_usuario", String(data.id_usuario))
-          body.append("id_categoria", "0")
+          body.append("id_categoria", String(data.id_categoria))
           body.append("negociado", "0")
           body.append("valor", String(data.valor))
           body.append("nome", String(data.nome))
+          body.append("descricao", String(data.descricao))
           body.append("file", data.images[0])
           body.append("file2", data.images[0])
           body.append("file3", data.images[0])
-          // console.log(data.images[0])
-          const response = await fetch(
-            `http://apptnote.eastus.cloudapp.azure.com:3333/produto/`,
-            {
-              method: "POST",
-              body,
-            }
-          )
-          revalidatePath("/dashboard/products")
+          const response = await fetch(`http://localhost:3333/produto/`, {
+            method: "POST",
+            mode: "no-cors",
+            body,
+          })
 
+          // revalidatePath("/dashboard/products")
+          // revalidatePath("/")
+          toast.success("Produto adicionado com sucesso!")
           setUploading(false)
+          router.push("/dashboard/products")
         } else {
           await addProductAction({
             ...data,
@@ -110,6 +124,43 @@ export function AddProductForm({ storeId }: AddProductFormProps) {
             </FormItem>
           )}
         />
+        <div className="flex flex-col items-start gap-6 sm:flex-row">
+          <FormField
+            control={form.control}
+            name="id_categoria"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>Category</FormLabel>
+                <Select
+                  value={field.value}
+                  onValueChange={(value: typeof field.value) =>
+                    field.onChange(value)
+                  }
+                >
+                  <FormControl>
+                    <SelectTrigger className="capitalize">
+                      <SelectValue placeholder={field.value} />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectGroup>
+                      {Object.values(categories).map((option) => (
+                        <SelectItem
+                          key={option.ID_Categoria}
+                          value={String(option.ID_Categoria)}
+                          className="capitalize"
+                        >
+                          {option.Descricao}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
         <FormField
           control={form.control}
           name="descricao"
@@ -136,7 +187,7 @@ export function AddProductForm({ storeId }: AddProductFormProps) {
                 <FormLabel>Valor</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Type product price here."
+                    placeholder="Adicione o valor do produto aqui."
                     value={field.value}
                     onChange={field.onChange}
                   />

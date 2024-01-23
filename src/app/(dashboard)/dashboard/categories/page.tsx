@@ -23,6 +23,7 @@ import { RocketIcon } from "lucide-react"
 import { currentUser } from "@/app/_actions/user"
 import { listProductsByUserIdAction } from "@/app/_actions/product"
 import { listCategoriesAction } from "@/app/_actions/categories"
+import { CategoriesTableShell } from "@/components/shells/categories-table-shell"
 
 export const metadata: Metadata = {
   metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),
@@ -50,44 +51,33 @@ export default async function ProductsPage({
     redirect("/signin")
   }
 
-  const transaction = await listProductsByUserIdAction(user?.id_user)
-
-  const categories = await listCategoriesAction()
+  const transaction = await listCategoriesAction()
 
   return (
     <Shell variant="sidebar">
       <PageHeader>
         <div className="flex space-x-4">
           <PageHeaderHeading size="sm" className="flex-1">
-            Produtos
+            Categorias
           </PageHeaderHeading>
           <Link
             aria-label="Create store"
-            href="/dashboard/products/new"
+            href="/dashboard/categories/new"
             className={cn(
               buttonVariants({
                 size: "sm",
               })
             )}
           >
-            Adicionar produto
+            Adicionar categoria
           </Link>
         </div>
         <PageHeaderDescription size="sm">
-          Gerenciar seus produtos
+          Gerenciar suas categorias
         </PageHeaderDescription>
       </PageHeader>
-      <Alert>
-        <RocketIcon className="h-4 w-4" aria-hidden="true" />
-        <AlertTitle>Atenção!</AlertTitle>
-        <AlertDescription>
-          Você está atualmente no plano{" "}
-          <span className="font-semibold">T1</span>. Você pode criar até{" "}
-          <span className="font-semibold">100</span> produtos.
-        </AlertDescription>
-      </Alert>
       <section className="grid gap-4">
-        <ProductsTableShell transaction={transaction} categories={categories} />
+        <CategoriesTableShell transaction={transaction} />
       </section>
     </Shell>
   )

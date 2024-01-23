@@ -13,16 +13,21 @@ import {
 } from "@/components/ui/card"
 import { SignUpForm } from "@/components/forms/signup-form"
 import { Shell } from "@/components/shells/shell"
+import { currentUser } from "@/app/_actions/user"
+import { UserPayload } from "@/lib/validations/auth"
 
 export const metadata: Metadata = {
   metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),
-  title: "Sign Up",
-  description: "Sign up for an account",
+  title: "Cadastro",
+  description: "",
 }
 
 export default async function SignUpPage() {
-  // const user = await currentUser()
-  // if (user) redirect("/")
+  const user = (await currentUser()) as unknown as UserPayload
+
+  if (user && user.uservalido === 0) {
+    redirect("/dashboard/account/personal")
+  }
 
   return (
     <Shell className="max-w-lg">

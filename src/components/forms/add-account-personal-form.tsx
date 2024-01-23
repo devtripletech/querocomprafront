@@ -3,14 +3,13 @@
 import * as React from "react"
 import Image from "next/image"
 
-import { productsCategoryType, type FileWithPreview } from "@/types"
+import { type FileWithPreview } from "@/types"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { generateReactHelpers } from "@uploadthing/react/hooks"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { type z } from "zod"
 
-import { getSubcategories } from "@/config/products"
 import { catchError, isArrayOfFile } from "@/lib/utils"
 import { productSchema } from "@/lib/validations/product"
 import { Button } from "@/components/ui/button"
@@ -42,18 +41,23 @@ import { Label } from "../ui/label"
 import { Separator } from "../ui/separator"
 import { UserRound } from "lucide-react"
 import { createUserAction, getUserAction } from "@/app/_actions/user"
+import { useRouter } from "next/navigation"
 
 interface AddAccountPersonalFormProps {
   user?: User
+  userId: number
 }
 
 type Inputs = z.infer<typeof userSchema>
 
 const { useUploadThing } = generateReactHelpers<OurFileRouter>()
 
-export function AddAccountPersonalForm({ user }: AddAccountPersonalFormProps) {
+export function AddAccountPersonalForm({
+  user,
+  userId,
+}: AddAccountPersonalFormProps) {
   const [isPending, startTransition] = React.useTransition()
-
+  const router = useRouter()
   const form = useForm<Inputs>({
     resolver: zodResolver(userSchema),
     defaultValues: {
@@ -63,7 +67,7 @@ export function AddAccountPersonalForm({ user }: AddAccountPersonalFormProps) {
       complemento: user?.complemento ?? "",
       cpf: user?.cpf ?? "",
       endereco: user?.endereco ?? "",
-      id_user: user?.id_user,
+      id_user: userId,
       telefone: user?.telefone ?? "",
       bairro: user?.bairro ?? "",
       cidade: user?.cidade ?? "",
@@ -78,7 +82,7 @@ export function AddAccountPersonalForm({ user }: AddAccountPersonalFormProps) {
         const res = await createUserAction(data)
 
         toast.success(res.mensagem)
-        form.reset()
+        router.push("/dashboard/products")
       } catch (err) {
         catchError(err)
       }

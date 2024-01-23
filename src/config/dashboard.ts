@@ -17,6 +17,12 @@ export const dashboardConfig: DashboardConfig = {
       icon: "boxes",
       items: [],
     },
+    {
+      title: "Categoria",
+      href: "/dashboard/categories",
+      icon: "layoutGrid",
+      items: [],
+    },
   ],
 }
 

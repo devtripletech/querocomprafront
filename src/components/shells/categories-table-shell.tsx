@@ -24,48 +24,25 @@ import { deleteProductAction } from "@/app/_actions/product"
 import { Product } from "@/lib/validations/product"
 import { Category } from "@/lib/validations/category"
 
-interface ProductsTableShellProps<TData, TValue> {
-  transaction: Product[]
-  categories: Category[]
+interface CategoriesTableShellProps<TData, TValue> {
+  transaction: Category[]
 }
 
-export function ProductsTableShell<TData, TValue>({
+export function CategoriesTableShell<TData, TValue>({
   transaction,
-  categories,
-}: ProductsTableShellProps<TData, TValue>) {
+}: CategoriesTableShellProps<TData, TValue>) {
   const [isPending, startTransition] = React.useTransition()
   const [selectedRowIds, setSelectedRowIds] = React.useState<number[]>([])
 
   // Memoize the columns so they don't re-render on every render
-  const columns = React.useMemo<ColumnDef<Product>[]>(
+  const columns = React.useMemo<ColumnDef<Category>[]>(
     () => [
       {
-        accessorKey: "nome",
+        accessorKey: "Descricao",
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title="Nome" />
+          <DataTableColumnHeader column={column} title="Descrição" />
         ),
       },
-      {
-        accessorKey: "id_categoria",
-        header: ({ column }) => (
-          <DataTableColumnHeader column={column} title="Categoria" />
-        ),
-        cell: ({ cell }) => {
-          return cell.getValue() === "0"
-            ? "sem categoria"
-            : categories.find(
-                (c) => c.ID_Categoria.toString() === cell.getValue()
-              )?.Descricao
-        },
-      },
-      {
-        accessorKey: "valor",
-        header: ({ column }) => (
-          <DataTableColumnHeader column={column} title="Valor" />
-        ),
-        cell: ({ cell }) => formatPrice(cell.getValue() as number),
-      },
-
       {
         id: "actions",
         cell: ({ row }) => (
@@ -81,13 +58,8 @@ export function ProductsTableShell<TData, TValue>({
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-[160px]">
               <DropdownMenuItem asChild>
-                <Link href={`/dashboard/products/${row.original.id_produto}`}>
+                <Link href={`/dashboard/products/${row.original.ID_Categoria}`}>
                   Editar
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link href={`/product/${row.original.id_produto}`}>
-                  Visualizar
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
@@ -118,7 +90,7 @@ export function ProductsTableShell<TData, TValue>({
         ),
       },
     ],
-    [categories, isPending]
+    [isPending]
   )
 
   function deleteSelectedRows() {

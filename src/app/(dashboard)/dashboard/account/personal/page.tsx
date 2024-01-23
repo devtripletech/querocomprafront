@@ -15,6 +15,7 @@ import { AccountAccessCard } from "@/components/cards/account-access-card"
 import { AccountPersonalCard } from "@/components/cards/account-personal-card"
 import { currentUser, getUserAction } from "@/app/_actions/user"
 import { redirect } from "next/navigation"
+import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton"
 
 export const metadata: Metadata = {
   metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),
@@ -29,7 +30,13 @@ export default async function AccountPersonalPage() {
     redirect("/signin")
   }
 
-  const userData = await getUserAction(user?.id_user)
+  const data = await getUserAction(user?.id_user)
 
-  return <AccountPersonalCard userValid={user.uservalido} user={userData} />
+  return (
+    <AccountPersonalCard
+      userValid={data.uservalido}
+      userId={user.id_user}
+      user={data.resultado}
+    />
+  )
 }

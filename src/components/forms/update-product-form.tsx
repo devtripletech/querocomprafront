@@ -10,7 +10,6 @@ import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { type z } from "zod"
 
-import { getSubcategories } from "@/config/products"
 import { catchError, isArrayOfFile } from "@/lib/utils"
 import { Product, productSchema } from "@/lib/validations/product"
 import { Button } from "@/components/ui/button"
@@ -39,16 +38,21 @@ import { Zoom } from "@/components/zoom-image"
 import { updateProductAction } from "@/app/_actions/product"
 import type { OurFileRouter } from "@/app/api/uploadthing/core"
 import { FileWithPreview } from "@/types"
+import { Category } from "@/lib/validations/category"
 
 interface UpdateProductFormProps {
   product: Product
+  categories: Category[]
 }
 
 type Inputs = z.infer<typeof productSchema>
 
 const { useUploadThing } = generateReactHelpers<OurFileRouter>()
 
-export function UpdateProductForm({ product }: UpdateProductFormProps) {
+export function UpdateProductForm({
+  product,
+  categories,
+}: UpdateProductFormProps) {
   const router = useRouter()
   const [files, setFiles] = React.useState<FileWithPreview[] | null>(null)
   const [isPending, startTransition] = React.useTransition()
@@ -58,12 +62,13 @@ export function UpdateProductForm({ product }: UpdateProductFormProps) {
   const form = useForm<Inputs>({
     resolver: zodResolver(productSchema),
     defaultValues: {
-      nome: "",
+      nome: product.nome ?? "",
+      id_categoria: product.id_categoria ?? "",
+      descricao: product.descricao ?? "",
+      valor: product.valor ?? "",
       images: [],
     },
   })
-
-  // const subcategories = getSubcategories(form.watch("category"))
 
   function onSubmit(data: Inputs) {
     startTransition(async () => {
@@ -119,13 +124,49 @@ export function UpdateProductForm({ product }: UpdateProductFormProps) {
             message={form.formState.errors.nome?.message}
           />
         </FormItem>
+        <div className="flex flex-col items-start gap-6 sm:flex-row">
+          <FormField
+            control={form.control}
+            name="id_categoria"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>Category</FormLabel>
+                <Select
+                  value={field.value}
+                  onValueChange={(value: typeof field.value) =>
+                    field.onChange(value)
+                  }
+                >
+                  <FormControl>
+                    <SelectTrigger className="capitalize">
+                      <SelectValue placeholder={field.value} />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectGroup>
+                      {Object.values(categories).map((option) => (
+                        <SelectItem
+                          key={option.ID_Categoria}
+                          value={String(option.ID_Categoria)}
+                          className="capitalize"
+                        >
+                          {option.Descricao}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
         <FormItem>
           <FormLabel>Descrição</FormLabel>
           <FormControl>
             <Textarea
               placeholder="Digite a descrição do produto aqui."
               {...form.register("descricao")}
-              defaultValue={product.descricao ?? ""}
             />
           </FormControl>
           <UncontrolledFormMessage
@@ -142,7 +183,6 @@ export function UpdateProductForm({ product }: UpdateProductFormProps) {
                 inputMode="numeric"
                 placeholder="Digite o preço do produto aqui."
                 {...form.register("valor")}
-                defaultValue={product.valor}
               />
             </FormControl>
             <UncontrolledFormMessage

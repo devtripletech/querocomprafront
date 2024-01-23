@@ -48,14 +48,6 @@ export const updatePasswordSchema = z
     path: ["confirmPassword"],
   })
 
-export const userPrivateMetadataSchema = z.object({
-  role: z.enum(["user", "admin", "super_admin"]),
-  stripePriceId: z.string().optional().nullable(),
-  stripeSubscriptionId: z.string().optional().nullable(),
-  stripeCustomerId: z.string().optional().nullable(),
-  stripeCurrentPeriodEnd: z.string().optional().nullable(),
-})
-
 export const userPayloadSchema = z.object({
   id: z.string(),
   id_user: z.number(),

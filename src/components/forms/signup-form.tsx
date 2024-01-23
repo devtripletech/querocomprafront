@@ -21,6 +21,8 @@ import {
 import { Input } from "@/components/ui/input"
 import { Icons } from "@/components/icons"
 import { PasswordInput } from "@/components/password-input"
+import { createUserAccountAction } from "@/app/_actions/user"
+import { signIn } from "next-auth/react"
 
 type Inputs = z.infer<typeof createUserSchema>
 
@@ -38,16 +40,20 @@ export function SignUpForm() {
       password: "",
     },
   })
-  console.log
 
   function onSubmit(data: Inputs) {
-    if (!isLoaded) return
+    // if (!isLoaded) return
 
     startTransition(async () => {
       try {
-        //router.push("/signup/verify-email")
-        toast.message("Check your email", {
-          description: "We sent you a 6-digit verification code.",
+        const res = await createUserAccountAction(data)
+        router.push("/")
+        toast.message("Cadastro", {
+          description: res.msg,
+        })
+        signIn("Credentials", {
+          email: data.email,
+          password: data.password,
         })
       } catch (err) {
         catchClerkError(err)
@@ -100,7 +106,7 @@ export function SignUpForm() {
             </FormItem>
           )}
         />
-        <Button disabled={isPending}>
+        <Button type="submit" disabled={isPending}>
           {isPending && (
             <Icons.spinner
               className="mr-2 h-4 w-4 animate-spin"

@@ -161,7 +161,7 @@ export function PaginationButton({
             )
           })
         }}
-        disabled={Number(page) === (pageCount ?? 10) || isPending}
+        disabled={Number(page) === (pageCount ?? 8) || isPending}
       >
         <ChevronRightIcon className="h-4 w-4" aria-hidden="true" />
       </Button>
@@ -173,13 +173,13 @@ export function PaginationButton({
         onClick={() => {
           router.push(
             `${pathname}?${createQueryString({
-              page: pageCount ?? 10,
+              page: pageCount ?? 8,
               per_page: per_page ?? null,
               sort: sort ?? null,
             })}`
           )
         }}
-        disabled={Number(page) === (pageCount ?? 10) || isPending}
+        disabled={Number(page) === (pageCount ?? 8) || isPending}
       >
         <DoubleArrowRightIcon className="h-4 w-4" aria-hidden="true" />
       </Button>

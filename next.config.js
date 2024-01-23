@@ -6,6 +6,10 @@ const nextConfig = {
         protocol: "http",
         hostname: "apptnote.eastus.cloudapp.azure.com",
       },
+      {
+        protocol: "http",
+        hostname: "localhost",
+      },
     ],
   },
 }

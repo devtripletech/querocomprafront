@@ -28,7 +28,7 @@ export default async function AccountAccessPage() {
   if (!user) {
     redirect("/signin")
   }
-  const userData = (await getUserAction(user.id_user)) as User
+  const userData = await getUserAction(user.id_user)
   if (!userData) {
     notFound()
   }
@@ -36,5 +36,10 @@ export default async function AccountAccessPage() {
   // if (user.uservalido === 0) {
   //   redirect("/dashboard/account/personal")
   // }
-  return <AccountAccessCard userId={userData.id_user} />
+  return (
+    <AccountAccessCard
+      userId={userData.resultado.id_user}
+      email={userData.resultado.email ?? ""}
+    />
+  )
 }
