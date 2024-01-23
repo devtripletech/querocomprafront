@@ -80,11 +80,14 @@ export function AddProductForm({ userId, categories }: AddProductFormProps) {
           body.append("file", data.images[0])
           body.append("file2", data.images[0])
           body.append("file3", data.images[0])
-          const response = await fetch(`http://localhost:3333/produto/`, {
-            method: "POST",
-            mode: "no-cors",
-            body,
-          })
+          const response = await fetch(
+            `http://apptnote.eastus.cloudapp.azure.com:3333/produto/`,
+            {
+              method: "POST",
+              mode: "no-cors",
+              body,
+            }
+          )
 
           // revalidatePath("/dashboard/products")
           // revalidatePath("/")
