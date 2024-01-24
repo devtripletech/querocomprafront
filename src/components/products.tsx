@@ -207,9 +207,12 @@ export function Products({ products, pageCount, categories }: ProductsProps) {
       </div>
       {!isPending && !products.length ? (
         <div className="mx-auto flex max-w-xs flex-col space-y-1.5">
-          <h1 className="text-center text-2xl font-bold">No products found</h1>
+          <h1 className="text-center text-2xl font-bold">
+            Nenhum produto encontrado
+          </h1>
           <p className="text-center text-muted-foreground">
-            Try changing your filters, or check back later for new products
+            Tente alterar seus filtros ou volte mais tarde para ver se há novos
+            produtos
           </p>
         </div>
       ) : null}

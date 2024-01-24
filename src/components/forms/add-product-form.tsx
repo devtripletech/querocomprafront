@@ -94,8 +94,6 @@ export function AddProductForm({ userId, categories }: AddProductFormProps) {
             eval(`data.img_0${i} = '${resultUploaded.image.url}'`)
           }
 
-          console.log("total", data)
-
           const {
             nome,
             valor,
@@ -132,6 +130,7 @@ export function AddProductForm({ userId, categories }: AddProductFormProps) {
             images: null,
           })
           toast.success("Produto adicionado com sucesso.")
+          router.push("/dashboard/products")
         }
       } catch (e) {
         console.log(e)

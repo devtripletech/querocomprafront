@@ -252,7 +252,7 @@ export async function deleteProductAction(
   const product = {} as any
 
   if (!product) {
-    throw new Error("Product not found.")
+    throw new Error("Produto não encontrado.")
   }
 
   // await db.delete(products).where(eq(products.id, input.id))
