@@ -11,7 +11,6 @@ export const env = createEnv({
       .enum(["development", "test", "production"])
       .default("development"),
     API_URL: z.string().url(),
-    DATABASE_URL: z.string().min(1),
   },
 
   /**
@@ -28,7 +27,6 @@ export const env = createEnv({
    * middlewares) or client-side so we need to destruct manually.
    */
   runtimeEnv: {
-    DATABASE_URL: process.env.DATABASE_URL,
     NODE_ENV: process.env.NODE_ENV,
     API_URL: process.env.API_URL,
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,

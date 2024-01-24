@@ -1,10 +1,6 @@
-import { env } from "@/env.mjs"
-import { Product } from "@/lib/validations/product"
-import multer from "multer"
-import { NextApiRequest } from "next"
-import { NextRequest, NextResponse } from "next/server"
-import path from "node:path"
+import { NextResponse } from "next/server"
 import { z } from "zod"
+import { env } from "@/env.mjs"
 
 // export const config = {
 //   api: {
