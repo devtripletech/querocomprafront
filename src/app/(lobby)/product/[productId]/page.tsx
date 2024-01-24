@@ -84,19 +84,14 @@ export default async function ProductPage({ params }: ProductPageProps) {
         <div className="flex w-full flex-col gap-4 md:w-1/2">
           <div className="space-y-2">
             <h2 className="line-clamp-1 text-2xl font-bold">{product.nome}</h2>
-            {product ? (
-              <Link
-                href={`/products?categories=${product.id_categoria}`}
-                className="line-clamp-1 inline-block text-base text-muted-foreground hover:underline"
-              >
-                {product.id_categoria}
-              </Link>
-            ) : null}
+            <p className="text-muted-foreground text-3xl text-gray-950 font-thin">
+              {formatPrice(product.valor)}
+            </p>
           </div>
           <Separator className="my-1.5" />
           {/* <AddToCartForm productId={productId} /> */}
           <Separator className="mt-5" />
-          <Accordion type="single" collapsible={false} className="w-full">
+          <Accordion type="single" collapsible className="w-full">
             <AccordionItem value="description">
               <AccordionTrigger>Descrição</AccordionTrigger>
               <AccordionContent>

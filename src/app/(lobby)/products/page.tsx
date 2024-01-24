@@ -43,7 +43,6 @@ export default async function ProductsPage({
 
   // Number of items per page
   const limit = isNaN(perPageAsNumber) ? 20 : perPageAsNumber
-  console.log(limit)
 
   // Number of items to skip
   const offset = fallbackPage > 0 ? (fallbackPage - 1) * limit : 0

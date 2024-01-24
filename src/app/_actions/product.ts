@@ -47,13 +47,6 @@ export const listProductsAction = async (): Promise<Product[]> => {
   }
 }
 
-interface QueryParams {
-  limit?: number
-  offset?: number
-  sort?: string
-  categories?: string
-}
-
 export const listProductsWithParamsAction = async (
   rawInput: z.infer<typeof getProductsSchema>
 ): Promise<ProductTransaction> => {
@@ -86,7 +79,7 @@ export const listProductsWithParamsAction = async (
         // Authorization: `Bearer ${token}`,
       },
     })
-    if (res.status === 401 || res.status === 400) redirect("/signin")
+    if (res.status === 401) redirect("/signin")
 
     const items = await res.json()
 
@@ -173,12 +166,44 @@ const extendedProductSchema = productSchema.extend({
     .nullable(),
 })
 
-export async function addProductAction(
-  rawInput: z.infer<typeof productSchema>
-) {
-  revalidatePath("/dashboard/products")
+export async function addProductAction(input: z.infer<typeof productSchema>) {
+  console.log(input)
+  try {
+    const response = await fetch(`${env.API_URL}/produto`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "*/*",
+        // Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        id_categoria: input.id_categoria,
+        negociado: input.negociado,
+        nome: input.nome,
+        id_usuario: input.id_usuario,
+        valor: input.valor,
+        descricao: input.descricao,
+        img_01: input.img_01,
+        img_02: input.img_02,
+        img_03: input.img_03,
+      }),
+    })
+    const data = await response.json()
 
-  revalidatePath(`/`)
+    if (response.status === 401) redirect("/signin")
+
+    revalidatePath("/dashboard/products")
+    revalidatePath(`/`)
+
+    return data
+  } catch (err) {
+    console.error(err)
+    throw err instanceof Error
+      ? err.message
+      : err instanceof z.ZodError
+      ? err.issues.map((issue) => issue.message).join("\n")
+      : new Error("Unknown error.")
+  }
 }
 
 const extendedProductSchemaWithId = extendedProductSchema.extend({

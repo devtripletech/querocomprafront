@@ -59,39 +59,71 @@ export function AddProductForm({ userId, categories }: AddProductFormProps) {
     defaultValues: {
       nome: "",
       id_usuario: userId,
+      id_categoria: "0",
+      negociado: 0,
       descricao: "",
       valor: 0,
       images: [],
+      img_01: "",
+      img_02: "",
+      img_03: "",
     },
   })
 
   function onSubmit(data: Inputs) {
     startTransition(async () => {
       try {
+        //console.log(data)
         if (isArrayOfFile(data.images)) {
           setUploading(true)
-          const body = new FormData()
-          body.append("id_usuario", String(data.id_usuario))
-          body.append("id_categoria", String(data.id_categoria))
-          body.append("negociado", "0")
-          body.append("valor", String(data.valor))
-          body.append("nome", String(data.nome))
-          body.append("descricao", String(data.descricao))
-          body.append("file", data.images[0])
-          body.append("file2", data.images[0])
-          body.append("file3", data.images[0])
-          const response = await fetch(
-            `http://apptnote.eastus.cloudapp.azure.com:3333/produto/`,
-            {
-              method: "POST",
-              mode: "no-cors",
-              body,
-            }
-          )
 
-          // revalidatePath("/dashboard/products")
-          // revalidatePath("/")
-          toast.success("Produto adicionado com sucesso!")
+          for (let i = 1; i <= data.images.length; i++) {
+            const image = data.images[i - 1]
+
+            const body = new FormData()
+            body.append("file", image)
+            const res = await fetch(`/api/upload`, {
+              method: "POST",
+              body,
+            })
+            const resultUploaded = await res.json()
+            if (resultUploaded.error) {
+              toast.error(resultUploaded.error)
+              return
+            }
+            eval(`data.img_0${i} = '${resultUploaded.image.url}'`)
+          }
+
+          console.log("total", data)
+
+          const {
+            nome,
+            valor,
+            descricao,
+            negociado,
+            id_categoria,
+            id_usuario,
+            img_01,
+            img_02,
+            img_03,
+          } = data
+          const resultProduct = await addProductAction({
+            nome,
+            valor,
+            descricao,
+            negociado,
+            id_categoria,
+            id_usuario,
+            img_01,
+            img_02,
+            img_03,
+          })
+          if (resultProduct.error) {
+            toast.error(resultProduct.error)
+            return
+          }
+
+          toast.success("Produto adicionado com sucesso.")
           setUploading(false)
           router.push("/dashboard/products")
         } else {
@@ -99,8 +131,7 @@ export function AddProductForm({ userId, categories }: AddProductFormProps) {
             ...data,
             images: null,
           })
-
-          toast.success("Product added successfully.")
+          toast.success("Produto adicionado com sucesso.")
         }
       } catch (e) {
         console.log(e)
