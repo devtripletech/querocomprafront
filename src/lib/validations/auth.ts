@@ -14,6 +14,7 @@ export const authSchema = z.object({
 
 export const createUserSchema = z
   .object({
+    name: z.string(),
     email: authSchema.shape.email,
     password: authSchema.shape.password,
     confirmPassword: authSchema.shape.password,
@@ -54,5 +55,7 @@ export const userPayloadSchema = z.object({
   uservalido: z.number(),
   accessToken: z.string(),
   status: z.boolean(),
+  name: z.string(),
+  email: z.string(),
 })
 export type UserPayload = z.infer<typeof userPayloadSchema>

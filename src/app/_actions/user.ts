@@ -43,7 +43,7 @@ export const createUserAction = async (input: z.infer<typeof userSchema>) => {
         uf: input.uf,
         cidade: input.cidade,
         bairro: input.bairro,
-        // numero: input.numero,
+        numero: input.numero,
       }),
     })
 
@@ -70,6 +70,7 @@ export const createUserAccountAction = async (
         // Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
+        name: input.name,
         email: input.email,
         password: input.password,
       }),

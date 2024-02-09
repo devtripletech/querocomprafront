@@ -1,3 +1,5 @@
+import { env } from "@/env.mjs"
+import { NavItem } from "./../types/index"
 import type { NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 
@@ -19,17 +21,14 @@ export const authOptions: NextAuthOptions = {
           password: string
         }
 
-        const res = await fetch(
-          "http://apptnote.eastus.cloudapp.azure.com:3333/login",
-          {
-            method: "POST",
-            body: JSON.stringify({
-              password,
-              email,
-            }),
-            headers: { "Content-Type": "application/json" },
-          }
-        )
+        const res = await fetch(`${env.API_URL}/login`, {
+          method: "POST",
+          body: JSON.stringify({
+            password,
+            email,
+          }),
+          headers: { "Content-Type": "application/json" },
+        })
         const data = await res.json()
 
         const user = {
@@ -38,6 +37,8 @@ export const authOptions: NextAuthOptions = {
           uservalido: data?.uservalido,
           accessToken: data?.token,
           status: data?.status,
+          name: data?.name,
+          email: data?.email,
         }
 
         // If no error and we have user data, return it
@@ -59,6 +60,8 @@ export const authOptions: NextAuthOptions = {
           uservalido: token?.uservalido,
           accessToken: token?.accessToken,
           status: token?.status,
+          name: token?.name,
+          email: token?.email,
           // Key: token.randomKey,
         },
       }
@@ -72,6 +75,8 @@ export const authOptions: NextAuthOptions = {
           uservalido: u?.uservalido,
           accessToken: u?.accessToken,
           status: u?.status,
+          name: u?.name,
+          email: u?.email,
           // Key: u.randomKey,
         }
       }

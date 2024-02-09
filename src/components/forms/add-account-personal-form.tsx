@@ -10,7 +10,13 @@ import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { type z } from "zod"
 
-import { catchError, isArrayOfFile } from "@/lib/utils"
+import {
+  catchError,
+  isArrayOfFile,
+  normalizeCepNumber,
+  normalizeCpfNumber,
+  normalizePhoneNumber,
+} from "@/lib/utils"
 import { productSchema } from "@/lib/validations/product"
 import { Button } from "@/components/ui/button"
 import {
@@ -42,6 +48,7 @@ import { Separator } from "../ui/separator"
 import { UserRound } from "lucide-react"
 import { createUserAction, getUserAction } from "@/app/_actions/user"
 import { useRouter } from "next/navigation"
+import { useEffect } from "react"
 
 interface AddAccountPersonalFormProps {
   user?: User
@@ -49,8 +56,6 @@ interface AddAccountPersonalFormProps {
 }
 
 type Inputs = z.infer<typeof userSchema>
-
-const { useUploadThing } = generateReactHelpers<OurFileRouter>()
 
 export function AddAccountPersonalForm({
   user,
@@ -76,6 +81,11 @@ export function AddAccountPersonalForm({
     },
   })
 
+  const telefoneValue = form.watch("telefone")
+  const celularValue = form.watch("celular")
+  const cepValue = form.watch("cep")
+  const cpfValue = form.watch("cpf")
+
   function onSubmit(data: Inputs) {
     startTransition(async () => {
       try {
@@ -88,6 +98,22 @@ export function AddAccountPersonalForm({
       }
     })
   }
+
+  useEffect(() => {
+    form.setValue("telefone", normalizePhoneNumber(telefoneValue))
+  }, [telefoneValue, form.setValue])
+
+  useEffect(() => {
+    form.setValue("celular", normalizePhoneNumber(celularValue))
+  }, [celularValue, form.setValue])
+
+  useEffect(() => {
+    form.setValue("cep", normalizeCepNumber(cepValue))
+  }, [cepValue, form.setValue])
+
+  useEffect(() => {
+    form.setValue("cpf", normalizeCpfNumber(cpfValue))
+  }, [cpfValue, form.setValue])
 
   return (
     <Form {...form}>

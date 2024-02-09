@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { AddProductForm } from "@/components/forms/add-product-form"
-import { currentUser } from "@/app/_actions/user"
+import { currentUser, getUserAction } from "@/app/_actions/user"
 import {
   PageHeader,
   PageHeaderDescription,
@@ -37,7 +37,13 @@ export default async function NewProductPage({ params }: NewProductPageProps) {
   const user = await currentUser()
 
   if (!user) {
-    redirect("/sigin")
+    redirect("/signin")
+  }
+
+  const userData = await getUserAction(user?.id_user)
+
+  if (!userData.uservalido) {
+    redirect("/dashboard/account/personal")
   }
 
   const categories = await listCategoriesAction()

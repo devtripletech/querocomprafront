@@ -40,7 +40,6 @@ export function AccountPersonalCard({
   user: User
   userId: number
 }) {
-  console.log(userId)
   return (
     <div className="flex flex-col gap-4 w-full">
       {!userValid && (

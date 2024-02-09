@@ -1,5 +1,6 @@
 import { AvatarIcon, ImageIcon } from "@radix-ui/react-icons"
 import {
+  MessageSquarePlus,
   AlarmClock,
   AlertTriangle,
   ArrowDown,
@@ -130,6 +131,7 @@ export const Icons = {
   volumne: Volume2,
   volumneMute: VolumeX,
   message: MessageSquare,
+  messagePlus: MessageSquarePlus,
   billing: CreditCard,
   wallet: Wallet,
   dollarSign: DollarSign,

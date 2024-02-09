@@ -23,6 +23,18 @@ export const dashboardConfig: DashboardConfig = {
       icon: "layoutGrid",
       items: [],
     },
+    {
+      title: "Negociação",
+      href: "/dashboard/negotiation/my",
+      icon: "message",
+      items: [],
+    },
+    {
+      title: "Negociação",
+      href: "/dashboard/negotiation",
+      icon: "message",
+      items: [],
+    },
   ],
 }
 
@@ -44,6 +56,23 @@ export const accountDashboardConfig: DashboardConfig = {
       title: "Dados pessoais",
       href: "/dashboard/account/personal",
       icon: "userRound",
+      items: [],
+    },
+  ],
+}
+
+export const negotiationDashboardConfig: DashboardConfig = {
+  sidebarNav: [
+    {
+      title: "Visão geral",
+      href: "/dashboard/negotiation/my",
+      icon: "layoutGrid",
+      items: [],
+    },
+    {
+      title: "Dados de acesso",
+      href: "/dashboard/negotiation",
+      icon: "keyRound",
       items: [],
     },
   ],

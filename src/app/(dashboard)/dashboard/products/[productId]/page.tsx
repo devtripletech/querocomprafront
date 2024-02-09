@@ -1,5 +1,5 @@
 import { type Metadata } from "next"
-import { notFound } from "next/navigation"
+import { notFound, redirect } from "next/navigation"
 import { env } from "@/env.mjs"
 
 import {
@@ -19,6 +19,7 @@ import {
   PageHeaderHeading,
 } from "@/components/page-header"
 import { listCategoriesAction } from "@/app/_actions/categories"
+import { currentUser, getUserAction } from "@/app/_actions/user"
 
 export const metadata: Metadata = {
   metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),
@@ -36,6 +37,18 @@ export default async function UpdateProductPage({
   params,
 }: UpdateProductPageProps) {
   const productId = params.productId
+
+  const user = await currentUser()
+
+  if (!user) {
+    redirect("/signin")
+  }
+
+  const userData = await getUserAction(user?.id_user)
+
+  if (!userData.uservalido) {
+    redirect("/dashboard/account/personal")
+  }
 
   const product = await getProductByIdAction(productId)
 

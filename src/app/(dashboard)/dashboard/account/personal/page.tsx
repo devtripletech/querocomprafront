@@ -32,6 +32,7 @@ export default async function AccountPersonalPage() {
 
   const data = await getUserAction(user?.id_user)
 
+  console.log(data)
   return (
     <AccountPersonalCard
       userValid={data.uservalido}

@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import Link from "next/link"
-import { notFound } from "next/navigation"
+import { notFound, redirect } from "next/navigation"
 
 import { env } from "@/env.mjs"
 
@@ -20,6 +20,9 @@ import { Image } from "@/types"
 import { getProductByIdAction } from "@/app/_actions/product"
 import { StoredFile } from "@/config/products"
 import { listCategoriesAction } from "@/app/_actions/categories"
+import { currentUser, getUserAction } from "@/app/_actions/user"
+import { UserPayload } from "@/lib/validations/auth"
+import { Button } from "@/components/ui/button"
 
 interface ProductPageProps {
   params: {
@@ -29,6 +32,17 @@ interface ProductPageProps {
 
 export default async function ProductPage({ params }: ProductPageProps) {
   const productId = params.productId
+
+  let userData
+  const user = (await currentUser()) as unknown as UserPayload
+
+  if (user) {
+    userData = await getUserAction(user.id_user)
+  }
+
+  if (user && !userData?.uservalido) {
+    redirect("/dashboard/account/personal")
+  }
 
   const product = await getProductByIdAction(productId)
 
@@ -44,12 +58,19 @@ export default async function ProductPage({ params }: ProductPageProps) {
     notFound()
   }
 
-  console.log(product)
-  const images = [
-    { id: "1", name: "", url: product.img_01 },
-    { id: "2", name: "", url: product.img_02 },
-    { id: "3", name: "", url: product.img_03 },
-  ] as StoredFile[]
+  const images = [] as StoredFile[]
+
+  if (product.img_01) {
+    images.push({ id: "1", name: "", url: product.img_01 })
+  }
+
+  if (product.img_02) {
+    images.push({ id: "2", name: "", url: product.img_02 })
+  }
+
+  if (product.img_03) {
+    images.push({ id: "3", name: "", url: product.img_03 })
+  }
 
   return (
     <Shell>
@@ -81,17 +102,30 @@ export default async function ProductPage({ params }: ProductPageProps) {
           }}
         />
         <Separator className="mt-4 md:hidden" />
-        <div className="flex w-full flex-col gap-4 md:w-1/2">
-          <div className="space-y-2">
+        <div className="flex w-full flex-col gap-4 md:w-3/4">
+          <div className="space-y-6">
             <h2 className="line-clamp-1 text-2xl font-bold">{product.nome}</h2>
-            <p className="text-muted-foreground text-3xl text-gray-950 font-thin">
-              {formatPrice(product.valor)}
-            </p>
+            <div>
+              <h3 className="font-semibold text-foreground pb-2">Descrição</h3>
+              <span>
+                {product.descricao ??
+                  "Nenhuma descrição está disponível para este produto."}
+              </span>
+            </div>
+            <Separator className="mt-5" />
+            <div>
+              <p className="text-muted-foreground text-xs pb-1">Preço</p>
+              <p className=" text-3xl text-foreground/90 font-semibold">
+                {formatPrice(product.valor)}
+              </p>
+            </div>
+
+            <Button size={"lg"}>Iniciar Negociação</Button>
           </div>
-          <Separator className="my-1.5" />
+          {/* <Separator className="my-1.5" /> */}
           {/* <AddToCartForm productId={productId} /> */}
-          <Separator className="mt-5" />
-          <Accordion type="single" collapsible className="w-full">
+
+          {/* <Accordion type="single" collapsible className="w-full">
             <AccordionItem value="description">
               <AccordionTrigger>Descrição</AccordionTrigger>
               <AccordionContent>
@@ -99,7 +133,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                   "Nenhuma descrição está disponível para este produto."}
               </AccordionContent>
             </AccordionItem>
-          </Accordion>
+          </Accordion> */}
         </div>
       </div>
     </Shell>

@@ -7,8 +7,8 @@ export default function ProductNotFound() {
       <ErrorCard
         title="Produto não encontrado"
         description="O produto pode ter expirado ou você já pode ter atualizado seu produto"
-        retryLink="/"
-        retryLinkText="Go to Home"
+        retryLink="/products"
+        retryLinkText="Voltar para produtos"
       />
     </Shell>
   )

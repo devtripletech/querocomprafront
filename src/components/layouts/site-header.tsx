@@ -20,15 +20,16 @@ import { MobileNav } from "@/components/layouts/mobile-nav"
 import { Icons } from "../icons"
 import { User } from "@/lib/validations/user"
 import { redirect } from "next/navigation"
+import { UserPayload } from "@/lib/validations/auth"
 
 interface SiteHeaderProps {
-  user?: User
+  user?: UserPayload | null
 }
 
 export async function SiteHeader({ user }: SiteHeaderProps) {
   let initials
   if (user) {
-    initials = `${user.nome?.charAt(0).toLocaleUpperCase() ?? ""}`
+    initials = `${user.name?.charAt(0).toLocaleUpperCase() ?? ""}`
   }
 
   return (
@@ -57,7 +58,7 @@ export async function SiteHeader({ user }: SiteHeaderProps) {
                   <DropdownMenuLabel className="font-normal">
                     <div className="flex flex-col space-y-1">
                       <p className="text-sm font-medium leading-none">
-                        {user.nome}
+                        {user.name}
                       </p>
                       <p className="text-xs leading-none text-muted-foreground">
                         {user.email}

@@ -17,13 +17,12 @@ import {
   PageHeaderDescription,
   PageHeaderHeading,
 } from "@/components/page-header"
-import { buttonVariants } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
-import { RocketIcon } from "lucide-react"
 import { currentUser, getUserAction } from "@/app/_actions/user"
-import { listProductsByUserIdAction } from "@/app/_actions/product"
-import { listCategoriesAction } from "@/app/_actions/categories"
-import { CategoriesTableShell } from "@/components/shells/categories-table-shell"
+import { formatDistanceToNow } from "date-fns"
+import { getNegotiationsAction } from "@/app/_actions/negotiation"
+import { NegotiationTable } from "@/components/tables/negotiation-table"
+import { SidebarNegotiationNav } from "@/components/layouts/sidebar-negotiation-nav"
+import { negotiationDashboardConfig } from "@/config/dashboard"
 
 export const metadata: Metadata = {
   metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),
@@ -31,7 +30,14 @@ export const metadata: Metadata = {
   description: "Manage your products",
 }
 
-interface ProductsPageProps {
+type Status = "emNegociacao" | "negociacaoFinalizada"
+
+const statusMap: Record<Status, string> = {
+  emNegociacao: "Em negociação",
+  negociacaoFinalizada: "Negociação finalizada",
+}
+
+interface NegotiationsPageProps {
   params: {
     storeId: string
   }
@@ -40,10 +46,7 @@ interface ProductsPageProps {
   }
 }
 
-export default async function ProductsPage({
-  params,
-  searchParams,
-}: ProductsPageProps) {
+export default async function NegotiationsMyPage() {
   noStore()
   const user = await currentUser()
 
@@ -56,33 +59,23 @@ export default async function ProductsPage({
   if (!userData.uservalido) {
     redirect("/dashboard/account/personal")
   }
-  const transaction = await listCategoriesAction()
+
+  const negotiations = await getNegotiationsAction(user.id_user)
 
   return (
     <Shell variant="sidebar">
       <PageHeader>
         <div className="flex space-x-4">
           <PageHeaderHeading size="sm" className="flex-1">
-            Categorias
+            Negociações
           </PageHeaderHeading>
-          <Link
-            aria-label="Create store"
-            href="/dashboard/categories/new"
-            className={cn(
-              buttonVariants({
-                size: "sm",
-              })
-            )}
-          >
-            Adicionar categoria
-          </Link>
         </div>
         <PageHeaderDescription size="sm">
-          Gerenciar suas categorias
+          Gerenciar suas Negociações
         </PageHeaderDescription>
       </PageHeader>
       <section className="grid gap-4">
-        <CategoriesTableShell transaction={transaction} />
+        <NegotiationTable items={negotiations} />
       </section>
     </Shell>
   )

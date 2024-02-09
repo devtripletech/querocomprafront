@@ -14,6 +14,9 @@ import {
 } from "@/app/_actions/product"
 import { productsSearchParamsSchema } from "@/lib/validations/params"
 import { listCategoriesAction } from "@/app/_actions/categories"
+import { currentUser, getUserAction } from "@/app/_actions/user"
+import { redirect } from "next/navigation"
+import { UserPayload } from "@/lib/validations/auth"
 
 export const metadata: Metadata = {
   metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),
@@ -30,6 +33,17 @@ interface ProductsPageProps {
 export default async function ProductsPage({
   searchParams,
 }: ProductsPageProps) {
+  let userData
+  const user = (await currentUser()) as unknown as UserPayload
+
+  if (user) {
+    userData = await getUserAction(user.id_user)
+  }
+
+  if (user && !userData?.uservalido) {
+    redirect("/dashboard/account/personal")
+  }
+
   const { page, per_page, sort, categories } =
     productsSearchParamsSchema.parse(searchParams)
 

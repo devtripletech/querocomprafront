@@ -167,7 +167,6 @@ const extendedProductSchema = productSchema.extend({
 })
 
 export async function addProductAction(input: z.infer<typeof productSchema>) {
-  console.log(input)
   try {
     const response = await fetch(`${env.API_URL}/produto`, {
       method: "POST",

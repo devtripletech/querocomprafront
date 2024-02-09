@@ -19,9 +19,7 @@ export const userSchema = z.object({
   endereco: z.string().min(1, {
     message: "O endereço é obrigatório",
   }),
-  complemento: z.string().min(1, {
-    message: "O complemento é obrigatório",
-  }),
+  complemento: z.string().optional(),
   cep: z.string().min(1, {
     message: "O cep é obrigatório",
   }),

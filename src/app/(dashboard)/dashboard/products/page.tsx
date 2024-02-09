@@ -20,7 +20,7 @@ import {
 import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { RocketIcon } from "lucide-react"
-import { currentUser } from "@/app/_actions/user"
+import { currentUser, getUserAction } from "@/app/_actions/user"
 import { listProductsByUserIdAction } from "@/app/_actions/product"
 import { listCategoriesAction } from "@/app/_actions/categories"
 
@@ -48,6 +48,12 @@ export default async function ProductsPage({
 
   if (!user) {
     redirect("/signin")
+  }
+
+  const userData = await getUserAction(user?.id_user)
+
+  if (!userData.uservalido) {
+    redirect("/dashboard/account/personal")
   }
 
   const transaction = await listProductsByUserIdAction(user?.id_user)

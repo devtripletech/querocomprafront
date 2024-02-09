@@ -85,10 +85,15 @@ export function Products({ products, pageCount, categories }: ProductsProps) {
     Option[] | null
   >(
     categoriesParam
-      ? categoriesParam.split(".").map((c) => ({
-          label: toTitleCase(c),
-          value: c,
-        }))
+      ? categoriesParam.split(".").map((c) => {
+          const categoryMatch = categories.find(
+            (cc) => cc.ID_Categoria === Number(c)
+          )
+          return {
+            label: toTitleCase(categoryMatch?.Descricao || c),
+            value: c,
+          }
+        })
       : null
   )
 

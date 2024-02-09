@@ -55,6 +55,7 @@
     "react-medium-image-zoom": "^5.1.8",
     "react-textarea-autosize": "^8.5.3",
     "react-wrap-balancer": "^1.1.0",
+    "recharts": "^2.11.0",
     "resend": "^2.0.0",
     "sonner": "^1.0.3",
     "tailwind-merge": "^2.0.0",
