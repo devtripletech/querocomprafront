@@ -23,6 +23,8 @@ import { listCategoriesAction } from "@/app/_actions/categories"
 import { currentUser, getUserAction } from "@/app/_actions/user"
 import { UserPayload } from "@/lib/validations/auth"
 import { Button } from "@/components/ui/button"
+import { createNegotiationAction } from "@/app/_actions/negotiation"
+import { CreateNegotiationButton } from "@/components/buttons/create-negotiation-button"
 
 interface ProductPageProps {
   params: {
@@ -120,7 +122,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
               </p>
             </div>
 
-            <Button size={"lg"}>Iniciar Negociação</Button>
+            <CreateNegotiationButton
+              userId={user.id_user.toString()}
+              productId={productId}
+            />
           </div>
           {/* <Separator className="my-1.5" /> */}
           {/* <AddToCartForm productId={productId} /> */}
