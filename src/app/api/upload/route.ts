@@ -32,8 +32,6 @@ export async function POST(request: Request, response: Response) {
 
     const data = await res.json()
 
-    console.log(data)
-
     //return new Response(data, { status: 201 })
     return NextResponse.json(data, { status: 201 })
   } catch (err) {

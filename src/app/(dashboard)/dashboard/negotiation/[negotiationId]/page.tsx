@@ -25,6 +25,12 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { currentUser, getUserAction } from "@/app/_actions/user"
+import {
+  getMessagesNegotiationAction,
+  sendMessageNegotiationAction,
+} from "@/app/_actions/negotiation"
+import { catchError } from "@/lib/utils"
+import { SendMessageCard } from "@/components/cards/send-message-card"
 
 export const metadata: Metadata = {
   metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),
@@ -55,6 +61,8 @@ export default async function NegotiationPage({
     redirect("/dashboard/account/personal")
   }
 
+  const messages = await getMessagesNegotiationAction(negotiationId)
+
   return (
     <Shell variant="sidebar">
       <PageHeader
@@ -71,44 +79,11 @@ export default async function NegotiationPage({
         className="overflow-hidden"
       >
         <div className="flex  gap-4">
-          <Card className="w-full max-w-2xl">
-            <CardHeader className="space-y-1">
-              <CardTitle>Chat</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="flex gap-2 text-muted-foreground text-sm">
-                <Avatar>
-                  <AvatarFallback>ED</AvatarFallback>
-                </Avatar>
-                <p className="leading-relaxed">
-                  <span className="block font-bold text-muted-foreground">
-                    Edvan:
-                  </span>
-                  is simply dummy text of the printing and typesetting industry.
-                  Lorem Ipsum has been the s standard dummy
-                </p>
-              </div>
-
-              <div className="flex gap-2 text-muted-foreground text-sm">
-                <Avatar>
-                  <AvatarFallback>MM</AvatarFallback>
-                </Avatar>
-                <p className="leading-relaxed">
-                  <span className="block font-bold text-muted-foreground">
-                    Matheus:
-                  </span>
-                  is simply dummy text of the printing and typesetting industry.
-                  Lorem Ipsum has been the standard dummy
-                </p>
-              </div>
-            </CardContent>
-            <CardFooter className="gap-2 flex items-center">
-              <Input type="text" placeholder="Envie sua msg" />
-              <Button size="sm" type="submit">
-                Enviar
-              </Button>
-            </CardFooter>
-          </Card>
+          <SendMessageCard
+            messages={messages}
+            userId={user.id_user.toString()}
+            negotiationId={negotiationId}
+          />
         </div>
       </section>
     </Shell>

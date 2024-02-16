@@ -73,7 +73,6 @@ export function AddProductForm({ userId, categories }: AddProductFormProps) {
   function onSubmit(data: Inputs) {
     startTransition(async () => {
       try {
-        //console.log(data)
         if (isArrayOfFile(data.images)) {
           setUploading(true)
 

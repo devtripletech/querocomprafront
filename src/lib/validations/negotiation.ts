@@ -12,3 +12,21 @@ const negotiationSchema = z.object({
   usuario_part: z.string(),
 })
 export type Negotiation = z.infer<typeof negotiationSchema>
+
+const messageSchema = z.object({
+  id: z.string(),
+  userName: z.string(),
+  content: z.string(),
+})
+export type Message = z.infer<typeof messageSchema>
+
+export const sendMessageSchema = z.object({
+  id_user_mensagem: z.string(),
+  id_negociacao: z.string(),
+  mensagem: z
+    .string()
+    .min(1, {
+      message: "Digite algo para enviar a mensagem",
+    })
+    .max(100, { message: "Sua mensagem não pode passar de 20 caracteres" }),
+})
