@@ -31,3 +31,4 @@ O **resumo** dos recursos está listado abaixo. Todos os recursos contêm testes
 - [x] deve ser capaz de entrar como admin
 - [x] deve ser capaz de atualizar o produto
 - [x] deve ser capaz de atualizar o perfil
+- [x] deve ser capaz de atualizar a categoria
