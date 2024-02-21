@@ -86,11 +86,9 @@ export const getMessagesNegotiationAction = async (
 }
 
 type CreateNegotiationResponse = {
-  userId: string
   productId: string
 }
 export const createNegotiationAction = async ({
-  userId,
   productId,
 }: CreateNegotiationResponse) => {
   try {
@@ -101,7 +99,6 @@ export const createNegotiationAction = async ({
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        id_user_geraNegocio: userId,
         id_produto: productId,
         mensagem: "",
       }),

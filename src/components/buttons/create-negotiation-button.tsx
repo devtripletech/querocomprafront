@@ -5,19 +5,13 @@ import React from "react"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
 
-export function CreateNegotiationButton({
-  userId,
-  productId,
-}: {
-  userId: string
-  productId: string
-}) {
+export function CreateNegotiationButton({ productId }: { productId: string }) {
   const router = useRouter()
   const [isPending, startTransition] = React.useTransition()
   async function handleNegotiation() {
     startTransition(async () => {
       try {
-        await createNegotiationAction({ userId, productId })
+        await createNegotiationAction({ productId })
         router.push("/dashboard/negotiation/my")
       } catch (e) {
         console.log(e)

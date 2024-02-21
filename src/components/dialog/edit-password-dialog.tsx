@@ -37,17 +37,14 @@ type Inputs = z.infer<typeof updatePasswordSchema>
 
 export function EditPasswordDialog({
   children,
-  userId,
 }: {
   children: React.ReactNode
-  userId: number
 }) {
   const [isPending, startTransition] = React.useTransition()
   // react-hook-form
   const form = useForm<Inputs>({
     resolver: zodResolver(updatePasswordSchema),
     defaultValues: {
-      id_user: Number(userId),
       password: "",
       newPassword: "",
       confirmPassword: "",

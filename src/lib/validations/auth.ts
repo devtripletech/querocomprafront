@@ -39,7 +39,6 @@ export const checkEmailSchema = z.object({
 
 export const updatePasswordSchema = z
   .object({
-    id_user: z.coerce.number(),
     password: authSchema.shape.password,
     newPassword: authSchema.shape.password,
     confirmPassword: authSchema.shape.password,

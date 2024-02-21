@@ -22,13 +22,20 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 
 ## Features
 
-O **resumo** dos recursos está listado abaixo. Todos os recursos contêm testes E2E.
+O **resumo** dos recursos está listado abaixo.
 
 - [x] deve ser capaz de registrar um novo produto
-- [x] deve ser capaz de registrar um novo usuário
-- [x] deve ser capaz de registrar uma novo categoria
-- [x] deve ser capaz de entrar como usuário
-- [x] deve ser capaz de entrar como admin
 - [x] deve ser capaz de atualizar o produto
-- [x] deve ser capaz de atualizar o perfil
-- [x] deve ser capaz de atualizar a categoria
+
+- [x] deve ser capaz de registrar um novo usuário
+- [ ] deve ser capaz de atualizar a senha
+- [ ] deve ser capaz de atualizar os dados pessoais
+
+- [x] deve ser capaz de registrar uma novo categoria
+- [ ] deve ser capaz de atualizar a categoria
+
+- [x] deve ser capaz de entrar como usuário
+- [ ] deve ser capaz de entrar como admin
+
+- [x] deve ser capaz de iniciar uma nova negociação
+- [x] deve ser capaz de enviar mensagem de negociação

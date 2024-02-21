@@ -122,10 +122,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
               </p>
             </div>
 
-            <CreateNegotiationButton
-              userId={user.id_user.toString()}
-              productId={productId}
-            />
+            <CreateNegotiationButton productId={productId} />
           </div>
           {/* <Separator className="my-1.5" /> */}
           {/* <AddToCartForm productId={productId} /> */}

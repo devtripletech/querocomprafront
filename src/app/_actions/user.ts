@@ -28,7 +28,7 @@ export const createUserAction = async (input: z.infer<typeof userSchema>) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        // Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         nome: input.nome,
@@ -47,7 +47,7 @@ export const createUserAction = async (input: z.infer<typeof userSchema>) => {
       }),
     })
 
-    if (res.status === 401 || res.status === 400) redirect("/signin")
+    if (res.status === 401) redirect("/signin")
 
     const data = await res.json()
 
@@ -67,7 +67,7 @@ export const createUserAccountAction = async (
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        // Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         name: input.name,
@@ -76,7 +76,7 @@ export const createUserAccountAction = async (
       }),
     })
 
-    if (res.status === 401 || res.status === 400) redirect("/signin")
+    if (res.status === 401) redirect("/signin")
 
     const data = await res.json()
 
@@ -94,10 +94,10 @@ export const getUserAction = async (userId: number): Promise<GetUser> => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        // Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     })
-    if (res.status === 401 || res.status === 400) redirect("/signin")
+    if (res.status === 401) redirect("/signin")
 
     const data = await res.json()
 
@@ -132,10 +132,9 @@ export const updatePasswordAction = async (
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        // Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        id_user: input.id_user,
         password: input.newPassword,
         password_antigo: input.password,
       }),
@@ -145,8 +144,6 @@ export const updatePasswordAction = async (
     const data = await res.json()
 
     if (data?.error) throw new Error(data?.error)
-
-    //revalidatePath("/dashboard/client")
 
     return data
   })
