@@ -29,8 +29,7 @@ export default async function AccountPage() {
 
   const userData = await getUserAction(user?.id_user)
 
-  // TODO
-  if (!userData.uservalido) {
+  if (user && user.uservalido === 0) {
     redirect("/dashboard/account/personal")
   }
   return <AccountCard user={userData.resultado} />

@@ -24,13 +24,13 @@ export const dashboardConfig: DashboardConfig = {
       items: [],
     },
     {
-      title: "Negociação",
+      title: "Min. negociações",
       href: "/dashboard/negotiation/my",
       icon: "message",
       items: [],
     },
     {
-      title: "Negociação",
+      title: "Negociações P/S",
       href: "/dashboard/negotiation",
       icon: "message",
       items: [],

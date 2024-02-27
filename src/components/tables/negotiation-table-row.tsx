@@ -1,21 +1,30 @@
+"use client"
 import { Search } from "lucide-react"
 import { Button } from "../ui/button"
 import { TableCell, TableRow } from "../ui/table"
 import { Negotiation } from "@/lib/validations/negotiation"
 import { formatDistanceToNow } from "date-fns"
 import { ptBR } from "date-fns/locale"
+import { useRouter } from "next/navigation"
 
 interface NegotiationTableRowProps {
   data: Negotiation
 }
 
 export function NegotiationTableRow({ data }: NegotiationTableRowProps) {
+  const router = useRouter()
   return (
     <TableRow>
       <TableCell>
-        <Button variant="outline" size="xs">
+        <Button
+          variant="outline"
+          size="xs"
+          onClick={() =>
+            router.push(`/dashboard/negotiation/${data.id_negocio}`)
+          }
+        >
           <Search className="h-3 w-3" />
-          <span className="sr-only">Detalhes do pedido</span>
+          <span className="sr-only">ir para as mensagens</span>
         </Button>
       </TableCell>
       <TableCell className="font-mono text-xs font-medium">

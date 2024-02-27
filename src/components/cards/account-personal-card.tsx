@@ -34,11 +34,9 @@ import { User } from "@/lib/validations/user"
 export function AccountPersonalCard({
   userValid,
   user,
-  userId,
 }: {
   userValid: boolean
   user: User
-  userId: number
 }) {
   return (
     <div className="flex flex-col gap-4 w-full">
@@ -58,7 +56,7 @@ export function AccountPersonalCard({
         </Alert>
       )}
 
-      <AddAccountPersonalForm user={user} userId={userId} />
+      <AddAccountPersonalForm user={user} />
     </div>
   )
 }

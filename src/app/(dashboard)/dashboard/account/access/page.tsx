@@ -34,10 +34,5 @@ export default async function AccountAccessPage() {
   if (!userData.uservalido) {
     redirect("/dashboard/account/personal")
   }
-  return (
-    <AccountAccessCard
-      userId={userData.resultado.id_user}
-      email={userData.resultado.email ?? ""}
-    />
-  )
+  return <AccountAccessCard email={userData.resultado.email ?? ""} />
 }

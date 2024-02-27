@@ -13,9 +13,9 @@ export function CreateNegotiationButton({ productId }: { productId: string }) {
       try {
         await createNegotiationAction({ productId })
         router.push("/dashboard/negotiation/my")
-      } catch (e) {
-        console.log(e)
-        toast.error("Algo deu errado.")
+      } catch (e: any) {
+        toast.error(e.message)
+        //router.push("/signin")
       }
     })
   }

@@ -5,7 +5,7 @@ import { authOptions } from "@/lib/auth"
 import { createUserSchema, updatePasswordSchema } from "@/lib/validations/auth"
 import { GetUser, userSchema } from "@/lib/validations/user"
 import { getServerSession } from "next-auth"
-import { revalidatePath } from "next/cache"
+import { unstable_noStore as noStore, revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 import { z } from "zod"
 
@@ -22,6 +22,41 @@ export async function currentUser() {
   }
 }
 
+export const updateUserAction = async (input: z.infer<typeof userSchema>) => {
+  return getTokenAction().then(async (token) => {
+    const res = await fetch(`${env.API_URL}/usuario`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        nome: input.nome,
+        telefone: input.telefone,
+        celular: input.celular,
+        endereco: input.endereco,
+        complemento: input.complemento,
+        cep: input.cep,
+        cpf: input.cpf,
+        uf: input.uf,
+        cidade: input.cidade,
+        bairro: input.bairro,
+        numero: input.numero,
+      }),
+    })
+
+    if (res.status === 401) throw new Error("Não autorizado")
+
+    const data = await res.json()
+
+    if (data?.error) throw new Error(data?.error)
+
+    revalidatePath("/dashboard/account/personal")
+
+    return data
+  })
+}
+
 export const createUserAction = async (input: z.infer<typeof userSchema>) => {
   return getTokenAction().then(async (token) => {
     const res = await fetch(`${env.API_URL}/usuario`, {
@@ -32,14 +67,12 @@ export const createUserAction = async (input: z.infer<typeof userSchema>) => {
       },
       body: JSON.stringify({
         nome: input.nome,
-        email: "",
         telefone: input.telefone,
         celular: input.celular,
         endereco: input.endereco,
         complemento: input.complemento,
         cep: input.cep,
         cpf: input.cpf,
-        id_user: input.id_user,
         uf: input.uf,
         cidade: input.cidade,
         bairro: input.bairro,
@@ -47,9 +80,10 @@ export const createUserAction = async (input: z.infer<typeof userSchema>) => {
       }),
     })
 
-    if (res.status === 401) redirect("/signin")
+    if (res.status === 401) throw new Error("Não autorizado")
 
     const data = await res.json()
+    console.log(data)
 
     if (data?.error) throw new Error(data?.error)
 
@@ -76,7 +110,7 @@ export const createUserAccountAction = async (
       }),
     })
 
-    if (res.status === 401) redirect("/signin")
+    if (res.status === 401) throw new Error("Não autorizado")
 
     const data = await res.json()
 
@@ -90,6 +124,7 @@ export const createUserAccountAction = async (
 
 export const getUserAction = async (userId: number): Promise<GetUser> => {
   return getTokenAction().then(async (token) => {
+    noStore()
     const res = await fetch(`${env.API_URL}/usuario/${userId}`, {
       method: "GET",
       headers: {
@@ -97,11 +132,11 @@ export const getUserAction = async (userId: number): Promise<GetUser> => {
         Authorization: `Bearer ${token}`,
       },
     })
-    if (res.status === 401) redirect("/signin")
+    // if (res.status === 401) throw new Error("Não autorizado")
 
     const data = await res.json()
 
-    if (data?.error) throw new Error(data?.error)
+    // if (data?.error) throw new Error(data?.error)
 
     //revalidatePath("/dashboard/client")
 
@@ -139,7 +174,7 @@ export const updatePasswordAction = async (
         password_antigo: input.password,
       }),
     })
-    if (res.status === 401) redirect("/signin")
+    if (res.status === 401) throw new Error("Não autorizado")
 
     const data = await res.json()
 

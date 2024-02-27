@@ -33,17 +33,11 @@ interface ProductsPageProps {
 export default async function ProductsPage({
   searchParams,
 }: ProductsPageProps) {
-  let userData
   const user = (await currentUser()) as unknown as UserPayload
 
-  if (user) {
-    userData = await getUserAction(user.id_user)
-  }
-
-  if (user && !userData?.uservalido) {
+  if (user && user.uservalido === 0) {
     redirect("/dashboard/account/personal")
   }
-
   const { page, per_page, sort, categories } =
     productsSearchParamsSchema.parse(searchParams)
 

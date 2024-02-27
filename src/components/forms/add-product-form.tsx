@@ -41,13 +41,12 @@ import {
 import { Category } from "@/lib/validations/category"
 
 interface AddProductFormProps {
-  userId: number
   categories: Category[]
 }
 
 type Inputs = z.infer<typeof productSchema>
 
-export function AddProductForm({ userId, categories }: AddProductFormProps) {
+export function AddProductForm({ categories }: AddProductFormProps) {
   const router = useRouter()
   const [files, setFiles] = React.useState<FileWithPreview[] | null>(null)
 
@@ -58,7 +57,6 @@ export function AddProductForm({ userId, categories }: AddProductFormProps) {
     resolver: zodResolver(productSchema),
     defaultValues: {
       nome: "",
-      id_usuario: userId,
       id_categoria: "0",
       negociado: 0,
       descricao: "",
@@ -99,7 +97,6 @@ export function AddProductForm({ userId, categories }: AddProductFormProps) {
             descricao,
             negociado,
             id_categoria,
-            id_usuario,
             img_01,
             img_02,
             img_03,
@@ -110,7 +107,6 @@ export function AddProductForm({ userId, categories }: AddProductFormProps) {
             descricao,
             negociado,
             id_categoria,
-            id_usuario,
             img_01,
             img_02,
             img_03,

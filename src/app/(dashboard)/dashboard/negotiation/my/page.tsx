@@ -54,13 +54,10 @@ export default async function NegotiationsMyPage() {
     redirect("/signin")
   }
 
-  const userData = await getUserAction(user?.id_user)
-
-  if (!userData.uservalido) {
+  if (user && user.uservalido === 0) {
     redirect("/dashboard/account/personal")
   }
-
-  const negotiations = await getNegotiationsAction(user.id_user)
+  const negotiations = await getNegotiationsAction()
 
   return (
     <Shell variant="sidebar">

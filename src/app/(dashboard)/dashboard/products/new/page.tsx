@@ -40,12 +40,9 @@ export default async function NewProductPage({ params }: NewProductPageProps) {
     redirect("/signin")
   }
 
-  const userData = await getUserAction(user?.id_user)
-
-  if (!userData.uservalido) {
+  if (user && user.uservalido === 0) {
     redirect("/dashboard/account/personal")
   }
-
   const categories = await listCategoriesAction()
 
   return (
@@ -69,7 +66,7 @@ export default async function NewProductPage({ params }: NewProductPageProps) {
           <Card className="w-full max-w-2xl">
             <CardHeader className="space-y-1"></CardHeader>
             <CardContent>
-              <AddProductForm userId={user.id_user} categories={categories} />
+              <AddProductForm categories={categories} />
             </CardContent>
           </Card>
         </div>

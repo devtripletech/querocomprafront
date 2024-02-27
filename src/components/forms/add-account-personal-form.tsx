@@ -46,21 +46,21 @@ import { User, userSchema } from "@/lib/validations/user"
 import { Label } from "../ui/label"
 import { Separator } from "../ui/separator"
 import { UserRound } from "lucide-react"
-import { createUserAction, getUserAction } from "@/app/_actions/user"
+import {
+  createUserAction,
+  getUserAction,
+  updateUserAction,
+} from "@/app/_actions/user"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 
 interface AddAccountPersonalFormProps {
   user?: User
-  userId: number
 }
 
 type Inputs = z.infer<typeof userSchema>
 
-export function AddAccountPersonalForm({
-  user,
-  userId,
-}: AddAccountPersonalFormProps) {
+export function AddAccountPersonalForm({ user }: AddAccountPersonalFormProps) {
   const [isPending, startTransition] = React.useTransition()
   const router = useRouter()
   const form = useForm<Inputs>({
@@ -72,11 +72,10 @@ export function AddAccountPersonalForm({
       complemento: user?.complemento ?? "",
       cpf: user?.cpf ?? "",
       endereco: user?.endereco ?? "",
-      id_user: userId,
       telefone: user?.telefone ?? "",
       bairro: user?.bairro ?? "",
       cidade: user?.cidade ?? "",
-      numero: user?.numero ?? "",
+      numero: Number(user?.numero) ?? null,
       uf: user?.uf ?? "",
     },
   })
@@ -89,10 +88,15 @@ export function AddAccountPersonalForm({
   function onSubmit(data: Inputs) {
     startTransition(async () => {
       try {
-        const res = await createUserAction(data)
-
-        toast.success(res.mensagem)
-        router.push("/dashboard/products")
+        if (user) {
+          const res = await updateUserAction(data)
+          toast.success(res.mensagem)
+          router.push("/dashboard/account/personal")
+        } else {
+          const res = await createUserAction(data)
+          toast.success(res.mensagem)
+          router.push("/dashboard/account/personal")
+        }
       } catch (err) {
         catchError(err)
       }
@@ -148,7 +152,11 @@ export function AddAccountPersonalForm({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>CPF</FormLabel>
-                    <Input {...field} placeholder="999.999.999-99" />
+                    <Input
+                      {...field}
+                      placeholder="999.999.999-99"
+                      disabled={user?.cpf ? true : false}
+                    />
                     <FormMessage />
                   </FormItem>
                 )}
@@ -221,7 +229,7 @@ export function AddAccountPersonalForm({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Número</FormLabel>
-                    <Input {...field} placeholder="" />
+                    <Input {...field} type="number" placeholder="" />
                     <FormMessage />
                   </FormItem>
                 )}

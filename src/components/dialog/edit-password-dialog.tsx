@@ -40,6 +40,7 @@ export function EditPasswordDialog({
 }: {
   children: React.ReactNode
 }) {
+  const [isOpen, setIsOpen] = React.useState(false)
   const [isPending, startTransition] = React.useTransition()
   // react-hook-form
   const form = useForm<Inputs>({

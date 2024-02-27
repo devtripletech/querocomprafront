@@ -7,7 +7,7 @@ export function MonthRevenueCard() {
     <Card>
       <CardHeader className="flex-row space-y-0 items-center justify-between pb-2">
         <CardTitle className="text-base font-semibold">
-          Produtos total (mês)
+          Cadastro produto (mês)
         </CardTitle>
         {/* <DollarSign className="h-4 w-4 text-muted-foreground" /> */}
 

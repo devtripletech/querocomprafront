@@ -28,7 +28,7 @@ export const listProductsAction = async (): Promise<Product[]> => {
           Authorization: `Bearer ${token}`,
         },
       })
-      if (res.status === 401) redirect("/signin")
+      if (res.status === 401) throw new Error("Não autorizado")
 
       const items = await res.json()
 
@@ -79,7 +79,7 @@ export const listProductsWithParamsAction = async (
           Authorization: `Bearer ${token}`,
         },
       })
-      if (res.status === 401) redirect("/signin")
+      if (res.status === 401) throw new Error("Não autorizado")
 
       const items = await res.json()
 
@@ -111,7 +111,7 @@ export const listProductsByUserIdAction = async (
         },
       })
 
-      if (res.status === 401) redirect("/signin")
+      if (res.status === 401) throw new Error("Não autorizado")
 
       const items = await res.json()
 
@@ -142,7 +142,7 @@ export const getProductByIdAction = async (
           Authorization: `Bearer ${token}`,
         },
       })
-      if (res.status === 401 || res.status === 400) redirect("/signin")
+      if (res.status === 401) throw new Error("Não autorizado")
 
       const item = await res.json()
 
@@ -173,14 +173,12 @@ export async function addProductAction(input: z.infer<typeof productSchema>) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Accept: "*/*",
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           id_categoria: input.id_categoria,
           negociado: input.negociado,
           nome: input.nome,
-          id_usuario: input.id_usuario,
           valor: input.valor,
           descricao: input.descricao,
           img_01: input.img_01,
@@ -188,9 +186,10 @@ export async function addProductAction(input: z.infer<typeof productSchema>) {
           img_03: input.img_03,
         }),
       })
-      const data = await response.json()
-
+      console.log(response)
       if (response.status === 401) redirect("/signin")
+
+      const data = await response.json()
 
       revalidatePath("/dashboard/products")
       revalidatePath(`/`)
@@ -231,7 +230,6 @@ export async function updateProductAction(
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        id_usuario: input.id_usuario,
         id_categoria: "",
         negociado: "",
         valor: input.valor,
@@ -241,7 +239,7 @@ export async function updateProductAction(
         file3: "",
       }),
     })
-    if (res.status === 401 || res.status === 400) redirect("/signin")
+    if (res.status === 401) throw new Error("Não autorizado")
 
     revalidatePath(`/dashboard/products/${input.id_produto}`)
   })

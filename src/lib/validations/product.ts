@@ -30,12 +30,10 @@ export const productSchema = z.object({
   img_03: z.string().optional(),
   ativo: z.number().optional(),
   data_cadastrou: z.string().optional(),
-  id_usuario: z.number().optional(),
   negociado: z.number().optional(),
   valor: z.coerce.number(),
   id_tipo: z.number().optional(),
   descricao: z.string().optional(),
-  id_user: z.string().optional(),
   images: z
     .unknown()
     .refine((val) => {

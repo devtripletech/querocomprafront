@@ -5,7 +5,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { SidebarNav } from "@/components/layouts/sidebar-nav"
 import { SiteFooter } from "@/components/layouts/site-footer"
 import { SiteHeader } from "@/components/layouts/site-header"
-import { currentUser, getUserAction } from "@/app/_actions/user"
+import { currentUser } from "@/app/_actions/user"
 import { UserPayload } from "@/lib/validations/auth"
 
 export default async function DashboardLayout({
@@ -16,8 +16,6 @@ export default async function DashboardLayout({
   if (!user) {
     redirect("/signin")
   }
-
-  const userData = await getUserAction(user.id_user)
 
   return (
     <div className="flex min-h-screen flex-col">

@@ -14,7 +14,7 @@ export const userSchema = z.object({
     message: "O telefone é obrigatório",
   }),
   celular: z.string().min(1, {
-    message: "O telefone é obrigatório",
+    message: "O celular é obrigatório",
   }),
   endereco: z.string().min(1, {
     message: "O endereço é obrigatório",
@@ -26,19 +26,17 @@ export const userSchema = z.object({
   cpf: z.string().min(1, {
     message: "O cpf é obrigatório",
   }),
-  id_user: z.number(),
-
   uf: z.string().min(1, {
-    message: "O cpf é obrigatório",
+    message: "O uf é obrigatório",
   }),
   cidade: z.string().min(1, {
-    message: "O cpf é obrigatório",
+    message: "A cidade é obrigatório",
   }),
   bairro: z.string().min(1, {
-    message: "O cpf é obrigatório",
+    message: "O bairro é obrigatório",
   }),
-  numero: z.string().min(1, {
-    message: "O cpf é obrigatório",
+  numero: z.coerce.number().min(1, {
+    message: "O numero é obrigatório",
   }),
 })
 
@@ -81,13 +79,13 @@ export const getUserSchema = z.object({
       message: "O cpf é obrigatório",
     }),
     cidade: z.string().min(1, {
-      message: "O cpf é obrigatório",
+      message: "A cidade é obrigatório",
     }),
     bairro: z.string().min(1, {
-      message: "O cpf é obrigatório",
+      message: "O bairro é obrigatório",
     }),
-    numero: z.string().min(1, {
-      message: "O cpf é obrigatório",
+    numero: z.coerce.number().min(1, {
+      message: "O numero é obrigatório",
     }),
   }),
 })

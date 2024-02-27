@@ -1,6 +1,5 @@
 "use client"
 
-import * as React from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -21,13 +20,12 @@ import {
 import { Input } from "@/components/ui/input"
 import { Icons } from "@/components/icons"
 import { PasswordInput } from "@/components/password-input"
-import { useCallback, useEffect, useState } from "react"
-import { SignInResponse, signIn, useSession } from "next-auth/react"
-import { Toaster, toast } from "sonner"
+import { useState } from "react"
+import { signIn } from "next-auth/react"
+import { toast } from "sonner"
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -35,23 +33,15 @@ import {
 import Link from "next/link"
 import { useMounted } from "@/hooks/use-mounted"
 import { Skeleton } from "../ui/skeleton"
-import { OAuthSignIn } from "../auth/oauth-signin"
 
 type Inputs = z.infer<typeof authSchema>
 
 export function AuthForm() {
   // const session = useSession()
   const router = useRouter()
-  const searchParams = useSearchParams()
   const mounted = useMounted()
-  const callbackUrl = searchParams && searchParams.get("callbackUrl")
-  const [isLoading, setIsLoading] = useState(false)
 
-  // useEffect(() => {
-  //   if (session?.status === "authenticated") {
-  //     router.push("/dashboard/attendance")
-  //   }
-  // }, [session?.status, router])
+  const [isLoading, setIsLoading] = useState(false)
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true)
@@ -64,7 +54,7 @@ export function AuthForm() {
         if (callback?.error) {
           toast.error("usuário ou senha inválido")
         } else {
-          router.push(decodeURIComponent(callbackUrl ?? "/dashboard/account"))
+          router.push("/dashboard/account")
         }
       })
       .finally(() => setIsLoading(false))
@@ -84,20 +74,8 @@ export function AuthForm() {
       <Card>
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl">Entrar</CardTitle>
-          {/* <CardDescription>Choose your preferred sign in method</CardDescription> */}
         </CardHeader>
         <CardContent className="grid gap-4">
-          {/* <OAuthSignIn /> */}
-          {/* <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t" />
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-background px-2 text-muted-foreground">
-                Or continue with
-              </span>
-            </div>
-          </div> */}
           <Form {...form}>
             <form
               className="grid gap-4"

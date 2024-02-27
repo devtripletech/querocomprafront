@@ -96,7 +96,7 @@ export function UpdateProductForm({
         //   images: images,
         // })
 
-        toast.success("Product updated successfully.")
+        toast.error("Não implementado.")
         setFiles(null)
       } catch (err) {
         catchError(err)

@@ -16,7 +16,7 @@ import { Icons } from "@/components/icons"
 import { Shell } from "@/components/shells/shell"
 import { ProductCardSkeleton } from "@/components/skeletons/product-card-skeleton"
 import { Image } from "@/types"
-import { currentUser, getUserAction } from "../_actions/user"
+import { currentUser } from "../_actions/user"
 import { UserPayload } from "@/lib/validations/auth"
 import { redirect } from "next/navigation"
 import {
@@ -26,14 +26,9 @@ import {
 
 export default async function IndexPage() {
   // See the unstable_cache API docs: https://nextjs.org/docs/app/api-reference/functions/unstable_cache
-  let userData
   const user = (await currentUser()) as unknown as UserPayload
 
-  if (user) {
-    userData = await getUserAction(user.id_user)
-  }
-
-  if (user && !userData?.uservalido) {
+  if (user && user?.uservalido === 0) {
     redirect("/dashboard/account/personal")
   }
 
