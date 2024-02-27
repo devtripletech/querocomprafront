@@ -34,18 +34,18 @@ export default async function IndexPage() {
 
   const limit = 8
   const offset = 0
-  const someProducts = await cache(
-    async () => {
-      const allProducts = await listProductsWithParamsAction({ limit, offset })
+  const allProducts = await listProductsWithParamsAction({ limit, offset })
+  // const someProducts = await cache(
+  //   async () => {
 
-      return allProducts.produtos
-    },
-    ["lobby-products"],
-    {
-      revalidate: 3600,
-      tags: ["lobby-products"],
-    }
-  )()
+  //     return allProducts.produtos
+  //   },
+  //   ["lobby-products"],
+  //   {
+  //     revalidate: 3600,
+  //     tags: ["lobby-products"],
+  //   }
+  // )()
 
   return (
     <Shell className="max-w-6xl pt-0 md:pt-0">
@@ -82,7 +82,7 @@ export default async function IndexPage() {
                 <ProductCardSkeleton key={i} />
               ))}
             >
-              {someProducts.map((product: any) => (
+              {allProducts.produtos.map((product: any) => (
                 <ProductCard key={product.id_produto} product={product} />
               ))}
             </React.Suspense>
