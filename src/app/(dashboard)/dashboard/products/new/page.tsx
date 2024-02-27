@@ -39,8 +39,9 @@ export default async function NewProductPage({ params }: NewProductPageProps) {
   if (!user) {
     redirect("/signin")
   }
+  const userData = await getUserAction(user?.id_user)
 
-  if (user && user.uservalido === 0) {
+  if (!userData.uservalido) {
     redirect("/dashboard/account/personal")
   }
   const categories = await listCategoriesAction()
