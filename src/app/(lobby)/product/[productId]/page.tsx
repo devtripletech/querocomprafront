@@ -37,7 +37,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   const user = (await currentUser()) as unknown as UserPayload
 
-  if (user && user.uservalido === 0) {
+  const userData = await getUserAction(user?.id_user)
+
+  if (!userData.uservalido) {
     redirect("/dashboard/account/personal")
   }
 
