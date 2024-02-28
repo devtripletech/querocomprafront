@@ -29,10 +29,10 @@ export default async function IndexPage() {
   const user = (await currentUser()) as unknown as UserPayload
 
   const userData = await getUserAction(user?.id_user)
-
-  if (!userData.uservalido) {
-    redirect("/dashboard/account/personal")
-  }
+  console.log(userData)
+  // if (!userData.uservalido) {
+  //   redirect("/dashboard/account/personal")
+  // }
 
   const limit = 8
   const offset = 0

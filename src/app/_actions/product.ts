@@ -186,8 +186,8 @@ export async function addProductAction(input: z.infer<typeof productSchema>) {
           img_03: input.img_03,
         }),
       })
-      console.log(response)
-      if (response.status === 401) redirect("/signin")
+
+      if (response.status === 401) throw new Error("Não autorizado")
 
       const data = await response.json()
 
