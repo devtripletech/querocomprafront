@@ -39,7 +39,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   const userData = await getUserAction(user?.id_user)
 
-  if (!userData.uservalido) {
+  if (user && !userData.uservalido) {
     redirect("/dashboard/account/personal")
   }
 

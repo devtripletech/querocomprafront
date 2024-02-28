@@ -31,7 +31,6 @@ export const authOptions: NextAuthOptions = {
         })
         const data = await res.json()
 
-        console.log(data)
         const user = {
           id: data?.id_user,
           id_user: data?.id_user,

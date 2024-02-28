@@ -37,7 +37,7 @@ export default async function ProductsPage({
 
   const userData = await getUserAction(user?.id_user)
 
-  if (!userData.uservalido) {
+  if (user && !userData.uservalido) {
     redirect("/dashboard/account/personal")
   }
   const { page, per_page, sort, categories } =
