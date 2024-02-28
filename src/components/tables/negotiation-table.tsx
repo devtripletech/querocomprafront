@@ -27,7 +27,6 @@ export function NegotiationTable({ items }: NegotiationTableProps) {
           <TableHead className="w-[340px]">Produto</TableHead>
           <TableHead className="w-[180px]">Realizado há</TableHead>
           <TableHead className="w-[140px]">Status</TableHead>
-          <TableHead>Interessado</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>

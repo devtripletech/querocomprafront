@@ -47,7 +47,6 @@ export function NegotiationTableRow({ data }: NegotiationTableRowProps) {
           <p className="text-xs leading-5 text-gray-500">Em negociação</p>
         </div>
       </TableCell>
-      <TableCell className="font-medium">{data.usuario_part}</TableCell>
     </TableRow>
   )
 }
