@@ -12,10 +12,9 @@ export function CreateNegotiationButton({ productId }: { productId: string }) {
     startTransition(async () => {
       try {
         await createNegotiationAction({ productId })
-        router.push("/dashboard/negotiation/my")
+        router.push("/dashboard/negotiation")
       } catch (e: any) {
         toast.error(e.message)
-        //router.push("/signin")
       }
     })
   }

@@ -44,7 +44,9 @@ export function SedMessageForm({ userId, negotiationId }: SedMessageFormProps) {
     startTransition(async () => {
       try {
         const res = await sendMessageNegotiationAction(data)
+
         toast.success(res.mensagem)
+        form.reset()
       } catch (err) {
         catchError(err)
       }

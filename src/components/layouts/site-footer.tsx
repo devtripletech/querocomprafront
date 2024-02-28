@@ -22,7 +22,7 @@ export function SiteFooter() {
           className="flex items-center space-x-4"
         >
           <div className="flex-1 text-left text-sm leading-loose text-muted-foreground">
-            Desenvolvido por{" "}
+            {/* Desenvolvido por{" "}
             <a
               aria-label="Tripletech it solution"
               href="https://tripletech.com.br/"
@@ -32,7 +32,7 @@ export function SiteFooter() {
             >
               Tripletech
             </a>
-            .
+            . */}
           </div>
           <div className="flex items-center space-x-1">
             <ThemeToggle />

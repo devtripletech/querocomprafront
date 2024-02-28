@@ -80,7 +80,7 @@ export default async function NegotiationPage({
       >
         <div className="flex  gap-4">
           <SendMessageCard
-            messages={messages}
+            messages={messages ?? []}
             userId={user.id_user.toString()}
             negotiationId={negotiationId}
           />

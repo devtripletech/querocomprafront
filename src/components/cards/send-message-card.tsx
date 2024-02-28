@@ -36,6 +36,7 @@ import { Avatar, AvatarFallback } from "../ui/avatar"
 import { Button } from "../ui/button"
 import { SedMessageForm } from "../forms/send-message-form"
 import { Message } from "@/lib/validations/negotiation"
+import { ScrollArea } from "@/components/ui/scroll-area"
 
 interface SendMessageCardProps {
   messages: Message[]
@@ -52,27 +53,29 @@ export function SendMessageCard({
       <CardHeader className="space-y-1">
         <CardTitle>Chat</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-3">
-        {messages &&
-          messages.map((message) => (
-            <div
-              key={message.id}
-              className="flex gap-2 text-muted-foreground text-sm"
-            >
-              <Avatar>
-                <AvatarFallback>
-                  {getInitialLetters(message.userName)}
-                </AvatarFallback>
-              </Avatar>
-              <p className="leading-relaxed">
-                <span className="block font-bold text-muted-foreground">
-                  {message.userName}:
-                </span>
-                {message.content}
-              </p>
-            </div>
-          ))}
-      </CardContent>
+      <ScrollArea className="pb-6 pr-6 lg:pb-8  h-72">
+        <CardContent className="space-y-3">
+          {messages &&
+            messages.map((message) => (
+              <div
+                key={message.id}
+                className="flex gap-2 text-muted-foreground text-sm"
+              >
+                <Avatar>
+                  <AvatarFallback>
+                    {getInitialLetters(message.userName)}
+                  </AvatarFallback>
+                </Avatar>
+                <p className="leading-relaxed">
+                  <span className="block font-bold text-muted-foreground">
+                    {message.userName}:
+                  </span>
+                  {message.content}
+                </p>
+              </div>
+            ))}
+        </CardContent>
+      </ScrollArea>
       <CardFooter className="gap-2 flex items-center">
         <SedMessageForm userId={userId} negotiationId={negotiationId} />
       </CardFooter>

@@ -83,7 +83,6 @@ export const createUserAction = async (input: z.infer<typeof userSchema>) => {
     if (res.status === 401) throw new Error("Não autorizado")
 
     const data = await res.json()
-    console.log(data)
 
     if (data?.error) throw new Error(data?.error)
 
