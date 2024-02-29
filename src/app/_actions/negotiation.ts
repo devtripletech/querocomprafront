@@ -78,11 +78,12 @@ export const getMessagesNegotiationAction = async (
           Authorization: `Bearer ${token}`,
         },
       })
+      console.log(res)
 
       if (res.status === 401) throw new Error("Não autorizado")
 
-      if (res.status === 204) throw new Error("Negociação não encontrada")
       const messages = await res.json()
+      console.log(messages)
 
       return messages
     } catch (err) {

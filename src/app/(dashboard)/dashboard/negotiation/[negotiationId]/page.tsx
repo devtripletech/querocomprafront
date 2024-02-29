@@ -62,6 +62,10 @@ export default async function NegotiationPage({
   }
 
   const messages = await getMessagesNegotiationAction(negotiationId)
+  console.log(messages.length)
+  if (messages.length <= 0) {
+    notFound()
+  }
 
   return (
     <Shell variant="sidebar">
@@ -80,7 +84,7 @@ export default async function NegotiationPage({
       >
         <div className="flex  gap-4">
           <SendMessageCard
-            messages={messages ?? []}
+            messages={messages}
             userId={user.id_user.toString()}
             negotiationId={negotiationId}
           />
