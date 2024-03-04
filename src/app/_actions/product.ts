@@ -213,37 +213,50 @@ const extendedProductSchemaWithId = extendedProductSchema.extend({
 })
 
 export async function updateProductAction(
-  input: z.infer<typeof extendedProductSchema>
+  input: z.infer<typeof productSchema>
 ) {
   return getTokenAction().then(async (token) => {
-    if (!input.id_produto) {
-      notFound()
+    // if (!input.id_produto) {
+    //   notFound()
+    // }
+    try {
+      const response = await fetch(`${env.API_URL}/produto`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          id_produto: input.id_produto,
+          id_categoria: input.id_categoria,
+          negociado: input.negociado,
+          nome: input.nome,
+          valor: input.valor,
+          descricao: input.descricao,
+          link_ref: input.link_ref,
+          img_01: input.img_01,
+          img_02: input.img_02,
+          img_03: input.img_03,
+          qtde: input.qtde,
+        }),
+      })
+
+      if (response.status === 401) throw new Error("Não autorizado")
+
+      const data = await response.json()
+
+      revalidatePath("/dashboard/products")
+      revalidatePath(`/`)
+
+      return data
+    } catch (err) {
+      console.error(err)
+      throw err instanceof Error
+        ? err.message
+        : err instanceof z.ZodError
+        ? err.issues.map((issue) => issue.message).join("\n")
+        : new Error("Unknown error.")
     }
-    const product = await getProductByIdAction(input.id_produto)
-
-    if (!product) {
-      throw new Error("Produto não encontrado.")
-    }
-
-    const res = await fetch(`${env.API_URL}/produto/${input.id_produto}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        id_categoria: "",
-        negociado: "",
-        valor: input.valor,
-        nome: input.valor,
-        file: "",
-        file2: "",
-        file3: "",
-      }),
-    })
-    if (res.status === 401) throw new Error("Não autorizado")
-
-    revalidatePath(`/dashboard/products/${input.id_produto}`)
   })
 }
 

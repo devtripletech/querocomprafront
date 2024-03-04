@@ -47,21 +47,19 @@ interface UpdateProductFormProps {
 
 type Inputs = z.infer<typeof productSchema>
 
-const { useUploadThing } = generateReactHelpers<OurFileRouter>()
-
 export function UpdateProductForm({
   product,
   categories,
 }: UpdateProductFormProps) {
   const router = useRouter()
   const [files, setFiles] = React.useState<FileWithPreview[] | null>(null)
+  const [isUploading, setUploading] = React.useState(false)
   const [isPending, startTransition] = React.useTransition()
-
-  const { isUploading, startUpload } = useUploadThing("productImage")
 
   const form = useForm<Inputs>({
     resolver: zodResolver(productSchema),
     defaultValues: {
+      id_produto: product.id_produto,
       nome: product.nome ?? "",
       id_categoria: product.id_categoria ?? "",
       descricao: product.descricao ?? "",
@@ -75,33 +73,70 @@ export function UpdateProductForm({
   function onSubmit(data: Inputs) {
     startTransition(async () => {
       try {
-        // await checkProductAction({
-        //   name: data.name,
-        //   id: product.id,
-        // })
+        if (isArrayOfFile(data.images)) {
+          setUploading(true)
 
-        const images = isArrayOfFile(data.images)
-          ? await startUpload(data.images).then((res) => {
-              const formattedImages = res?.map((image) => ({
-                id: image.key,
-                name: image.key.split("_")[1] ?? image.key,
-                url: image.url,
-              }))
-              return formattedImages ?? null
+          for (let i = 1; i <= data.images.length; i++) {
+            const image = data.images[i - 1]
+
+            const body = new FormData()
+            body.append("file", image)
+            const res = await fetch(`/api/upload`, {
+              method: "POST",
+              body,
             })
-          : null
+            const resultUploaded = await res.json()
+            if (resultUploaded.error) {
+              toast.error(resultUploaded.error)
+              return
+            }
+            eval(`data.img_0${i} = '${resultUploaded.image.url}'`)
+          }
 
-        // await updateProductAction({
-        //   ...data,
-        //   storeId: product.storeId,
-        //   id: product.id,
-        //   images: images,
-        // })
+          const {
+            id_produto,
+            nome,
+            valor,
+            descricao,
+            negociado,
+            id_categoria,
+            img_01,
+            img_02,
+            img_03,
+            link_ref,
+            qtde,
+          } = data
+          const resultProduct = await updateProductAction({
+            id_produto,
+            nome,
+            valor,
+            descricao,
+            negociado,
+            id_categoria,
+            img_01,
+            img_02,
+            img_03,
+            link_ref,
+            qtde,
+          })
+          if (resultProduct?.error) {
+            toast.error(resultProduct.error)
+            return
+          }
 
-        toast.error("Não implementado.")
-        setFiles(null)
-      } catch (err) {
-        catchError(err)
+          toast.success("Produto atualizado com sucesso.")
+          setUploading(false)
+          router.push("/dashboard/products")
+        } else {
+          await updateProductAction({
+            ...data,
+            images: null,
+          })
+          toast.success("Produto adicionado com sucesso.")
+          router.push("/dashboard/products")
+        }
+      } catch (e) {
+        console.log(e)
       }
     })
   }
