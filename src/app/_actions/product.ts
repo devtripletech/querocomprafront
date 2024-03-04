@@ -181,9 +181,11 @@ export async function addProductAction(input: z.infer<typeof productSchema>) {
           nome: input.nome,
           valor: input.valor,
           descricao: input.descricao,
+          link_ref: input.link_ref,
           img_01: input.img_01,
           img_02: input.img_02,
           img_03: input.img_03,
+          qtde: input.qtde,
         }),
       })
 

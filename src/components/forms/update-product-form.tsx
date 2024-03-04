@@ -66,6 +66,8 @@ export function UpdateProductForm({
       id_categoria: product.id_categoria ?? "",
       descricao: product.descricao ?? "",
       valor: product.valor ?? "",
+      qtde: product.qtde ?? "",
+      link_ref: product.link_ref ?? "",
       images: [],
     },
   })
@@ -173,7 +175,23 @@ export function UpdateProductForm({
             message={form.formState.errors.descricao?.message}
           />
         </FormItem>
-
+        <FormField
+          control={form.control}
+          name="link_ref"
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormLabel>Link de referência</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="Adicione um link de referência do produto aqui."
+                  value={field.value}
+                  onChange={field.onChange}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <div className="flex flex-col items-start gap-6 sm:flex-row">
           <FormItem className="w-full">
             <FormLabel>Valor</FormLabel>
@@ -189,6 +207,24 @@ export function UpdateProductForm({
               message={form.formState.errors.valor?.message}
             />
           </FormItem>
+          <FormField
+            control={form.control}
+            name="qtde"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>Quantidade</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Adicione o quantidade do produto aqui."
+                    value={field.value}
+                    onChange={field.onChange}
+                    type="number"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
         <FormItem className="flex w-full flex-col gap-1.5">
           <FormLabel>Images</FormLabel>

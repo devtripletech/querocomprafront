@@ -21,17 +21,26 @@ export const createProductSchema = z.object({
 
 export const productSchema = z.object({
   id_produto: z.string().optional(),
-  id_categoria: z.string().optional(),
+  id_categoria: z
+    .string({
+      required_error: "A categoria é obrigatória",
+      invalid_type_error: "Categoria obrigatória",
+    })
+    .min(1, {
+      message: "A categoria é obrigatório",
+    }),
   nome: z.string().min(1, {
     message: "O nome é obrigatório",
   }),
+  link_ref: z.string().max(700).url().optional(),
   img_01: z.string().optional(),
   img_02: z.string().optional(),
   img_03: z.string().optional(),
   ativo: z.number().optional(),
   data_cadastrou: z.string().optional(),
   negociado: z.number().optional(),
-  valor: z.coerce.number(),
+  valor: z.coerce.number().gte(1, { message: "O valor é obrigatório" }),
+  qtde: z.coerce.number().gte(1, { message: "A Qtd deve ser maior que 1" }),
   id_tipo: z.number().optional(),
   descricao: z.string().optional(),
   images: z

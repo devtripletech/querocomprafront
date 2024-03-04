@@ -114,12 +114,26 @@ export default async function ProductPage({ params }: ProductPageProps) {
             <Separator className="mt-5" />
             <div>
               <p className="text-muted-foreground text-xs pb-1">Preço</p>
-              <p className=" text-3xl text-foreground/90 font-semibold">
+              <p className="text-3xl text-foreground/90 font-semibold">
                 {formatPrice(product.valor)}
+              </p>
+              <p className="pt-4 text-muted-foreground">
+                {`Em estoque: ${product.qtde}`}
               </p>
             </div>
 
             <CreateNegotiationButton productId={productId} />
+            <div>
+              {product.link_ref && (
+                <Link
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  href={product.link_ref}
+                >
+                  Link de referência
+                </Link>
+              )}
+            </div>
           </div>
           {/* <Separator className="my-1.5" /> */}
           {/* <AddToCartForm productId={productId} /> */}

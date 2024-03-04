@@ -57,7 +57,6 @@ export function AddProductForm({ categories }: AddProductFormProps) {
     resolver: zodResolver(productSchema),
     defaultValues: {
       nome: "",
-      id_categoria: "0",
       negociado: 0,
       descricao: "",
       valor: 0,
@@ -65,6 +64,8 @@ export function AddProductForm({ categories }: AddProductFormProps) {
       img_01: "",
       img_02: "",
       img_03: "",
+      link_ref: "",
+      qtde: 0,
     },
   })
 
@@ -100,6 +101,8 @@ export function AddProductForm({ categories }: AddProductFormProps) {
             img_01,
             img_02,
             img_03,
+            link_ref,
+            qtde,
           } = data
           const resultProduct = await addProductAction({
             nome,
@@ -110,6 +113,8 @@ export function AddProductForm({ categories }: AddProductFormProps) {
             img_01,
             img_02,
             img_03,
+            link_ref,
+            qtde,
           })
           if (resultProduct.error) {
             toast.error(resultProduct.error)
@@ -167,7 +172,9 @@ export function AddProductForm({ categories }: AddProductFormProps) {
                 >
                   <FormControl>
                     <SelectTrigger className="capitalize">
-                      <SelectValue placeholder={field.value} />
+                      <SelectValue
+                        placeholder={field.value ?? "Sem categoria"}
+                      />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -205,6 +212,23 @@ export function AddProductForm({ categories }: AddProductFormProps) {
             </FormItem>
           )}
         />
+        <FormField
+          control={form.control}
+          name="link_ref"
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormLabel>Link de referência</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="Adicione um link de referência do produto aqui."
+                  value={field.value}
+                  onChange={field.onChange}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         <div className="flex flex-col items-start gap-6 sm:flex-row">
           <FormField
@@ -218,6 +242,25 @@ export function AddProductForm({ categories }: AddProductFormProps) {
                     placeholder="Adicione o valor do produto aqui."
                     value={field.value}
                     onChange={field.onChange}
+                    type="number"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="qtde"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>Quantidade</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Adicione o quantidade do produto aqui."
+                    value={field.value}
+                    onChange={field.onChange}
+                    type="number"
                   />
                 </FormControl>
                 <FormMessage />

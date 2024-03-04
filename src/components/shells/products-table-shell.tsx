@@ -42,13 +42,21 @@ export function ProductsTableShell<TData, TValue>({
       {
         accessorKey: "nome",
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title="Nome" />
+          <DataTableColumnHeader
+            className="w-[180px]"
+            column={column}
+            title="Nome"
+          />
         ),
       },
       {
         accessorKey: "id_categoria",
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title="Categoria" />
+          <DataTableColumnHeader
+            className="w-[64px]"
+            column={column}
+            title="Categoria"
+          />
         ),
         cell: ({ cell }) => {
           return cell.getValue() === "0"
@@ -61,9 +69,24 @@ export function ProductsTableShell<TData, TValue>({
       {
         accessorKey: "valor",
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title="Valor" />
+          <DataTableColumnHeader
+            className="w-[64px]"
+            column={column}
+            title="Valor"
+          />
         ),
         cell: ({ cell }) => formatPrice(cell.getValue() as number),
+      },
+      {
+        accessorKey: "qtde",
+        header: ({ column }) => (
+          <DataTableColumnHeader
+            className="w-[64px]"
+            column={column}
+            title="quant."
+          />
+        ),
+        cell: ({ cell }) => cell.getValue(),
       },
 
       {
