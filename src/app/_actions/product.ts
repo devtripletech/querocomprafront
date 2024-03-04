@@ -216,9 +216,6 @@ export async function updateProductAction(
   input: z.infer<typeof productSchema>
 ) {
   return getTokenAction().then(async (token) => {
-    // if (!input.id_produto) {
-    //   notFound()
-    // }
     try {
       const response = await fetch(`${env.API_URL}/produto`, {
         method: "PUT",
