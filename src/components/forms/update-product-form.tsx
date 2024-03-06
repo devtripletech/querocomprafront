@@ -132,7 +132,7 @@ export function UpdateProductForm({
             ...data,
             images: null,
           })
-          toast.success("Produto adicionado com sucesso.")
+          toast.success("Produto atualizado com sucesso.")
           router.push("/dashboard/products")
         }
       } catch (e) {
@@ -305,7 +305,7 @@ export function UpdateProductForm({
             Atualizar produto
             <span className="sr-only">Atualizar produto</span>
           </Button>
-          <Button
+          {/* <Button
             variant="destructive"
             onClick={() => {
               startTransition(async () => {
@@ -327,7 +327,7 @@ export function UpdateProductForm({
             )}
             Excluir produto
             <span className="sr-only">Excluir produto</span>
-          </Button>
+          </Button> */}
         </div>
       </form>
     </Form>
