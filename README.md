@@ -25,7 +25,7 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 O **resumo** dos recursos está listado abaixo.
 
 - [x] deve ser capaz de registrar um novo produto
-- [ ] deve ser capaz de atualizar o produto
+- [x] deve ser capaz de atualizar o produto
 
 - [x] deve ser capaz de registrar um novo usuário
 - [x] deve ser capaz de atualizar a senha
@@ -42,4 +42,5 @@ O **resumo** dos recursos está listado abaixo.
 
 _Todo:_
 
-- [] verificar nome de usuário existente em duas tabelas
+- [ ] verificar nome de usuário existente em duas tabelas
+- [ ] não permitir atualizar o produto se houver negociação em andamento

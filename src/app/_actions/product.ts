@@ -28,6 +28,7 @@ export const listProductsAction = async (): Promise<Product[]> => {
           Authorization: `Bearer ${token}`,
         },
       })
+
       if (res.status === 401) throw new Error("Não autorizado")
 
       const items = await res.json()

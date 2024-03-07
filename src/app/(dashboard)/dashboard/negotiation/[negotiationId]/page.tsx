@@ -62,7 +62,7 @@ export default async function NegotiationPage({
   }
 
   const messages = await getMessagesNegotiationAction(negotiationId)
-  console.log(messages.length)
+
   if (messages.length <= 0) {
     notFound()
   }
