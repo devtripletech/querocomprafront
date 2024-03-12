@@ -78,7 +78,7 @@ export default async function UpdateProductPage({
           <Card className="w-full max-w-2xl">
             <CardHeader className="space-y-1"></CardHeader>
             <CardContent>
-              <UpdateProductForm product={product} categories={categories} />
+              {/* <UpdateCategorytForm product={product} categories={categories}  /> */}
             </CardContent>
           </Card>
         </div>
