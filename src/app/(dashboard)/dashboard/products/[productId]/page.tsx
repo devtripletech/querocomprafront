@@ -20,6 +20,9 @@ import {
 } from "@/components/page-header"
 import { listCategoriesAction } from "@/app/_actions/categories"
 import { currentUser, getUserAction } from "@/app/_actions/user"
+import { isNegotiatingAction } from "@/app/_actions/negotiation"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { AlertTriangle } from "lucide-react"
 
 export const metadata: Metadata = {
   metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),
@@ -56,6 +59,8 @@ export default async function UpdateProductPage({
     notFound()
   }
 
+  const isNegotiating = await isNegotiatingAction(productId)
+
   const categories = await listCategoriesAction()
 
   return (
@@ -70,6 +75,17 @@ export default async function UpdateProductPage({
           Atualize as informações do seu produto ou exclua-as
         </PageHeaderDescription>
       </PageHeader>
+      {isNegotiating && (
+        <Alert variant="destructive" className="w-full max-w-2xl">
+          <AlertTriangle className="h-4 w-4" aria-hidden="true" />
+          <AlertTitle>Atenção!</AlertTitle>
+          <AlertDescription>
+            O produto está em negociação e não pode ser atualizado no momento.
+            Aguarde a conclusão da negociação.
+          </AlertDescription>
+        </Alert>
+      )}
+
       <section
         id="user-account-info"
         aria-labelledby="user-account-info-heading"
@@ -79,7 +95,11 @@ export default async function UpdateProductPage({
           <Card className="w-full max-w-2xl">
             <CardHeader className="space-y-1"></CardHeader>
             <CardContent>
-              <UpdateProductForm product={product} categories={categories} />
+              <UpdateProductForm
+                isNegotiating={isNegotiating}
+                product={product}
+                categories={categories}
+              />
             </CardContent>
           </Card>
         </div>

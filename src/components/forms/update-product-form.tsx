@@ -43,6 +43,7 @@ import { Category } from "@/lib/validations/category"
 interface UpdateProductFormProps {
   product: Product
   categories: Category[]
+  isNegotiating: boolean
 }
 
 type Inputs = z.infer<typeof productSchema>
@@ -50,6 +51,7 @@ type Inputs = z.infer<typeof productSchema>
 export function UpdateProductForm({
   product,
   categories,
+  isNegotiating,
 }: UpdateProductFormProps) {
   const router = useRouter()
   const [files, setFiles] = React.useState<FileWithPreview[] | null>(null)
@@ -295,7 +297,7 @@ export function UpdateProductForm({
           />
         </FormItem>
         <div className="flex space-x-2">
-          <Button disabled={isPending}>
+          <Button disabled={isPending || isNegotiating}>
             {isPending && (
               <Icons.spinner
                 className="mr-2 h-4 w-4 animate-spin"

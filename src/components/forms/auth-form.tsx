@@ -39,7 +39,9 @@ type Inputs = z.infer<typeof authSchema>
 export function AuthForm() {
   // const session = useSession()
   const router = useRouter()
+  const searchParams = useSearchParams()
   const mounted = useMounted()
+  const callbackUrl = searchParams && searchParams.get("callbackUrl")
 
   const [isLoading, setIsLoading] = useState(false)
 
@@ -54,7 +56,7 @@ export function AuthForm() {
         if (callback?.error) {
           toast.error("usuário ou senha inválido")
         } else {
-          router.push("/dashboard/account")
+          router.push(callbackUrl ?? "/dashboard/account")
         }
       })
       .finally(() => setIsLoading(false))

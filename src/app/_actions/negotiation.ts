@@ -18,11 +18,12 @@ export const getNegotiationsAction = async () => {
         },
       })
 
-      if (res.status === 401) throw new Error("Não autorizado")
+      //if (res.status === 401) throw new Error("Não autorizado")
 
       const items = await res.json()
+      console.log(items)
 
-      if (items?.error) throw new Error(items?.error)
+      if (items?.error) throw new Error(items?.error.message)
 
       return items.resultado
     } catch (err) {
@@ -78,6 +79,39 @@ export const getMessagesNegotiationAction = async (
           Authorization: `Bearer ${token}`,
         },
       })
+
+      if (res.status === 401) throw new Error("Não autorizado")
+
+      const messages = await res.json()
+
+      return messages
+    } catch (err) {
+      console.error(err)
+      throw err instanceof Error
+        ? err.message
+        : err instanceof z.ZodError
+        ? err.issues.map((issue) => issue.message).join("\n")
+        : new Error("Unknown error.")
+    }
+  })
+}
+
+export const isNegotiatingAction = async (
+  productId: string
+): Promise<boolean> => {
+  return getTokenAction().then(async (token) => {
+    try {
+      noStore()
+      const res = await fetch(
+        `${env.API_URL}/negociacao/produto/${productId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
 
       if (res.status === 401) throw new Error("Não autorizado")
 

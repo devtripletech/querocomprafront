@@ -5,6 +5,7 @@ import { unstable_noStore as noStore, revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 import { z } from "zod"
 import { getTokenAction } from "./user"
+import { ErrorResponse } from "@/lib/validations/error"
 
 export const listCategoriesAction = async (): Promise<Category[]> => {
   try {
@@ -17,6 +18,7 @@ export const listCategoriesAction = async (): Promise<Category[]> => {
     })
 
     const items = await res.json()
+    if (items.error) throw new Error(items.error.message)
 
     return items.resultado
   } catch (err) {

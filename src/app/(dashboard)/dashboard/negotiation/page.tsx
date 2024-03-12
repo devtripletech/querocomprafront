@@ -63,7 +63,12 @@ export default async function NegotiationsPage() {
     redirect("/dashboard/account/personal")
   }
 
-  const negotiations = await getNegotiationsPartAction()
+  let negotiations
+  try {
+    negotiations = await getNegotiationsPartAction()
+  } catch (error) {
+    redirect("/signin")
+  }
 
   return (
     <Shell variant="sidebar">

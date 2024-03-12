@@ -3,13 +3,24 @@ import { createNegotiationAction } from "@/app/_actions/negotiation"
 import { Button } from "../ui/button"
 import React from "react"
 import { toast } from "sonner"
-import { useRouter } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 
-export function CreateNegotiationButton({ productId }: { productId: string }) {
+export function CreateNegotiationButton({
+  productId,
+  isAuthenticated,
+}: {
+  productId: string
+  isAuthenticated: boolean
+}) {
   const router = useRouter()
+  const pathname = usePathname()
+
   const [isPending, startTransition] = React.useTransition()
   async function handleNegotiation() {
     startTransition(async () => {
+      if (!isAuthenticated) {
+        return router.push(`/signin?callbackUrl=${pathname}`)
+      }
       try {
         await createNegotiationAction({ productId })
         router.push("/dashboard/negotiation")

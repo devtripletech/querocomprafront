@@ -2,6 +2,7 @@
 
 import { ErrorCard } from "@/components/cards/error-card"
 import { Shell } from "@/components/shells/shell"
+import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 
 export default function Error({
@@ -11,11 +12,15 @@ export default function Error({
   error: Error & { digest?: string }
   reset: () => void
 }) {
+  const router = useRouter()
   useEffect(() => {
     // Log the error to an error reporting service
-    console.error(error)
+    //console.error(error)
   }, [error])
-  console.error(error)
+
+  if (error.message == "Error: Não autorizado") {
+    router.push("/signin")
+  }
   return (
     <Shell variant="centered" className="max-w-md">
       <ErrorCard

@@ -23,7 +23,10 @@ import { listCategoriesAction } from "@/app/_actions/categories"
 import { currentUser, getUserAction } from "@/app/_actions/user"
 import { UserPayload } from "@/lib/validations/auth"
 import { Button } from "@/components/ui/button"
-import { createNegotiationAction } from "@/app/_actions/negotiation"
+import {
+  createNegotiationAction,
+  isNegotiatingAction,
+} from "@/app/_actions/negotiation"
 import { CreateNegotiationButton } from "@/components/buttons/create-negotiation-button"
 
 interface ProductPageProps {
@@ -36,6 +39,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const productId = params.productId
 
   const user = (await currentUser()) as unknown as UserPayload
+
+  const isAuthenticated = !!user
 
   const userData = await getUserAction(user?.id_user)
 
@@ -122,7 +127,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
               </p>
             </div>
 
-            <CreateNegotiationButton productId={productId} />
+            <CreateNegotiationButton
+              productId={productId}
+              isAuthenticated={isAuthenticated}
+            />
             <div>
               {product.link_ref && (
                 <Link
