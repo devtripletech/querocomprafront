@@ -44,3 +44,4 @@ _Todo:_
 
 - [ ] verificar nome de usuário existente em duas tabelas
 - [ ] não permitir atualizar o produto se houver negociação em andamento
+- [ ]

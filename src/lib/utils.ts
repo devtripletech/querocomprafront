@@ -43,7 +43,7 @@ export function formatNumber(
 }
 
 export function formatDate(date: Date | string | number) {
-  return new Intl.DateTimeFormat("en-US", {
+  return new Intl.DateTimeFormat("pt-BR", {
     month: "long",
     day: "numeric",
     year: "numeric",

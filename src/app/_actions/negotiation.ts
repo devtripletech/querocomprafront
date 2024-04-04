@@ -21,7 +21,6 @@ export const getNegotiationsAction = async () => {
       //if (res.status === 401) throw new Error("Não autorizado")
 
       const items = await res.json()
-      console.log(items)
 
       if (items?.error) throw new Error(items?.error.message)
 
