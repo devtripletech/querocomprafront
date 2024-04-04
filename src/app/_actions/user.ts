@@ -2,8 +2,12 @@
 
 import { env } from "@/env.mjs"
 import { authOptions } from "@/lib/auth"
-import { createUserSchema, updatePasswordSchema } from "@/lib/validations/auth"
-import { GetUser, userSchema } from "@/lib/validations/user"
+import {
+  UserPayload,
+  createUserSchema,
+  updatePasswordSchema,
+} from "@/lib/validations/auth"
+import { GetUser, User, userSchema } from "@/lib/validations/user"
 import { getServerSession } from "next-auth"
 import { unstable_noStore as noStore, revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
@@ -131,14 +135,26 @@ export const getUserAction = async (userId: number): Promise<GetUser> => {
         Authorization: `Bearer ${token}`,
       },
     })
-    // if (res.status === 401) throw new Error("Não autorizado")
-
     const data = await res.json()
+    return data
+  })
+}
 
-    // if (data?.error) throw new Error(data?.error)
+export const getUsers = async (): Promise<UserPayload[]> => {
+  return getTokenAction().then(async (token) => {
+    noStore()
+    const response = await fetch(`${env.API_URL}/users`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    if (!response.ok) {
+      throw new Error("Algo de errado")
+    }
 
-    //revalidatePath("/dashboard/client")
-
+    const data = await response.json()
     return data
   })
 }
