@@ -33,8 +33,7 @@ export default async function DashboardPage() {
         </div>
         <div className="grid grid-cols-9 gap-4">
           <NegotiationsChart />
-          {/* 
-          <PopularCategoriesChart /> */}
+          <PopularCategoriesChart />
         </div>
       </section>
     </Shell>
