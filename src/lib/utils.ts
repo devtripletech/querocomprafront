@@ -44,7 +44,7 @@ export function formatNumber(
 
 export function formatDate(date: Date | string | number) {
   return new Intl.DateTimeFormat("pt-BR", {
-    month: "long",
+    month: "numeric",
     day: "numeric",
     year: "numeric",
   }).format(new Date(date))
@@ -183,4 +183,38 @@ export const normalizeCpfNumber = (value: string | undefined) => {
 export function getInitialLetters(name: string) {
   const formattedName = name?.charAt(0)?.toLocaleUpperCase() ?? ""
   return formattedName
+}
+
+const RoleEnum = { ADMIN: 1, MEMBER: 2 }
+
+export function getRoleName(roleNumber: number) {
+  switch (roleNumber) {
+    case RoleEnum.ADMIN:
+      return "Admin"
+    case RoleEnum.MEMBER:
+      return "User"
+    default:
+      return "Unknown"
+  }
+}
+
+type FormatAddressResponse = {
+  firstLine: string
+  secondLine: string
+}
+export function formatAddress(address: any): FormatAddressResponse {
+  const { endereco, numero, complemento, bairro, cidade, uf, cep } = address
+  let firstLine = endereco
+
+  if (numero) {
+    firstLine += `, ${numero}`
+  }
+
+  if (complemento) {
+    firstLine += `, ${complemento}`
+  }
+
+  const secondLine = `${bairro}, ${cidade} - ${uf}, ${cep}`
+
+  return { firstLine, secondLine }
 }

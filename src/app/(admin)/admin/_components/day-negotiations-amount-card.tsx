@@ -4,13 +4,21 @@ import { Boxes, Loader2, MessageSquare, Users } from "lucide-react"
 import { useQuery } from "@tanstack/react-query"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { CardSkeleton } from "./card-skeleton"
-import { getDayNegotiationsAmount } from "@/lib/actions/get-day-negotiations"
+import {
+  GetDayNegotiationsResponse,
+  getDayNegotiationsAmount,
+} from "@/lib/actions/get-day-negotiations"
 
-export function DayNegotiationsAmountCard() {
-  const { data: monthUser, isFetching: isLoadingMonthUsers } = useQuery({
-    queryKey: ["metrics", "day-negotiations-amount"],
-    queryFn: () => getDayNegotiationsAmount(),
-  })
+interface DayNegotiationsAmountCardProps {
+  monthUser: GetDayNegotiationsResponse
+}
+export function DayNegotiationsAmountCard({
+  monthUser,
+}: DayNegotiationsAmountCardProps) {
+  // const { data: monthUser, isFetching: isLoadingMonthUsers } = useQuery({
+  //   queryKey: ["metrics", "day-negotiations-amount"],
+  //   queryFn: () => getDayNegotiationsAmount(),
+  // })
 
   return (
     <Card>
@@ -18,11 +26,8 @@ export function DayNegotiationsAmountCard() {
         <CardTitle className="text-base font-semibold">
           Negociações (dia)
         </CardTitle>
-        {isLoadingMonthUsers ? (
-          <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
-        ) : (
-          <MessageSquare className="h-4 w-4 text-muted-foreground" />
-        )}
+
+        <MessageSquare className="h-4 w-4 text-muted-foreground" />
       </CardHeader>
       <CardContent className="space-y-1">
         {monthUser ? (
@@ -43,7 +48,7 @@ export function DayNegotiationsAmountCard() {
                   : monthUser.diffFromYesterday}
                 %
               </span>{" "}
-              em relação ao mês passado
+              em relação a ontem
             </p>
           </>
         ) : (

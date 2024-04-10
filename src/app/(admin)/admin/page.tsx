@@ -11,8 +11,10 @@ import { MonthNegotiationsAmountCard } from "./_components/month-negotiations-am
 import { DayNegotiationsAmountCard } from "./_components/day-negotiations-amount-card"
 import { MonthProductsAmountCard } from "./_components/month-products-amount-card"
 import { NegotiationsChart } from "@/components/charts/negoatiations-chart"
+import { getDayNegotiationsAmount } from "@/lib/actions/get-day-negotiations"
 
 export default async function DashboardPage() {
+  const data = await getDayNegotiationsAmount()
   return (
     <Shell variant="sidebar">
       <PageHeader>
@@ -29,7 +31,7 @@ export default async function DashboardPage() {
           <UsersAmountCard />
           <MonthProductsAmountCard />
           <MonthNegotiationsAmountCard />
-          <DayNegotiationsAmountCard />
+          <DayNegotiationsAmountCard monthUser={data} />
         </div>
         <div className="grid grid-cols-9 gap-4">
           <NegotiationsChart />

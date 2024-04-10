@@ -67,7 +67,7 @@ export default async function ProductsPage({
           </PageHeaderHeading>
           <Link
             aria-label="Create store"
-            href="/dashboard/categories/new"
+            href="/admin/categories/new"
             className={cn(
               buttonVariants({
                 size: "sm",

@@ -7,6 +7,7 @@ declare module "next-auth" {
     uservalido: number
     accessToken: string
     status: boolean
+    role: number
   }
 
   interface Session {

@@ -1,23 +1,36 @@
-import { getToken } from "next-auth/jwt"
-import { NextRequest, NextResponse } from "next/server"
+import { withAuth } from "next-auth/middleware"
+import { NextResponse } from "next/server"
 
-export async function middleware(req: NextRequest) {
-  const pathname = req.nextUrl.pathname
-  const protectedPaths = ["/dashboard/categories"]
-  const isPathProtected = protectedPaths?.some((path) => pathname == path)
-  const res = NextResponse.next()
-  if (isPathProtected) {
-    const token = await getToken({ req })
+export default withAuth(
+  async function middleware(req) {
+    const pathname = req.nextUrl.pathname
+    const user = req.nextauth.token
+    const adminPaths = [
+      "/admin",
+      "/admin/users",
+      "/admin/negotiations",
+      "/admin/categories",
+    ]
 
-    if (!token) {
-      const url = new URL(`/signin`, req.url)
-      url.searchParams.set("callbackUrl", pathname)
-      return NextResponse.redirect(url)
-    }
+    const isPathAdmin = adminPaths?.some((path) => pathname == path)
 
-    // if (pathname === "/") {
-    //   return NextResponse.redirect(new URL("/examples", req.url))
+    // if (
+    //   user?.activated === false &&
+    //   pathname !== "/dashboard/account/personal"
+    // ) {
+    //   return NextResponse.redirect(
+    //     new URL("/dashboard/account/personal", req.url)
+    //   )
     // }
+
+    if (isPathAdmin && user?.role === 2) {
+      return NextResponse.redirect(new URL("/dashboard/unauthorized", req.url))
+    }
+  },
+  {
+    callbacks: {
+      authorized: ({ token }) => token?.role === 2 || token?.role === 1,
+    },
   }
-  return res
-}
+)
+export const config = { matcher: ["/dashboard/:path*", "/admin/:path*"] }

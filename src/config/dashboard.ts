@@ -2,8 +2,35 @@ import { type SidebarNavItem } from "@/types"
 
 export interface DashboardConfig {
   sidebarNav: SidebarNavItem[]
+  sidebarNavAdmin: SidebarNavItem[]
 }
 export const dashboardConfig: DashboardConfig = {
+  sidebarNavAdmin: [
+    {
+      title: "Painel",
+      href: "/admin",
+      icon: "gauge",
+      items: [],
+    },
+    {
+      title: "Categorias",
+      href: "/admin/categories",
+      icon: "layoutGrid",
+      items: [],
+    },
+    {
+      title: "Usuários",
+      href: "/admin/users",
+      icon: "users",
+      items: [],
+    },
+    {
+      title: "Negociações",
+      href: "/admin/negotiations",
+      icon: "message",
+      items: [],
+    },
+  ],
   sidebarNav: [
     {
       title: "Minha conta",
@@ -15,12 +42,6 @@ export const dashboardConfig: DashboardConfig = {
       title: "Produto",
       href: "/dashboard/products",
       icon: "boxes",
-      items: [],
-    },
-    {
-      title: "Categoria",
-      href: "/dashboard/categories",
-      icon: "layoutGrid",
       items: [],
     },
     {
@@ -59,6 +80,7 @@ export const accountDashboardConfig: DashboardConfig = {
       items: [],
     },
   ],
+  sidebarNavAdmin: [],
 }
 
 export const negotiationDashboardConfig: DashboardConfig = {
@@ -76,4 +98,5 @@ export const negotiationDashboardConfig: DashboardConfig = {
       items: [],
     },
   ],
+  sidebarNavAdmin: [],
 }

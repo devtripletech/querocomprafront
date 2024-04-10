@@ -8,7 +8,6 @@ export type GetPopularCategoriesResponse = Array<{
 
 export const getPopularCategories =
   async (): Promise<GetPopularCategoriesResponse> => {
-    console.log("popular categories")
     const response = await fetch(`${env.API_URL}/metrics/popular-categories`, {
       method: "GET",
       headers: {

@@ -19,11 +19,10 @@ import {
 } from "@/components/page-header"
 import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-import { RocketIcon } from "lucide-react"
+
 import { currentUser, getUserAction, getUsers } from "@/app/_actions/user"
-import { listProductsByUserIdAction } from "@/app/_actions/product"
-import { listCategoriesAction } from "@/app/_actions/categories"
-import { UsersTableShell } from "./_components/users-table-shell"
+
+import { UsersTable } from "./_components/users-table"
 
 export const metadata: Metadata = {
   metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),
@@ -47,8 +46,6 @@ export default async function ProductsPage({
     redirect("/signin")
   }
 
-  const users = await getUsers()
-
   return (
     <Shell variant="sidebar">
       <PageHeader>
@@ -58,7 +55,7 @@ export default async function ProductsPage({
           </PageHeaderHeading>
           <Link
             aria-label="Registrar usuário"
-            href="/dashboard/products/new"
+            href="#"
             className={cn(
               buttonVariants({
                 size: "sm",
@@ -72,9 +69,10 @@ export default async function ProductsPage({
           Gerenciar usuários
         </PageHeaderDescription>
       </PageHeader>
-
       <section className="grid gap-4">
-        <UsersTableShell users={users} />
+        {/* <React.Suspense fallback={<DataTableSkeleton columnCount={4} />}> */}
+        <UsersTable />
+        {/* </React.Suspense> */}
       </section>
     </Shell>
   )

@@ -27,7 +27,7 @@ function CustomTooltip({ active, payload }: TooltipProps<number, number>) {
         <span className="text-base font-semibold">{payload[0].name}</span>
         <div className="flex flex-col gap-1">
           <span className="">
-            <span className="font-semibold">Vendas:</span> {payload[0].value}
+            <span className="font-semibold">Produtos:</span> {payload[0].value}
           </span>
         </div>
       </div>

@@ -83,7 +83,7 @@ export default async function ProductsPage({
           Gerenciar seus produtos
         </PageHeaderDescription>
       </PageHeader>
-      <Alert>
+      {/* <Alert>
         <RocketIcon className="h-4 w-4" aria-hidden="true" />
         <AlertTitle>Atenção!</AlertTitle>
         <AlertDescription>
@@ -91,7 +91,7 @@ export default async function ProductsPage({
           <span className="font-semibold">T1</span>. Você pode criar até{" "}
           <span className="font-semibold">100</span> produtos.
         </AlertDescription>
-      </Alert>
+      </Alert> */}
       <section className="grid gap-4">
         <ProductsTableShell transaction={transaction} categories={categories} />
       </section>
