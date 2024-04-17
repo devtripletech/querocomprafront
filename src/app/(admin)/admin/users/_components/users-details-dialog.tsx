@@ -132,7 +132,7 @@ export function UserDetails({ userId, open }: UserDetailsProps) {
                       </span>
                     </>
                   ) : (
-                    <span className="italic text-muted-foreground">
+                    <span className="italic text-muted-foreground flex justify-end">
                       Não informado
                     </span>
                   )}

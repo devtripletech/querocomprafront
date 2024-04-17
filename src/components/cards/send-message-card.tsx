@@ -37,9 +37,11 @@ import { Button } from "../ui/button"
 import { SedMessageForm } from "../forms/send-message-form"
 import { Message } from "@/lib/validations/negotiation"
 import { ScrollArea } from "@/components/ui/scroll-area"
+import { MessageBox } from "../message-box"
+import { GetMessageResponse } from "@/lib/validations/message"
 
 interface SendMessageCardProps {
-  messages: Message[]
+  messages: GetMessageResponse[]
   userId: string
   negotiationId: string
 }
@@ -51,29 +53,19 @@ export function SendMessageCard({
   return (
     <Card className="w-full max-w-2xl">
       <CardHeader className="space-y-1">
-        <CardTitle>Chat</CardTitle>
+        {/* <CardTitle>Chat</CardTitle> */}
       </CardHeader>
       <ScrollArea className="pb-6 pr-6 lg:pb-8  h-72">
         <CardContent className="space-y-3">
-          {messages &&
-            messages.map((message) => (
-              <div
-                key={message.id}
-                className="flex gap-2 text-muted-foreground text-sm"
-              >
-                <Avatar>
-                  <AvatarFallback>
-                    {getInitialLetters(message.userName)}
-                  </AvatarFallback>
-                </Avatar>
-                <p className="leading-relaxed">
-                  <span className="block font-bold text-muted-foreground">
-                    {message.userName}:
-                  </span>
-                  {message.content}
-                </p>
-              </div>
-            ))}
+          {messages && messages.length > 0 ? (
+            messages.map((message, i) => (
+              <MessageBox key={message.id} data={message} />
+            ))
+          ) : (
+            <span className="pt-20 flex justify-center items-center">
+              Sem mensagens
+            </span>
+          )}
         </CardContent>
       </ScrollArea>
       <CardFooter className="gap-2 flex items-center">

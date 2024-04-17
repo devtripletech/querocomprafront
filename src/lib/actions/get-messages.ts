@@ -3,12 +3,13 @@ import { getTokenAction } from "@/app/_actions/user"
 import { env } from "@/env.mjs"
 import { unstable_noStore as noStore, revalidatePath } from "next/cache"
 
-export interface GetMessagesQuery {
+export interface GetNegotiationsQuery {
   pageIndex?: number | null
   role?: string | null
+  name?: string | null
 }
 
-export type GetMessagesResponse = {
+export type GetNegotiationsResponse = {
   negotiations: {
     id: string
     comprador: string
@@ -26,10 +27,11 @@ export type GetMessagesResponse = {
   }
 }
 
-export const getMessages = async ({
+export const getNegotiations = async ({
   pageIndex,
   role,
-}: GetMessagesQuery): Promise<GetMessagesResponse> => {
+  name,
+}: GetNegotiationsQuery): Promise<GetNegotiationsResponse> => {
   noStore()
   const url = new URL(`${env.API_URL}/negotiations`)
 
@@ -38,6 +40,9 @@ export const getMessages = async ({
   }
   if (role && role !== undefined) {
     url.searchParams.set("role", role.toString())
+  }
+  if (name && name !== undefined) {
+    url.searchParams.set("name", name)
   }
 
   const response = await fetch(url.toString(), {
@@ -48,7 +53,6 @@ export const getMessages = async ({
   })
 
   const data = await response.json()
-  console.log(data)
 
   return data
 }

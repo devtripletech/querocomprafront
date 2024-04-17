@@ -10,8 +10,11 @@ import {
 } from "@/components/page-header"
 import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-import { MessageTable } from "./_components/message-table"
+
 import { DataTableSkeleton } from "@/components/table-skeleton"
+import { NegotiationTable } from "./_components/negotiation-table"
+import { getMessagesNegotiationAction } from "@/app/_actions/negotiation"
+import { NegotiationTableFilters } from "./_components/negotiation-table-filters"
 
 // export const metadata: Metadata = {
 //   metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),
@@ -19,7 +22,7 @@ import { DataTableSkeleton } from "@/components/table-skeleton"
 //   description: "Listar negociações de usuários",
 // }
 
-export default async function MessagesPage() {
+export default async function NegotiationsPage() {
   return (
     <Shell variant="sidebar">
       <PageHeader>
@@ -33,8 +36,9 @@ export default async function MessagesPage() {
         </PageHeaderDescription>
       </PageHeader>
       <section className="grid gap-4">
+        <NegotiationTableFilters />
         <React.Suspense fallback={<DataTableSkeleton columnCount={4} />}>
-          <MessageTable />
+          <NegotiationTable />
         </React.Suspense>
       </section>
     </Shell>

@@ -1,6 +1,7 @@
 import { type z } from "zod"
 import { type FileWithPath } from "react-dropzone"
 import type { Icons } from "@/components/icons"
+import { UserDetailsResponse } from "@/lib/validations/user"
 
 export interface NavItem {
   title: string

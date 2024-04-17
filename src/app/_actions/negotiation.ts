@@ -5,6 +5,7 @@ import { Message, sendMessageSchema } from "@/lib/validations/negotiation"
 import { notFound, redirect } from "next/navigation"
 import { z } from "zod"
 import { getTokenAction } from "./user"
+import { GetMessageResponse } from "@/lib/validations/message"
 
 export const getNegotiationsAction = async () => {
   return getTokenAction().then(async (token) => {
@@ -67,7 +68,7 @@ export const getNegotiationsPartAction = async () => {
 
 export const getMessagesNegotiationAction = async (
   negotiationId: string
-): Promise<Message[]> => {
+): Promise<GetMessageResponse[]> => {
   return getTokenAction().then(async (token) => {
     try {
       noStore()

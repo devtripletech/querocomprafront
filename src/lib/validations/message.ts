@@ -23,4 +23,15 @@ export const userDetailsSchema = z.object({
     numero: z.string().nullable(),
   }),
 })
-export type MessageDetailsResponse = z.infer<typeof userDetailsSchema>
+export type NegotiationDetailsResponse = z.infer<typeof userDetailsSchema>
+
+export const getMessageSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  email: z.string(),
+  body: z.string(),
+  createdAt: z.string(),
+  isOwn: z.number(),
+  img: z.string(),
+})
+export type GetMessageResponse = z.infer<typeof getMessageSchema>
