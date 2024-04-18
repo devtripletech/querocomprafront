@@ -22,7 +22,7 @@ import { cn } from "@/lib/utils"
 
 import { currentUser, getUserAction, getUsers } from "@/app/_actions/user"
 
-import { UsersTable } from "./_components/users-table"
+import { UserTable } from "./_components/user-table"
 import { UserTableFilters } from "./_components/user-table-filters"
 
 export const metadata: Metadata = {
@@ -73,7 +73,7 @@ export default async function ProductsPage({
       <section className="grid gap-4">
         <UserTableFilters />
         {/* <React.Suspense fallback={<DataTableSkeleton columnCount={4} />}> */}
-        <UsersTable />
+        <UserTable />
         {/* </React.Suspense> */}
       </section>
     </Shell>

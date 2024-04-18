@@ -15,6 +15,7 @@ export type GetUsersResponse = {
     name: string
     email: string
     role: number
+    activated: boolean
     create_at: string
   }[]
   meta: {

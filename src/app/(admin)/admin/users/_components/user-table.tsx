@@ -20,7 +20,7 @@ import { getUsers } from "@/lib/actions/get-users"
 import { Pagination } from "@/components/pagination"
 
 // import { Pagination } from "../pagination"
-export function UsersTable() {
+export function UserTable() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const pathname = usePathname()
@@ -72,12 +72,12 @@ export function UsersTable() {
       <Table>
         <TableHeader>
           <TableRow>
+            <TableHead className="">Nome</TableHead>
+            <TableHead className="">E-mail</TableHead>
+            <TableHead className="w-[164px]">Perfil</TableHead>
+            <TableHead className="w-[84px]">Ativo</TableHead>
+            <TableHead className="w-[164px]">Criado em</TableHead>
             <TableHead className="w-[64px]"></TableHead>
-            <TableHead className="w-[140px]">Nome</TableHead>
-            <TableHead className="w-[64px]">E-mail</TableHead>
-            <TableHead className="w-[64px]">Perfil</TableHead>
-            <TableHead className="w-[64px]">Criado em</TableHead>
-
             {/* <TableHead>Cliente</TableHead>
             <TableHead className="w-[140px]">Total do pedido</TableHead>
             <TableHead className="w-[164px]"></TableHead>

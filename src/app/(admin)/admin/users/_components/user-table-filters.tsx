@@ -20,6 +20,7 @@ import React from "react"
 const userFiltersSchema = z.object({
   name: z.string().optional(),
   role: z.string().optional(),
+  activated: z.string().optional(),
 })
 
 type UserFiltersSchema = z.infer<typeof userFiltersSchema>
@@ -31,6 +32,7 @@ export function UserTableFilters() {
 
   const name = searchParams.get("name")
   const role = searchParams.get("role")
+  const activated = searchParams.get("activated")
 
   const { register, handleSubmit, control, reset } = useForm<UserFiltersSchema>(
     {
@@ -38,6 +40,7 @@ export function UserTableFilters() {
       defaultValues: {
         name: name ?? "",
         role: role ?? "all",
+        activated: activated ?? "all",
       },
     }
   )
@@ -59,11 +62,12 @@ export function UserTableFilters() {
     [searchParams]
   )
 
-  function handleFilter({ name, role }: UserFiltersSchema) {
+  function handleFilter({ name, role, activated }: UserFiltersSchema) {
     router.push(
       `${pathname}?${createQueryString({
         name: name ?? null,
         role: role ?? null,
+        activated: activated ?? null,
         page: null,
       })}`
     )
@@ -74,12 +78,14 @@ export function UserTableFilters() {
       `${pathname}?${createQueryString({
         name: null,
         role: null,
+        activated: null,
         page: null,
       })}`
     )
 
     reset({
       name: "",
+      activated: "all",
       role: "all",
     })
   }
@@ -112,9 +118,33 @@ export function UserTableFilters() {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">Todos</SelectItem>
+                <SelectItem value="all">Todos os Perfil</SelectItem>
                 <SelectItem value="1">Administrador</SelectItem>
                 <SelectItem value="2">Usuário</SelectItem>
+              </SelectContent>
+            </Select>
+          )
+        }}
+      />
+
+      <Controller
+        control={control}
+        name="activated"
+        render={({ field: { name, onChange, value, disabled } }) => {
+          return (
+            <Select
+              name={name}
+              onValueChange={onChange}
+              value={value}
+              disabled={disabled}
+            >
+              <SelectTrigger className="h-8 w-[180px]">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Todos usuários</SelectItem>
+                <SelectItem value="1">Habilitado</SelectItem>
+                <SelectItem value="2">Desabilitado</SelectItem>
               </SelectContent>
             </Select>
           )
