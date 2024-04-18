@@ -23,7 +23,7 @@ export default withAuth(
     //   )
     // }
 
-    if (isPathAdmin && user?.role === 2) {
+    if (isPathAdmin && user?.role !== 1) {
       return NextResponse.redirect(new URL("/dashboard/unauthorized", req.url))
     }
   },
