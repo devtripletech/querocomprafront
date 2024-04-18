@@ -23,6 +23,7 @@ import { cn } from "@/lib/utils"
 import { currentUser, getUserAction, getUsers } from "@/app/_actions/user"
 
 import { UsersTable } from "./_components/users-table"
+import { UserTableFilters } from "./_components/user-table-filters"
 
 export const metadata: Metadata = {
   metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),
@@ -70,6 +71,7 @@ export default async function ProductsPage({
         </PageHeaderDescription>
       </PageHeader>
       <section className="grid gap-4">
+        <UserTableFilters />
         {/* <React.Suspense fallback={<DataTableSkeleton columnCount={4} />}> */}
         <UsersTable />
         {/* </React.Suspense> */}

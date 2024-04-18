@@ -27,6 +27,7 @@ export function UsersTable() {
   const [isPending, startTransition] = React.useTransition()
 
   const role = searchParams.get("role")
+  const name = searchParams.get("name")
 
   const pageIndex = z.coerce
     .number()
@@ -34,8 +35,8 @@ export function UsersTable() {
     .parse(searchParams?.get("page") ?? "1")
 
   const { data: result, isFetching: isLoadingData } = useQuery({
-    queryKey: ["users", pageIndex, role],
-    queryFn: () => getUsers({ pageIndex, role }),
+    queryKey: ["users", pageIndex, role, name],
+    queryFn: () => getUsers({ pageIndex, role, name }),
   })
 
   // Create query string

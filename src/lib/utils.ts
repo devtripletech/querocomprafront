@@ -190,9 +190,9 @@ const RoleEnum = { ADMIN: 1, MEMBER: 2 }
 export function getRoleName(roleNumber: number) {
   switch (roleNumber) {
     case RoleEnum.ADMIN:
-      return "Admin"
+      return "administrador"
     case RoleEnum.MEMBER:
-      return "User"
+      return "usuário"
     default:
       return "Unknown"
   }

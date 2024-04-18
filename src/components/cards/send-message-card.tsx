@@ -51,26 +51,36 @@ export function SendMessageCard({
   negotiationId,
 }: SendMessageCardProps) {
   return (
-    <Card className="w-full max-w-2xl">
-      <CardHeader className="space-y-1">
-        {/* <CardTitle>Chat</CardTitle> */}
-      </CardHeader>
-      <ScrollArea className="pb-6 pr-6 lg:pb-8  h-72">
-        <CardContent className="space-y-3">
-          {messages && messages.length > 0 ? (
-            messages.map((message, i) => (
-              <MessageBox key={message.id} data={message} />
-            ))
-          ) : (
-            <span className="pt-20 flex justify-center items-center">
-              Sem mensagens
-            </span>
-          )}
-        </CardContent>
-      </ScrollArea>
-      <CardFooter className="gap-2 flex items-center">
-        <SedMessageForm userId={userId} negotiationId={negotiationId} />
-      </CardFooter>
-    </Card>
+    <div className="flex gap-4">
+      <Card className="w-1/4">
+        <CardHeader className="space-y-1">
+          {/* <CardTitle>Chat</CardTitle> */}
+        </CardHeader>
+        <ScrollArea className="pb-6 pr-6 lg:pb-8  h-72">
+          <CardContent className="space-y-3"></CardContent>
+        </ScrollArea>
+      </Card>
+      <Card className="w-3/4">
+        <CardHeader className="space-y-1">
+          {/* <CardTitle>Chat</CardTitle> */}
+        </CardHeader>
+        <ScrollArea className="pb-6 pr-6 lg:pb-8  h-72">
+          <CardContent className="space-y-3">
+            {messages && messages.length > 0 ? (
+              messages.map((message, i) => (
+                <MessageBox key={message.id} data={message} />
+              ))
+            ) : (
+              <span className="pt-20 flex justify-center items-center">
+                Sem mensagens
+              </span>
+            )}
+          </CardContent>
+        </ScrollArea>
+        <CardFooter className="gap-2 flex items-center">
+          <SedMessageForm userId={userId} negotiationId={negotiationId} />
+        </CardFooter>
+      </Card>
+    </div>
   )
 }

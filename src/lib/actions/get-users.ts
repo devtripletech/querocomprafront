@@ -6,6 +6,7 @@ import { getToken } from "./get-token"
 export interface GetUsersQuery {
   pageIndex?: number | null
   role?: string | null
+  name?: string | null
 }
 
 export type GetUsersResponse = {
@@ -26,6 +27,7 @@ export type GetUsersResponse = {
 export const getUsers = async ({
   pageIndex,
   role,
+  name,
 }: GetUsersQuery): Promise<GetUsersResponse> => {
   return getToken().then(async (token) => {
     noStore()
@@ -36,6 +38,10 @@ export const getUsers = async ({
     }
     if (role && role !== undefined) {
       url.searchParams.set("role", role.toString())
+    }
+
+    if (name && name.trim()) {
+      url.searchParams.set("name", name.toString())
     }
 
     const response = await fetch(url.toString(), {
