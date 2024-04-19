@@ -7,6 +7,7 @@ export interface GetUsersQuery {
   pageIndex?: number | null
   role?: string | null
   name?: string | null
+  activated?: string | null
 }
 
 export type GetUsersResponse = {
@@ -29,6 +30,7 @@ export const getUsers = async ({
   pageIndex,
   role,
   name,
+  activated,
 }: GetUsersQuery): Promise<GetUsersResponse> => {
   return getToken().then(async (token) => {
     noStore()
@@ -36,6 +38,9 @@ export const getUsers = async ({
 
     if (pageIndex || pageIndex === 0) {
       url.searchParams.set("pageIndex", pageIndex.toString())
+    }
+    if (activated && activated !== undefined) {
+      url.searchParams.set("activated", activated.toString())
     }
     if (role && role !== undefined) {
       url.searchParams.set("role", role.toString())

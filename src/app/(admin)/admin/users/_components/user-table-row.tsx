@@ -6,12 +6,6 @@ import { ArrowRight, Edit, Loader2, LockKeyhole, Search, X } from "lucide-react"
 import { useState } from "react"
 import { toast } from "sonner"
 
-// import { approveOrder } from "@/app/_action/approve-user"
-// import { cancelOrder } from "@/app/_action/cancel-user"
-// import { deliverOrder } from "@/app/_action/deliver-user"
-// import { dispatchOrder } from "@/app/_action/dispatch-user"
-// import { GetUsersResponse } from "@/app/_action/get-users"
-
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import { TableCell, TableRow } from "@/components/ui/table"
@@ -20,7 +14,18 @@ import { UserDetails } from "./user-details-dialog"
 import { formatDate, getRoleName } from "@/lib/utils"
 import { UpdatePassword } from "./user-update-password"
 import { Icons } from "@/components/icons"
-// import { UserTableStatus } from "./user-table-status"
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { DotsHorizontalIcon } from "@radix-ui/react-icons"
+import { activateUser } from "@/lib/actions/activate-user"
+import { deactivateUser } from "@/lib/actions/deactivate-user"
 
 export interface UserTableRowProps {
   user: {
@@ -37,52 +42,122 @@ export function UserTableRow({ user }: UserTableRowProps) {
   const [isDetailsOpen, setIsDetailsOpen] = useState(false)
   const [isSetPasswordOpen, setPasswordOpen] = useState(false)
 
-  return (
-    <TableRow>
-      <TableCell className="text-muted-foreground font-medium text-xs">
-        {user.name}
-      </TableCell>
-      <TableCell className="text-muted-foreground font-medium text-xs">
-        {user.email}
-      </TableCell>
-      <TableCell className="text-muted-foreground font-medium text-xs">
-        {getRoleName(user.role)}
-      </TableCell>
-      <TableCell className="flex justify-start items-center ml-2">
-        {user.activated ? (
-          <Icons.active className="h-4 w-4 text-green-400" aria-hidden="true" />
-        ) : (
-          <Icons.inactive className="h-4 w-4 text-red-400" aria-hidden="true" />
-        )}
-      </TableCell>
-      <TableCell className="text-muted-foreground font-mono text-xs font-medium">
-        {formatDate(new Date(user.create_at))}
-      </TableCell>
-      <TableCell className="flex gap-2">
-        <Dialog open={isDetailsOpen} onOpenChange={setIsDetailsOpen}>
-          <DialogTrigger asChild>
-            <Button variant="outline" size="xs">
-              <Search className="h-3 w-3" />
-              <span className="sr-only"></span>
-            </Button>
-          </DialogTrigger>
-          <UserDetails userId={user.id} open={isDetailsOpen} />
-        </Dialog>
+  const queryClient = useQueryClient()
 
-        <Dialog open={isSetPasswordOpen} onOpenChange={setPasswordOpen}>
-          <DialogTrigger asChild>
-            <Button variant="outline" size="xs">
-              <LockKeyhole className="h-3 w-3" />
-              <span className="sr-only"></span>
-            </Button>
-          </DialogTrigger>
-          <UpdatePassword
-            userId={user.id}
-            open={isSetPasswordOpen}
-            setOpen={setPasswordOpen}
-          />
-        </Dialog>
-      </TableCell>
-    </TableRow>
+  function updateUserStatusOnCache(userId: string, activated: boolean) {
+    const usersListingCache = queryClient.getQueriesData<GetUsersResponse>({
+      queryKey: ["users"],
+    })
+
+    console.log(usersListingCache)
+
+    usersListingCache.forEach(([cacheKey, cached]) => {
+      if (!cached) {
+        return
+      }
+
+      queryClient.setQueryData<GetUsersResponse>(cacheKey, {
+        ...cached,
+        users: cached.users.map((user) => {
+          if (user.id !== userId) {
+            return user
+          }
+
+          return {
+            ...user,
+            activated,
+          }
+        }),
+      })
+    })
+
+    toast.success("Usuário atualizado com sucesso!")
+  }
+
+  const { mutateAsync: activateUserFn } = useMutation({
+    mutationFn: activateUser,
+    onSuccess: async (_, { userId }) => {
+      updateUserStatusOnCache(userId, true)
+    },
+  })
+
+  const { mutateAsync: deactivateUserFn } = useMutation({
+    mutationFn: deactivateUser,
+    onSuccess: async (_, { userId }) => {
+      updateUserStatusOnCache(userId, false)
+    },
+  })
+
+  return (
+    <>
+      <TableRow>
+        <TableCell className="text-muted-foreground font-medium text-xs">
+          {user.name}
+        </TableCell>
+        <TableCell className="text-muted-foreground font-medium text-xs">
+          {user.email}
+        </TableCell>
+        <TableCell className="text-muted-foreground font-medium text-xs">
+          {getRoleName(user.role)}
+        </TableCell>
+        <TableCell className="flex justify-start items-center ml-2">
+          {user.activated ? (
+            <Icons.active
+              className="h-4 w-4 text-green-400"
+              aria-hidden="true"
+            />
+          ) : (
+            <Icons.inactive
+              className="h-4 w-4 text-red-400"
+              aria-hidden="true"
+            />
+          )}
+        </TableCell>
+        <TableCell className="text-muted-foreground font-mono text-xs font-medium">
+          {formatDate(new Date(user.create_at))}
+        </TableCell>
+        <TableCell className="flex gap-2">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                aria-label="Open menu"
+                variant="ghost"
+                className="flex h-8 w-8 p-0 data-[state=open]:bg-muted"
+              >
+                <DotsHorizontalIcon className="h-4 w-4" aria-hidden="true" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-[160px]">
+              <DropdownMenuItem onClick={() => setIsDetailsOpen(true)}>
+                Visualizar
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setPasswordOpen(true)}>
+                Alterar a senha
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => activateUserFn({ userId: user.id })}
+              >
+                Ativar
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => deactivateUserFn({ userId: user.id })}
+              >
+                Desativar
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </TableCell>
+      </TableRow>
+      <Dialog open={isDetailsOpen} onOpenChange={setIsDetailsOpen}>
+        <UserDetails userId={user.id} open={isDetailsOpen} />
+      </Dialog>
+      <Dialog open={isSetPasswordOpen} onOpenChange={setPasswordOpen}>
+        <UpdatePassword
+          userId={user.id}
+          open={isSetPasswordOpen}
+          setOpen={setPasswordOpen}
+        />
+      </Dialog>
+    </>
   )
 }

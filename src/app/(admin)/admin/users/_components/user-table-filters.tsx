@@ -144,7 +144,7 @@ export function UserTableFilters() {
               <SelectContent>
                 <SelectItem value="all">Todos usuários</SelectItem>
                 <SelectItem value="1">Habilitado</SelectItem>
-                <SelectItem value="2">Desabilitado</SelectItem>
+                <SelectItem value="0">Desabilitado</SelectItem>
               </SelectContent>
             </Select>
           )

@@ -28,6 +28,7 @@ export function UserTable() {
 
   const role = searchParams.get("role")
   const name = searchParams.get("name")
+  const activated = searchParams.get("activated")
 
   const pageIndex = z.coerce
     .number()
@@ -35,8 +36,8 @@ export function UserTable() {
     .parse(searchParams?.get("page") ?? "1")
 
   const { data: result, isFetching: isLoadingData } = useQuery({
-    queryKey: ["users", pageIndex, role, name],
-    queryFn: () => getUsers({ pageIndex, role, name }),
+    queryKey: ["users", pageIndex, role, name, activated],
+    queryFn: () => getUsers({ pageIndex, role, name, activated }),
   })
 
   // Create query string
