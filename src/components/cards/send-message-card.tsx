@@ -51,7 +51,7 @@ export function SendMessageCard({
   negotiationId,
 }: SendMessageCardProps) {
   return (
-    <div className="flex gap-4">
+    <div className="flex gap-4 w-full">
       <Card className="w-1/4">
         <CardHeader className="space-y-1">
           {/* <CardTitle>Chat</CardTitle> */}
