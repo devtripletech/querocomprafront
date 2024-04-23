@@ -82,13 +82,11 @@ export default async function NegotiationPage({
         aria-labelledby="user-account-info-heading"
         className="overflow-hidden"
       >
-        <div className="flex  gap-4">
-          <SendMessageCard
-            messages={messages}
-            userId={user.id_user.toString()}
-            negotiationId={negotiationId}
-          />
-        </div>
+        <SendMessageCard
+          messages={messages}
+          userId={user.id_user.toString()}
+          negotiationId={negotiationId}
+        />
       </section>
     </Shell>
   )
