@@ -35,7 +35,7 @@ export function SedMessageForm({ userId, negotiationId }: SedMessageFormProps) {
     resolver: zodResolver(sendMessageSchema),
     defaultValues: {
       id_negociacao: negotiationId,
-      id_user_mensagem: userId,
+      id_user_mensagem: userId.toString(),
       mensagem: "",
     },
   })

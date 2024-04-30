@@ -2,6 +2,7 @@ import { SiteFooter } from "@/components/layouts/site-footer"
 import { SiteHeader } from "@/components/layouts/site-header"
 import { currentUser, getUserAction } from "../_actions/user"
 import { UserPayload } from "@/lib/validations/auth"
+import { ReactQueryProvider } from "@/components/react-query-provider"
 
 export default async function LobbyLayout({
   children,

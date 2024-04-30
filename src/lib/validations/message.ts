@@ -32,6 +32,6 @@ export const getMessageSchema = z.object({
   body: z.string(),
   createdAt: z.string(),
   isOwn: z.number(),
-  img: z.string(),
+  product: z.string(),
 })
 export type GetMessageResponse = z.infer<typeof getMessageSchema>

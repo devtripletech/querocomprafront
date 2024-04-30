@@ -44,14 +44,14 @@ export const dashboardConfig: DashboardConfig = {
       icon: "boxes",
       items: [],
     },
+    // {
+    //   title: "Min. negociações",
+    //   href: "/dashboard/negotiation/my",
+    //   icon: "message",
+    //   items: [],
+    // },
     {
-      title: "Min. negociações",
-      href: "/dashboard/negotiation/my",
-      icon: "message",
-      items: [],
-    },
-    {
-      title: "Negociações P/S",
+      title: "Negociações",
       href: "/dashboard/negotiation",
       icon: "message",
       items: [],
@@ -85,18 +85,18 @@ export const accountDashboardConfig: DashboardConfig = {
 
 export const negotiationDashboardConfig: DashboardConfig = {
   sidebarNav: [
-    {
-      title: "Visão geral",
-      href: "/dashboard/negotiation/my",
-      icon: "layoutGrid",
-      items: [],
-    },
-    {
-      title: "Dados de acesso",
-      href: "/dashboard/negotiation",
-      icon: "keyRound",
-      items: [],
-    },
+    // {
+    //   title: "Visão geral",
+    //   href: "/dashboard/negotiation/my",
+    //   icon: "layoutGrid",
+    //   items: [],
+    // },
+    // {
+    //   title: "Dados de acesso",
+    //   href: "/dashboard/negotiation",
+    //   icon: "keyRound",
+    //   items: [],
+    // },
   ],
   sidebarNavAdmin: [],
 }

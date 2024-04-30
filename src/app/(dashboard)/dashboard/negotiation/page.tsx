@@ -1,3 +1,4 @@
+"use client"
 import * as React from "react"
 import { type Metadata } from "next"
 import { unstable_noStore as noStore } from "next/cache"
@@ -26,65 +27,21 @@ import {
 import { NegotiationTable } from "@/components/tables/negotiation-table"
 import { SidebarNegotiationNav } from "@/components/layouts/sidebar-negotiation-nav"
 import { negotiationDashboardConfig } from "@/config/dashboard"
+import clsx from "clsx"
+import useConversation from "@/hooks/use-conversation"
+import EmptyState from "@/components/empty-state"
+import { Card, CardContent } from "@/components/ui/card"
 
-export const metadata: Metadata = {
-  metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),
-  title: "Products",
-  description: "Manage your products",
-}
-
-type Status = "emNegociacao" | "negociacaoFinalizada"
-
-const statusMap: Record<Status, string> = {
-  emNegociacao: "Em negociação",
-  negociacaoFinalizada: "Negociação finalizada",
-}
-
-interface NegotiationsPageProps {
-  params: {
-    storeId: string
-  }
-  searchParams: {
-    [key: string]: string | string[] | undefined
-  }
-}
-
-export default async function NegotiationsPage() {
-  noStore()
-  const user = await currentUser()
-
-  if (!user) {
-    redirect("/signin")
-  }
-
-  const userData = await getUserAction(user?.id_user)
-
-  if (!userData.uservalido) {
-    redirect("/dashboard/account/personal")
-  }
-
-  let negotiations
-  try {
-    negotiations = await getNegotiationsPartAction()
-  } catch (error) {
-    redirect("/signin")
-  }
-
+export default function NegotiationsPage() {
+  //const { isOpen } = useConversation()
+  const isOpen = false
   return (
-    <Shell variant="sidebar">
-      <PageHeader>
-        <div className="flex space-x-4">
-          <PageHeaderHeading size="sm" className="flex-1">
-            Negociações
-          </PageHeaderHeading>
-        </div>
-        <PageHeaderDescription size="sm">
-          Gerenciar suas Negociações
-        </PageHeaderDescription>
-      </PageHeader>
-      <section className="grid gap-4">
-        <NegotiationTable items={negotiations} />
-      </section>
-    </Shell>
+    <Card className="w-3/4 h-[400px]">
+      <CardContent
+        className={clsx("h-full lg:block", isOpen ? "block" : "hidden")}
+      >
+        <EmptyState />
+      </CardContent>
+    </Card>
   )
 }

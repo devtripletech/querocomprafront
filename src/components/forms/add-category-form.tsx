@@ -58,7 +58,7 @@ export function AddCategoryForm({ userId }: AddCategoryFormProps) {
         router.push(decodeURIComponent("/admin/categories"))
       } catch (e) {
         console.log(e)
-        toast.error("Não foi possível criar a categoria")
+        toast.error("Categoria não criada")
       }
     })
   }

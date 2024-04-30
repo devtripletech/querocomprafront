@@ -23,14 +23,22 @@ import { listCategoriesAction } from "@/app/_actions/categories"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { currentUser, getUserAction } from "@/app/_actions/user"
 import {
   getMessagesNegotiationAction,
   sendMessageNegotiationAction,
 } from "@/app/_actions/negotiation"
-import { catchError } from "@/lib/utils"
+import {
+  catchError,
+  formatPrice,
+  getInitialLetters,
+  truncate,
+} from "@/lib/utils"
 import { SendMessageCard } from "@/components/cards/send-message-card"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { MessageBox } from "@/components/message-box"
+import { SedMessageForm } from "@/components/forms/send-message-form"
 
 export const metadata: Metadata = {
   metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),
@@ -61,33 +69,50 @@ export default async function NegotiationPage({
     redirect("/dashboard/account/personal")
   }
 
-  const messages = await getMessagesNegotiationAction(negotiationId)
+  const { messages, product } = await getMessagesNegotiationAction(
+    negotiationId
+  )
 
   if (messages.length <= 0) {
     notFound()
   }
 
   return (
-    <Shell variant="sidebar">
-      <PageHeader
-        id="account-header"
-        aria-labelledby="account-header-heading"
-        separated
-      >
-        <PageHeaderHeading size="sm">Mensagem</PageHeaderHeading>
-        <PageHeaderDescription size="sm"></PageHeaderDescription>
-      </PageHeader>
-      <section
-        id="user-account-info"
-        aria-labelledby="user-account-info-heading"
-        className="overflow-hidden"
-      >
-        <SendMessageCard
-          messages={messages}
-          userId={user.id_user.toString()}
+    <Card className="w-3/4">
+      <CardHeader className="space-y-1">
+        <CardTitle>
+          <div className="flex gap-2 items-center">
+            <Avatar>
+              {product.img && (
+                <AvatarImage src={product.img} alt={product.name} />
+              )}
+              <AvatarFallback>{getInitialLetters(product.name)}</AvatarFallback>
+            </Avatar>
+            <div className="text-base font-medium">{`${formatPrice(
+              Number(product.price)
+            )} - ${truncate(product.name, 70)}`}</div>
+          </div>
+        </CardTitle>
+      </CardHeader>
+      <ScrollArea className="pb-6 pr-6 lg:pb-8  h-72">
+        <CardContent className="space-y-3">
+          {messages && messages.length > 0 ? (
+            messages.map((message, i) => (
+              <MessageBox key={message.id} message={message} />
+            ))
+          ) : (
+            <span className="pt-20 flex justify-center items-center">
+              Sem mensagens
+            </span>
+          )}
+        </CardContent>
+      </ScrollArea>
+      <CardFooter className="gap-2 flex items-center">
+        <SedMessageForm
+          userId={user?.id_user.toString()}
           negotiationId={negotiationId}
         />
-      </section>
-    </Shell>
+      </CardFooter>
+    </Card>
   )
 }

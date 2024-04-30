@@ -6,7 +6,6 @@ import { env } from "@/env.mjs"
 import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton"
 import { DateRangePicker } from "@/components/date-range-picker"
 import { SeedProducts } from "@/components/seed-products-button"
-import { ProductsTableShell } from "@/components/shells/products-table-shell"
 import { Product } from "@/lib/validations/product"
 
 import { Shell } from "@/components/shells/shell"
@@ -23,6 +22,7 @@ import { RocketIcon } from "lucide-react"
 import { currentUser, getUserAction } from "@/app/_actions/user"
 import { listProductsByUserIdAction } from "@/app/_actions/product"
 import { listCategoriesAction } from "@/app/_actions/categories"
+import { ProductsTableShell } from "@/components/tables/products-table"
 
 export const metadata: Metadata = {
   metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),

@@ -4,7 +4,14 @@ export const createProductSchema = z.object({
   id_usuario: z.string(),
   id_categoria: z.string().optional(),
   negociado: z.string().optional(),
-  valor: z.string(),
+  valor: z
+    .preprocess(
+      (a) => parseFloat(z.string().parse(a)),
+      z.number({
+        invalid_type_error: "Price must be Number",
+      })
+    )
+    .optional(),
   nome: z.string(),
   descricao: z.string().optional(),
   images: z

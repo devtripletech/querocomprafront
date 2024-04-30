@@ -8,18 +8,19 @@ export interface GetNegotiationsQuery {
   role?: string | null
   name?: string | null
 }
-
+export type GetNegotiation = {
+  id: string
+  comprador: string
+  vendedor: string
+  produto: string
+  quantidade: number
+  valor: number
+  inicio: string
+  status: number
+  messages: any
+}
 export type GetNegotiationsResponse = {
-  negotiations: {
-    id: string
-    comprador: string
-    vendedor: string
-    produto: string
-    quantidade: number
-    valor: number
-    inicio: string
-    status: number
-  }[]
+  negotiations: GetNegotiation[]
   meta: {
     pageIndex: number
     perPage: number

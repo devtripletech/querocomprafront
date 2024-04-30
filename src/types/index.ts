@@ -1,7 +1,6 @@
 import { type z } from "zod"
 import { type FileWithPath } from "react-dropzone"
 import type { Icons } from "@/components/icons"
-import { UserDetailsResponse } from "@/lib/validations/user"
 
 export interface NavItem {
   title: string
@@ -34,12 +33,6 @@ export type MainNavItem = NavItemWithOptionalChildren
 
 export type SidebarNavItem = NavItemWithChildren
 
-export interface Option {
-  label: string
-  value: string
-  icon?: React.ComponentType<{ className?: string }>
-}
-
 export type FileWithPreview = FileWithPath & {
   preview: string
   name: string
@@ -48,6 +41,13 @@ export type FileWithPreview = FileWithPath & {
 export interface DataTableSearchableColumn<TData> {
   id: keyof TData
   title: string
+}
+
+export interface Option {
+  label: string
+  value: string
+  icon?: React.ComponentType<{ className?: string }>
+  withCount?: boolean
 }
 
 export interface DataTableFilterableColumn<TData>
@@ -65,4 +65,18 @@ export interface StoredFile {
   id: string
   name: string
   url: string
+}
+
+export interface DataTableFilterField<TData> {
+  label: string
+  value: keyof TData
+  placeholder?: string
+  options?: Option[]
+}
+
+export type Category = {
+  id: string
+  active: number
+  name: string
+  createdAt: string
 }

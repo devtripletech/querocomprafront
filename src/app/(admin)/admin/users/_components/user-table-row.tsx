@@ -49,8 +49,6 @@ export function UserTableRow({ user }: UserTableRowProps) {
       queryKey: ["users"],
     })
 
-    console.log(usersListingCache)
-
     usersListingCache.forEach(([cacheKey, cached]) => {
       if (!cached) {
         return

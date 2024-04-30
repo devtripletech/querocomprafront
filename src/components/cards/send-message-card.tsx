@@ -78,7 +78,10 @@ export function SendMessageCard({
           </CardContent>
         </ScrollArea>
         <CardFooter className="gap-2 flex items-center">
-          <SedMessageForm userId={userId} negotiationId={negotiationId} />
+          <SedMessageForm
+            userId={userId.toString()}
+            negotiationId={negotiationId}
+          />
         </CardFooter>
       </Card>
     </div>

@@ -1,12 +1,27 @@
 "use server"
 import { env } from "@/env.mjs"
 import { unstable_noStore as noStore, revalidatePath } from "next/cache"
-import { Message, sendMessageSchema } from "@/lib/validations/negotiation"
+import { sendMessageSchema } from "@/lib/validations/negotiation"
 import { notFound, redirect } from "next/navigation"
 import { z } from "zod"
 import { getTokenAction } from "./user"
-import { GetMessageResponse } from "@/lib/validations/message"
 
+export type Message = {
+  id: string
+  name: string
+  email: string
+  body: string
+  createdAt: string
+  isOwn: number
+}
+export type GetMessageResponse = {
+  messages: Message[]
+  product: {
+    name: string
+    img: string
+    price: number
+  }
+}
 export const getNegotiationsAction = async () => {
   return getTokenAction().then(async (token) => {
     try {
@@ -68,7 +83,7 @@ export const getNegotiationsPartAction = async () => {
 
 export const getMessagesNegotiationAction = async (
   negotiationId: string
-): Promise<GetMessageResponse[]> => {
+): Promise<GetMessageResponse> => {
   return getTokenAction().then(async (token) => {
     try {
       noStore()

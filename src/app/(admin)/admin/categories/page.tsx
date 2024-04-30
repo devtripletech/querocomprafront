@@ -6,7 +6,6 @@ import { env } from "@/env.mjs"
 import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton"
 import { DateRangePicker } from "@/components/date-range-picker"
 import { SeedProducts } from "@/components/seed-products-button"
-import { ProductsTableShell } from "@/components/shells/products-table-shell"
 import { Product } from "@/lib/validations/product"
 
 import { Shell } from "@/components/shells/shell"
@@ -23,7 +22,8 @@ import { RocketIcon } from "lucide-react"
 import { currentUser, getUserAction } from "@/app/_actions/user"
 import { listProductsByUserIdAction } from "@/app/_actions/product"
 import { listCategoriesAction } from "@/app/_actions/categories"
-import { CategoriesTableShell } from "@/components/shells/categories-table-shell"
+import { getCategories } from "@/lib/actions/get-categories"
+import { CategoriesTable } from "@/components/tables/categories-table"
 
 export const metadata: Metadata = {
   metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),
@@ -56,7 +56,7 @@ export default async function ProductsPage({
   if (!userData.uservalido) {
     redirect("/dashboard/account/personal")
   }
-  const transaction = await listCategoriesAction()
+  const productsPromise = getCategories()
 
   return (
     <Shell variant="sidebar">
@@ -82,7 +82,7 @@ export default async function ProductsPage({
         </PageHeaderDescription>
       </PageHeader>
       <section className="grid gap-4">
-        <CategoriesTableShell transaction={transaction} />
+        <CategoriesTable promise={productsPromise} />
       </section>
     </Shell>
   )

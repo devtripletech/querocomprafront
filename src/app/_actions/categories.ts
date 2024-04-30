@@ -47,6 +47,8 @@ export async function addCategoryAction(
 
       if (res.status === 401) throw new Error("Não autorizado")
 
+      if (!res.ok) throw new Error("Ocorreu um error")
+
       revalidatePath(`/dashboard/categories/`)
     } catch (err) {
       console.error(err)

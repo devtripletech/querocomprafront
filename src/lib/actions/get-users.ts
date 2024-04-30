@@ -27,10 +27,10 @@ export type GetUsersResponse = {
 }
 
 export const getUsers = async ({
-  pageIndex,
-  role,
-  name,
-  activated,
+  pageIndex = 0,
+  role = undefined,
+  name = "",
+  activated = undefined,
 }: GetUsersQuery): Promise<GetUsersResponse> => {
   return getToken().then(async (token) => {
     noStore()

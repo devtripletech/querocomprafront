@@ -3,7 +3,18 @@
 import * as React from "react"
 import Link from "next/link"
 import { DotsHorizontalIcon } from "@radix-ui/react-icons"
-import { type ColumnDef } from "@tanstack/react-table"
+import {
+  ColumnFiltersState,
+  SortingState,
+  VisibilityState,
+  getCoreRowModel,
+  getFacetedRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+  type ColumnDef,
+} from "@tanstack/react-table"
 import { toast } from "sonner"
 
 import { catchError, formatDate, formatPrice } from "@/lib/utils"
@@ -23,6 +34,7 @@ import { DataTableColumnHeader } from "@/components/data-table/data-table-column
 import { deleteProductAction } from "@/app/_actions/product"
 import { Product } from "@/lib/validations/product"
 import { Category } from "@/lib/validations/category"
+import { archivedProduct } from "@/lib/actions/archived-product"
 
 interface ProductsTableShellProps<TData, TValue> {
   transaction: Product[]
@@ -43,7 +55,7 @@ export function ProductsTableShell<TData, TValue>({
         accessorKey: "nome",
         header: ({ column }) => (
           <DataTableColumnHeader
-            className="w-[180px]"
+            className="w-[160px]"
             column={column}
             title="Nome"
           />
@@ -116,24 +128,23 @@ export function ProductsTableShell<TData, TValue>({
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 onClick={() => {
-                  // startTransition(() => {
-                  //   row.toggleSelected(false)
-                  //   toast.promise(
-                  //     deleteProductAction({
-                  //       id: Number(row.original.id_produto),
-                  //       storeId,
-                  //     }),
-                  //     {
-                  //       loading: "Deleting...",
-                  //       success: () => "Product deleted successfully.",
-                  //       error: (err: unknown) => catchError(err),
-                  //     }
-                  //   )
-                  // })
+                  startTransition(() => {
+                    row.toggleSelected(false)
+                    toast.promise(
+                      archivedProduct({
+                        productId: Number(row.original.id_produto),
+                      }),
+                      {
+                        loading: "Arquivando...",
+                        success: () => "Produto arquivado com sucesso.",
+                        error: (err: unknown) => catchError(err),
+                      }
+                    )
+                  })
                 }}
                 disabled={isPending}
               >
-                Deletar
+                Arquivar
                 <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -167,6 +178,35 @@ export function ProductsTableShell<TData, TValue>({
     //   }
     // )
   }
+  const [rowSelection, setRowSelection] = React.useState({})
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({})
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    []
+  )
+  const [sorting, setSorting] = React.useState<SortingState>([])
 
-  return <DataTable columns={columns} data={transaction} />
+  const table = useReactTable({
+    data: transaction,
+    columns,
+    state: {
+      sorting,
+      columnVisibility,
+      rowSelection,
+      columnFilters,
+    },
+    enableRowSelection: true,
+    onRowSelectionChange: setRowSelection,
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    onColumnVisibilityChange: setColumnVisibility,
+    getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFacetedRowModel: getFacetedRowModel(),
+    //getFacetedUniqueValues: getFacetedUniqueValues(),
+  })
+
+  return <DataTable table={table} />
 }

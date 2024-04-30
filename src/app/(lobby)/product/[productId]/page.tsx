@@ -4,7 +4,7 @@ import { notFound, redirect } from "next/navigation"
 
 import { env } from "@/env.mjs"
 
-import { formatPrice, toTitleCase } from "@/lib/utils"
+import { formatPrice, toTitleCase, truncate } from "@/lib/utils"
 import {
   Accordion,
   AccordionContent,
@@ -92,7 +92,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 : "",
           },
           {
-            title: product.nome,
+            title: truncate(product.nome, 80),
             href: `/product/${product.id_produto}`,
           },
         ]}
@@ -106,7 +106,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           }}
         />
         <Separator className="mt-4 md:hidden" />
-        <div className="flex w-full flex-col gap-4 md:w-3/4">
+        <div className="flex w-full flex-col gap-4 md:w-1/2 md:mr-8">
           <div className="space-y-6">
             <h2 className="line-clamp-1 text-2xl font-bold">{product.nome}</h2>
             <div>
