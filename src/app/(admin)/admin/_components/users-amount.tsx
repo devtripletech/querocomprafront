@@ -8,6 +8,7 @@ import { getMonthUsersAmount } from "@/lib/actions/get-month-users"
 
 export function UsersAmountCard() {
   const { data: monthUser, isFetching: isLoadingMonthUsers } = useQuery({
+    staleTime: Infinity, // 86400000 = 24 horas em milissegundos
     queryKey: ["metrics", "month-users"],
     queryFn: () => getMonthUsersAmount(),
   })

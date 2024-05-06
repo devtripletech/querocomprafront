@@ -35,6 +35,8 @@ export function UserTable() {
     .transform((page) => page - 1)
     .parse(searchParams?.get("page") ?? "1")
 
+  const params = { pageIndex, role, name, activated }
+
   const { data: result, isFetching: isLoadingData } = useQuery({
     queryKey: ["users", pageIndex, role, name, activated],
     queryFn: () => getUsers({ pageIndex, role, name, activated }),
@@ -90,7 +92,9 @@ export function UserTable() {
             result &&
               result.users.length > 0 &&
               result.users.map((user) => {
-                return <UserTableRow key={user.id} user={user} />
+                return (
+                  <UserTableRow key={user.id} user={user} params={params} />
+                )
               })
             // : (
             //   <TableCell

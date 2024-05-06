@@ -26,7 +26,14 @@ import {
 import { DotsHorizontalIcon } from "@radix-ui/react-icons"
 import { activateUser } from "@/lib/actions/activate-user"
 import { deactivateUser } from "@/lib/actions/deactivate-user"
+import { UserDetailsEdit } from "./user-details-edit-dialog"
 
+type Params = {
+  pageIndex: number
+  role: string | null
+  name: string | null
+  activated: string | null
+}
 export interface UserTableRowProps {
   user: {
     id: string
@@ -36,10 +43,12 @@ export interface UserTableRowProps {
     create_at: string
     activated: boolean
   }
+  params: Params
 }
 
-export function UserTableRow({ user }: UserTableRowProps) {
+export function UserTableRow({ user, params }: UserTableRowProps) {
   const [isDetailsOpen, setIsDetailsOpen] = useState(false)
+  const [isDetailsEditOpen, setIsDetailsEditOpen] = useState(false)
   const [isSetPasswordOpen, setPasswordOpen] = useState(false)
 
   const queryClient = useQueryClient()
@@ -129,6 +138,9 @@ export function UserTableRow({ user }: UserTableRowProps) {
               <DropdownMenuItem onClick={() => setIsDetailsOpen(true)}>
                 Visualizar
               </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setIsDetailsEditOpen(true)}>
+                Editar
+              </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setPasswordOpen(true)}>
                 Alterar a senha
               </DropdownMenuItem>
@@ -154,6 +166,15 @@ export function UserTableRow({ user }: UserTableRowProps) {
           userId={user.id}
           open={isSetPasswordOpen}
           setOpen={setPasswordOpen}
+        />
+      </Dialog>
+
+      <Dialog open={isDetailsEditOpen} onOpenChange={setIsDetailsEditOpen}>
+        <UserDetailsEdit
+          userId={user.id}
+          open={isDetailsEditOpen}
+          setOpen={setIsDetailsEditOpen}
+          params={params}
         />
       </Dialog>
     </>

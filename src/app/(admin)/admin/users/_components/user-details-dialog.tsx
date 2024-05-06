@@ -31,6 +31,7 @@ export function UserDetails({ userId, open }: UserDetailsProps) {
     queryKey: ["user", userId],
     queryFn: () => getUserDetails({ userId }),
     enabled: open,
+    staleTime: Infinity,
   })
 
   function firstLine(address: any) {
@@ -144,7 +145,7 @@ export function UserDetails({ userId, open }: UserDetailsProps) {
                   Criado em
                 </TableCell>
                 <TableCell className="flex justify-end">
-                  {formatDate(new Date(user.create_at))}
+                  {user.create_at && formatDate(new Date(user.create_at))}
                 </TableCell>
               </TableRow>
             </TableBody>

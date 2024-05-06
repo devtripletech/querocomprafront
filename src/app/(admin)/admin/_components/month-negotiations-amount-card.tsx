@@ -12,6 +12,7 @@ export function MonthNegotiationsAmountCard() {
   const { data: monthUser, isFetching: isLoadingMonthUsers } = useQuery({
     queryKey: ["metrics", "month-negotiations"],
     queryFn: () => getMonthNegotiationsAmount(),
+    staleTime: Infinity, // 86400000 = 24 horas em milissegundos
   })
 
   return (
