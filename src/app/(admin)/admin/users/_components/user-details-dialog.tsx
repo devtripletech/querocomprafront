@@ -31,7 +31,7 @@ export function UserDetails({ userId, open }: UserDetailsProps) {
     queryKey: ["user", userId],
     queryFn: () => getUserDetails({ userId }),
     enabled: open,
-    staleTime: Infinity,
+    staleTime: 60000, //60 segundos (tempo em milissegundos)
   })
 
   function firstLine(address: any) {
