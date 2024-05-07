@@ -39,7 +39,7 @@ export const getUsers = async ({
     if (pageIndex || pageIndex === 0) {
       url.searchParams.set("pageIndex", pageIndex.toString())
     }
-    if (activated && activated !== undefined) {
+    if (activated && activated !== undefined && activated !== "all") {
       url.searchParams.set("activated", activated.toString())
     }
     if (role && role !== undefined) {
