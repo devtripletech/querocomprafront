@@ -109,7 +109,7 @@ export const userDetailsSchema = z.object({
     bairro: z.string(),
     uf: z.string(),
     cidade: z.string(),
-    numero: z.string().nullable(),
+    numero: z.coerce.string().nullable(),
   }),
 })
 export type UserDetailsResponse = z.infer<typeof userDetailsSchema>

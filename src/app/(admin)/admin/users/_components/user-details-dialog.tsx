@@ -21,17 +21,21 @@ import {
 } from "@/components/ui/table"
 import { getUserDetails } from "@/lib/actions/get-user-details"
 import { formatAddress, formatDate } from "@/lib/utils"
+import React from "react"
 
 export interface UserDetailsProps {
   userId: string
   open: boolean
 }
 export function UserDetails({ userId, open }: UserDetailsProps) {
+  const [intervalMs, setIntervalMs] = React.useState(1000)
+
   const { data: user } = useQuery({
     queryKey: ["user", userId],
     queryFn: () => getUserDetails({ userId }),
     enabled: open,
-    staleTime: 60000, //60 segundos (tempo em milissegundos)
+    //refetchInterval: intervalMs,
+    staleTime: Infinity, //24 horas (86400000 tempo em milissegundos)
   })
 
   function firstLine(address: any) {

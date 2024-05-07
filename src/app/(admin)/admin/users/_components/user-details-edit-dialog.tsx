@@ -76,7 +76,7 @@ export function UserDetailsEdit({
     queryKey: ["user", userId],
     queryFn: () => getUserDetails({ userId }),
     enabled: open,
-    staleTime: 60000, //60 segundos (tempo em milissegundos)
+    staleTime: Infinity, //24 horas (86400000 tempo em milissegundos)
   })
 
   function updateUserDataOnCache({ userId, input }: UpdateUserDetailsRequest) {
