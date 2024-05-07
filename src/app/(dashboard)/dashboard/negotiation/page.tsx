@@ -7,7 +7,6 @@ import { env } from "@/env.mjs"
 import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton"
 import { DateRangePicker } from "@/components/date-range-picker"
 import { SeedProducts } from "@/components/seed-products-button"
-import { ProductsTableShell } from "@/components/shells/products-table-shell"
 import { Product } from "@/lib/validations/product"
 
 import { Shell } from "@/components/shells/shell"

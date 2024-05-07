@@ -1,5 +1,8 @@
 "use client"
-import { getMessagesNegotiationAction } from "@/app/_actions/negotiation"
+import {
+  Message,
+  getMessagesNegotiationAction,
+} from "@/app/_actions/negotiation"
 import { AvatarFallback } from "@/components/ui/avatar"
 import {
   Card,
@@ -36,7 +39,7 @@ export function NegotiationMessages({
   negotiationId,
   open,
 }: NegotiationMessagesProps) {
-  const { data: messages } = useQuery({
+  const { data: data } = useQuery({
     queryKey: ["messages", negotiationId],
     queryFn: () => getMessagesNegotiationAction(negotiationId),
     enabled: open,
@@ -51,9 +54,9 @@ export function NegotiationMessages({
       <Card className="w-full max-w-2xl pt-4">
         <ScrollArea className="pb-6 pr-6 lg:pb-8  h-72">
           <CardContent>
-            {messages && messages.length > 0 ? (
-              messages.map((message, i) => (
-                <MessageBox key={message.id} data={message} />
+            {data?.messages && data.messages.length > 0 ? (
+              data.messages.map((message: Message, i) => (
+                <MessageBox key={message.id} message={message} />
               ))
             ) : (
               <span className="pt-20 flex justify-center items-center">

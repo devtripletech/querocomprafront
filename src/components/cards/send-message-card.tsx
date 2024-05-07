@@ -68,7 +68,7 @@ export function SendMessageCard({
           <CardContent className="space-y-3">
             {messages && messages.length > 0 ? (
               messages.map((message, i) => (
-                <MessageBox key={message.id} data={message} />
+                <MessageBox key={message.id} message={message} />
               ))
             ) : (
               <span className="pt-20 flex justify-center items-center">

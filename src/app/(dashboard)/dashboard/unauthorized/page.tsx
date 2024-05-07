@@ -1,16 +1,7 @@
 import * as React from "react"
 import { type Metadata } from "next"
 import { env } from "@/env.mjs"
-import { ProductsTableShell } from "@/components/shells/products-table-shell"
 import { Shell } from "@/components/shells/shell"
-import Link from "next/link"
-import {
-  PageHeader,
-  PageHeaderDescription,
-  PageHeaderHeading,
-} from "@/components/page-header"
-import { buttonVariants } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
 import { ErrorCard } from "@/components/cards/error-card"
 
 export const metadata: Metadata = {
