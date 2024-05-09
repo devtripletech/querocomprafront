@@ -38,11 +38,11 @@ export function ErrorCard({
       role="alert"
       aria-live="assertive"
       aria-atomic="true"
-      className={cn("grid w-full place-items-center", className)}
+      className={cn("w-3/4", className)}
       {...props}
     >
-      <CardHeader>
-        <div className="grid h-20 w-20 place-items-center rounded-full bg-muted">
+      <CardHeader className="flex items-center justify-center">
+        <div className="flex justify-center items-center h-20 w-20 rounded-full bg-muted">
           <Icon className="h-10 w-10" aria-hidden="true" />
         </div>
       </CardHeader>
@@ -53,7 +53,7 @@ export function ErrorCard({
         </CardDescription>
       </CardContent>
       {retryLink ? (
-        <CardFooter>
+        <CardFooter className="flex items-center justify-center">
           <Link
             href={retryLink}
             className={cn(

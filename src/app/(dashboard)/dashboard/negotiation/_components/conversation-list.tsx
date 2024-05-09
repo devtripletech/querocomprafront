@@ -29,34 +29,12 @@ export function ConversationList({ initialItems }: ConversationListProps) {
   const pathParts = pathname.split("/")
   const conversationId = pathParts[pathParts.length - 1]
 
-  const pusherKey = useMemo(() => {
-    return session.data?.user?.email
-  }, [session.data?.user?.email])
-
-  useEffect(() => {
-    if (!pusherKey) {
-      return
-    }
-
-    const newHandler = (conversation: GetNegotiationResponse) => {
-      setItems((current) => {
-        if (find(current, { id: conversation.id })) {
-          return current
-        }
-
-        return [conversation, ...current]
-      })
-    }
-
-    return () => {}
-  }, [pusherKey, conversationId, router])
-
   return (
     <Card className="w-1/4">
       <CardHeader className="space-y-1">
         <CardTitle>Mensagens</CardTitle>
       </CardHeader>
-      <ScrollArea className="">
+      <ScrollArea className="pb-6 lg:pb-8 h-72">
         <CardContent className="m-0 p-1">
           {items.map((item) => (
             <ConversationBox

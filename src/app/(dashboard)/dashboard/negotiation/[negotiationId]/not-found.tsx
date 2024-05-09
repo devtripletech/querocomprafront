@@ -9,13 +9,11 @@ interface ProductNotFoundProps {
 
 export default function NegotiationNotFound() {
   return (
-    <Shell variant="centered" className="max-w-md">
-      <ErrorCard
-        title="Negociação não encontrado"
-        description="A negociação pode ter expirado ou já pode ter sido finalizada"
-        retryLink={`/dashboard/negotiation`}
-        retryLinkText="Voltar para negociações"
-      />
-    </Shell>
+    <ErrorCard
+      title="Negociação não encontrado"
+      description="A negociação pode ter expirado ou já pode ter sido finalizada"
+      retryLink={`/dashboard/negotiation`}
+      retryLinkText="Voltar para negociações"
+    />
   )
 }

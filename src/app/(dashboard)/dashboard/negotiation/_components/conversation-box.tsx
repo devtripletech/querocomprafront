@@ -55,6 +55,8 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
     return ""
   }, [lastMessage])
 
+  const titleProduct = `${getFirstName(data.vendedor)} - ${data.name}`
+
   return (
     <div
       onClick={handleClick}
@@ -89,7 +91,7 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
                 text-gray-900
               "
             >
-              {`${getFirstName(data.vendedor)} - ${truncate(data.name, 15)}`}
+              {truncate(titleProduct, 24)}
             </p>
             {lastMessage?.createdAt && (
               <p
