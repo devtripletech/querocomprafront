@@ -14,6 +14,8 @@ export default async function DashboardLayout({
 }: React.PropsWithChildren) {
   const user = (await currentUser()) as UserPayload
 
+  console.log(user)
+
   if (!user) {
     redirect("/signin")
   }

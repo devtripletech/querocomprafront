@@ -3,6 +3,16 @@ import { ThemeProvider } from "@/components/theme-provider"
 import "@/styles/globals.css"
 import AuthProvider from "@/components/auth-provider"
 import { siteConfig } from "@/config/site"
+import { Outfit } from "next/font/google"
+import { cn } from "@/lib/utils"
+
+const outfit = Outfit({
+  weight: ["300", "400", "600"],
+  variable: "--font-outfit",
+  style: ["normal"],
+  subsets: ["latin"],
+  display: "swap",
+})
 
 export const metadata: Metadata = {
   title: {
@@ -24,7 +34,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning={true}>
       <body
         cz-shortcut-listen="true"
-        className="min-h-screen bg-background font-sans antialiased"
+        className={`min-h-screen bg-background font-sans antialiased ${outfit.variable}`}
       >
         <ThemeProvider
           attribute="class"
