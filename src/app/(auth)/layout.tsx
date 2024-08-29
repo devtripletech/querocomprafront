@@ -13,7 +13,7 @@ interface AuthLayoutProps {
 export default function AuthLayout({ children }: AuthLayoutProps) {
   return (
     <div className="grid min-h-screen grid-cols-1 overflow-hidden md:grid-cols-3 lg:grid-cols-2">
-      <AspectRatio ratio={16 / 9}>
+      <AspectRatio ratio={16 / 9} className="hidden lg:block">
         <Image
           src="/images/bg-login.png"
           alt=""
@@ -33,7 +33,13 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
           />
         </Link>
       </AspectRatio>
-      <main className="container absolute top-1/2 col-span-1 flex -translate-y-1/2 items-center md:static md:top-0 md:col-span-2 md:flex md:translate-y-0 lg:col-span-1">
+      <main className="container absolute top-1/2 col-span-1 flex -translate-y-1/2 flex-col items-center justify-center md:static md:top-0 md:col-span-2 md:flex md:translate-y-0 lg:col-span-1">
+        <Link
+          href="/"
+          className="mb-8 flex items-center text-lg font-bold tracking-tight lg:hidden"
+        >
+          <Icons.logo className="h-20 text-black" aria-hidden="true" />
+        </Link>
         {children}
       </main>
     </div>
