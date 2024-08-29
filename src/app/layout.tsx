@@ -5,6 +5,7 @@ import AuthProvider from "@/components/auth-provider"
 import { siteConfig } from "@/config/site"
 import { Outfit } from "next/font/google"
 import { cn } from "@/lib/utils"
+import { TailwindIndicator } from "@/components/tailwind-indicator"
 
 const outfit = Outfit({
   weight: ["300", "400", "500", "600"],
@@ -47,6 +48,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <AuthProvider>{children}</AuthProvider>
+          <TailwindIndicator />
         </ThemeProvider>
       </body>
     </html>

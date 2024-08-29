@@ -27,7 +27,7 @@ module.exports = {
           dark: "#353535",
           mid: "#1F1E1E",
         },
-        white: {
+        whiteLabel: {
           light: "#FFFFFF",
           dark: "#FAFAFA",
         },
