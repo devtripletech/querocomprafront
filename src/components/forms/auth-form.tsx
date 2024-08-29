@@ -37,7 +37,6 @@ import { Skeleton } from "../ui/skeleton"
 type Inputs = z.infer<typeof authSchema>
 
 export function AuthForm() {
-  // const session = useSession()
   const router = useRouter()
   const searchParams = useSearchParams()
   const mounted = useMounted()
@@ -119,31 +118,25 @@ export function AuthForm() {
                 </Link>
               </div>
 
-              {mounted ? (
-                <Button disabled={isLoading} type="submit">
-                  {isLoading && (
-                    <Icons.spinner
-                      className="mr-2 h-4 w-4 animate-spin"
-                      aria-hidden="true"
-                    />
-                  )}
-                  Login
-                  <span className="sr-only">Login</span>
-                </Button>
-              ) : (
-                <Skeleton
-                  className={cn(
-                    buttonVariants({ size: "sm" }),
-                    "w-full bg-muted text-muted-foreground"
-                  )}
-                >
-                  Login
-                </Skeleton>
-              )}
+              <Button disabled={isLoading} type="submit">
+                {isLoading && (
+                  <Icons.spinner
+                    className="mr-2 h-4 w-4 animate-spin"
+                    aria-hidden="true"
+                  />
+                )}
+                Login
+                <span className="sr-only">Login</span>
+              </Button>
 
-              <Button type="button" variant="outline">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => {
+                  router.push("/signup")
+                }}
+              >
                 Criar conta
-                <span className="sr-only">Criar conta</span>
               </Button>
             </form>
           </Form>

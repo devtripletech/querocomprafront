@@ -31,25 +31,32 @@ export default async function SignUpPage() {
 
   return (
     <Shell className="max-w-lg">
-      <Card>
+      <Card className="border-spacing-0 border-none shadow-none">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl">Inscrever-se</CardTitle>
-          {/* <CardDescription>
-            Choose your preferred sign up method
-          </CardDescription> */}
+          <CardTitle className="text-base font-medium text-center">
+            Preencha os campos abaixo
+          </CardTitle>
         </CardHeader>
         <CardContent className="grid gap-4">
           <SignUpForm />
         </CardContent>
         <CardFooter>
-          <div className="text-sm text-muted-foreground">
-            Já tem uma conta?{" "}
+          <div className="text-sm px-8">
+            Ao criar uma conta, eu aceito os{" "}
             <Link
-              aria-label="Entrar"
-              href="/signin"
-              className="text-primary underline-offset-4 transition-colors hover:underline"
+              aria-label="Termos e condições"
+              href="/"
+              className="text-blue-dark underline-offset-4 transition-colors underline"
             >
-              Entrar
+              Termos e condições
+            </Link>{" "}
+            e a{" "}
+            <Link
+              aria-label="Política de Dados privados."
+              href="/"
+              className="text-blue-dark underline-offset-4 transition-colors underline"
+            >
+              Política de Dados privados.
             </Link>
           </div>
         </CardFooter>

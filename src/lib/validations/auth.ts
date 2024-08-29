@@ -15,6 +15,8 @@ export const authSchema = z.object({
 export const createUserSchema = z
   .object({
     name: z.string(),
+    lastName: z.string(),
+    gender: z.string(),
     email: authSchema.shape.email,
     password: authSchema.shape.password,
     confirmPassword: authSchema.shape.password,

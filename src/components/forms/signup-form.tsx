@@ -23,6 +23,7 @@ import { Icons } from "@/components/icons"
 import { PasswordInput } from "@/components/password-input"
 import { createUserAccountAction } from "@/app/_actions/user"
 import { signIn } from "next-auth/react"
+import { ChevronRight } from "lucide-react"
 
 type Inputs = z.infer<typeof createUserSchema>
 
@@ -72,9 +73,20 @@ export function SignUpForm() {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Nome</FormLabel>
               <FormControl>
-                <Input placeholder="Digite seu nome" {...field} />
+                <Input placeholder="Nome" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="lastName"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input placeholder="Sobrenome" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -85,9 +97,8 @@ export function SignUpForm() {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>E-mail</FormLabel>
               <FormControl>
-                <Input placeholder="Digite seu e-mail" {...field} />
+                <Input placeholder="Email" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -98,9 +109,8 @@ export function SignUpForm() {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Senha</FormLabel>
               <FormControl>
-                <PasswordInput placeholder="**********" {...field} />
+                <PasswordInput placeholder="Senha" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -111,9 +121,8 @@ export function SignUpForm() {
           name="confirmPassword"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Confirmar senha</FormLabel>
               <FormControl>
-                <PasswordInput placeholder="**********" {...field} />
+                <PasswordInput placeholder="Repita sua senha" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -126,8 +135,9 @@ export function SignUpForm() {
               aria-hidden="true"
             />
           )}
-          Continue
-          <span className="sr-only">Continue to email verification page</span>
+          Continuar
+          <ChevronRight className="h-5" />
+          <span className="sr-only">Continuar</span>
         </Button>
       </form>
     </Form>
