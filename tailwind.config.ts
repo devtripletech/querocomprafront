@@ -2,11 +2,11 @@
 module.exports = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
-	],
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+  ],
   theme: {
     container: {
       center: true,
@@ -22,6 +22,37 @@ module.exports = {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        black: {
+          light: "#8C8C8C",
+          dark: "#353535",
+          mid: "#1F1E1E",
+        },
+        white: {
+          light: "#FFFFFF",
+          dark: "#FAFAFA",
+        },
+        gray: {
+          light: "#DCDCDC",
+          dark: "#BCBCBC",
+        },
+        blue: {
+          light: "#56A6F0",
+          dark: "#2E55BF",
+        },
+        purple: {
+          light: "#D04DAB",
+          dark: "#91439E",
+        },
+        green: {
+          light: "#85D26A",
+          dark: "#25A577",
+        },
+        orange: {
+          DEFAULT: "#E27335",
+        },
+        red: {
+          DEFAULT: "#E44747",
+        },
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",

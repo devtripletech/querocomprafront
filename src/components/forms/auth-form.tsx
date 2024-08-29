@@ -73,9 +73,11 @@ export function AuthForm() {
 
   return (
     <>
-      <Card>
+      <Card className="border-spacing-0 border-none shadow-none">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl">Entrar</CardTitle>
+          <CardTitle className="text-base font-medium text-center">
+            Faça o login ou crie a sua conta
+          </CardTitle>
         </CardHeader>
         <CardContent className="grid gap-4">
           <Form {...form}>
@@ -88,9 +90,8 @@ export function AuthForm() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input placeholder="joh@gmail.com" {...field} />
+                      <Input placeholder="Email" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -101,14 +102,23 @@ export function AuthForm() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <PasswordInput placeholder="**********" {...field} />
+                      <PasswordInput placeholder="Senha" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
+              <div className="flex items-center justify-center">
+                <Link
+                  aria-label="esqueceu a senha?"
+                  href="/reset-password"
+                  className="text-base font-medium text-primary underline  transition-colors"
+                >
+                  esqueceu a senha?
+                </Link>
+              </div>
+
               {mounted ? (
                 <Button disabled={isLoading} type="submit">
                   {isLoading && (
@@ -117,8 +127,8 @@ export function AuthForm() {
                       aria-hidden="true"
                     />
                   )}
-                  Entrar
-                  <span className="sr-only">Entrar</span>
+                  Login
+                  <span className="sr-only">Login</span>
                 </Button>
               ) : (
                 <Skeleton
@@ -127,33 +137,17 @@ export function AuthForm() {
                     "w-full bg-muted text-muted-foreground"
                   )}
                 >
-                  Entrar
+                  Login
                 </Skeleton>
               )}
+
+              <Button type="button" variant="outline">
+                Criar conta
+                <span className="sr-only">Criar conta</span>
+              </Button>
             </form>
           </Form>
         </CardContent>
-        <CardFooter className="flex flex-wrap items-center justify-between gap-2">
-          <div className="text-sm text-muted-foreground">
-            <span className="mr-1 hidden sm:inline-block">
-              Não tem uma conta?
-            </span>
-            <Link
-              aria-label="Inscrever-se"
-              href="/signup"
-              className="text-primary underline-offset-4 transition-colors hover:underline"
-            >
-              Inscrever-se
-            </Link>
-          </div>
-          <Link
-            aria-label="Redefinir senha"
-            href="/reset-password"
-            className="text-sm text-primary underline-offset-4 transition-colors hover:underline"
-          >
-            Redefinir senha
-          </Link>
-        </CardFooter>
       </Card>
     </>
   )

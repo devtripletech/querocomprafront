@@ -7,7 +7,7 @@ import { Outfit } from "next/font/google"
 import { cn } from "@/lib/utils"
 
 const outfit = Outfit({
-  weight: ["300", "400", "600"],
+  weight: ["300", "400", "500", "600"],
   variable: "--font-outfit",
   style: ["normal"],
   subsets: ["latin"],
@@ -31,10 +31,14 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning={true}>
+    <html
+      lang="en"
+      suppressHydrationWarning={true}
+      className={`${outfit.variable}`}
+    >
       <body
         cz-shortcut-listen="true"
-        className={`min-h-screen bg-background font-sans antialiased ${outfit.variable}`}
+        className={`min-h-screen bg-background font-sans antialiased`}
       >
         <ThemeProvider
           attribute="class"
