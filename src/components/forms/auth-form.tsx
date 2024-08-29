@@ -133,7 +133,7 @@ export function AuthForm() {
                 type="button"
                 variant="outline"
                 onClick={() => {
-                  router.push("/signup")
+                  router.push("/cadastro")
                 }}
               >
                 Criar conta

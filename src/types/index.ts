@@ -80,3 +80,9 @@ export type Category = {
   name: string
   createdAt: string
 }
+
+export interface SearchParams {
+  searchParams: {
+    [key: string]: string | undefined
+  }
+}

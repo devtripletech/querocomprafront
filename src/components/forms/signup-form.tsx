@@ -37,7 +37,6 @@ type Inputs = z.infer<typeof createUserSchema>
 
 export function SignUpForm() {
   const router = useRouter()
-  // const { isLoaded, signUp } = useSignUp()
   const [isLoaded, setIsLoaded] = React.useState(false)
   const [isPending, startTransition] = React.useTransition()
 
