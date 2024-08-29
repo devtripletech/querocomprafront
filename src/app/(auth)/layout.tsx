@@ -15,7 +15,7 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
     <div className="grid min-h-screen grid-cols-1 overflow-hidden md:grid-cols-3 lg:grid-cols-2">
       <AspectRatio ratio={16 / 9} className="hidden lg:block">
         <Image
-          src="/images/bg-login.png"
+          src="/images/bg-login.jpeg"
           alt=""
           fill
           className="object-cover"

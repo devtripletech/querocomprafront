@@ -24,6 +24,13 @@ import { PasswordInput } from "@/components/password-input"
 import { createUserAccountAction } from "@/app/_actions/user"
 import { signIn } from "next-auth/react"
 import { ChevronRight } from "lucide-react"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select"
 
 type Inputs = z.infer<typeof createUserSchema>
 
@@ -88,6 +95,26 @@ export function SignUpForm() {
               <FormControl>
                 <Input placeholder="Sobrenome" {...field} />
               </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="gender"
+          render={({ field }) => (
+            <FormItem>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Gênero" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="feminino">Feminino</SelectItem>
+                  <SelectItem value="masculino ">Masculino </SelectItem>
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}
