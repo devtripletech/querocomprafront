@@ -56,7 +56,9 @@ export function RegisterContainer() {
           <TabsContent value="comprador">
             <SignUpForm />
           </TabsContent>
-          <TabsContent value="vendedor"></TabsContent>
+          <TabsContent value="vendedor">
+            <SignUpForm />
+          </TabsContent>
         </Tabs>
       </CardContent>
     </Card>
