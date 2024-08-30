@@ -24,17 +24,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Icons } from "@/components/icons"
-import { PasswordInput } from "@/components/password-input"
-import { createUserAccountAction } from "@/app/_actions/user"
-import { signIn } from "next-auth/react"
-import { ChevronRight } from "lucide-react"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select"
+
 import Link from "next/link"
 import { registerBuyerStep2Schema } from "@/lib/validations/auth"
 

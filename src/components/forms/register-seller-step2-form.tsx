@@ -7,7 +7,11 @@ import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import type { z } from "zod"
 
-import { catchError } from "@/lib/utils"
+import {
+  catchError,
+  normalizeCnpjNumber,
+  normalizePhoneNumber,
+} from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -62,6 +66,28 @@ export function RegisterSellerStep2Form() {
       }
     })
   }
+
+  const cnpjValue = form.watch("cnpj")
+  const telefoneComercialValue = form.watch("telefoneComercial")
+  const telefoneSecundarioValue = form.watch("telefoneSecundario")
+
+  React.useEffect(() => {
+    form.setValue("cnpj", normalizeCnpjNumber(cnpjValue))
+  }, [cnpjValue, form])
+
+  React.useEffect(() => {
+    form.setValue(
+      "telefoneComercial",
+      normalizePhoneNumber(telefoneComercialValue)
+    )
+  }, [telefoneComercialValue, form])
+
+  React.useEffect(() => {
+    form.setValue(
+      "telefoneSecundario",
+      normalizePhoneNumber(telefoneSecundarioValue)
+    )
+  }, [telefoneSecundarioValue, form])
 
   return (
     <>
