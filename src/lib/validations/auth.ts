@@ -67,6 +67,46 @@ export const registerBuyerStep1Schema = z
     path: ["confirmPassword"],
   })
 
+export const registerBuyerStep2Schema = z.object({
+  cpf: z.string({
+    required_error: "CPF é obrigatório",
+    invalid_type_error: "O CPF deve ser uma string",
+  }),
+  telefone: z
+    .string({
+      required_error: "Telefone é obrigatório",
+      invalid_type_error: "O Telefone deve ser uma string",
+    })
+    .regex(/^\(?\d{2}\)?\s?\d{4,5}-\d{4}$/, {
+      message:
+        "O Telefone deve estar no formato (XX) XXXXX-XXXX ou (XX) XXXX-XXXX",
+    }),
+  cep: z.string({
+    required_error: "Sobrenome é obrigatório",
+    invalid_type_error: "O sobrenome deve ser uma string",
+  }),
+  rua: z.string({
+    required_error: "Rua é obrigatório",
+    invalid_type_error: "O rua deve ser uma string",
+  }),
+  numero: z.string({
+    required_error: "obrigatório",
+    invalid_type_error: "O número deve ser uma string",
+  }),
+  bairro: z.string({
+    required_error: "Bairro é obrigatório",
+    invalid_type_error: "O bairro deve ser uma string",
+  }),
+  cidade: z.string({
+    required_error: "Cidade é obrigatório",
+    invalid_type_error: "O cidade deve ser uma string",
+  }),
+  uf: z.string({
+    required_error: "obrigatório",
+    invalid_type_error: "O uf deve ser uma string",
+  }),
+})
+
 export const registerSellerStep1Schema = z
   .object({
     razaoSocial: z

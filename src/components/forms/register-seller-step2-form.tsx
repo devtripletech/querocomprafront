@@ -172,7 +172,7 @@ export function RegisterSellerStep2Form() {
         </form>
       </Form>
 
-      <div className="text-sm px-8 mt-5">
+      <div className="text-sm px-8 mt-2 text-center m-auto leading-6 w-[400px]">
         Ao criar uma conta, eu aceito os{" "}
         <Link
           aria-label="Termos e condições"

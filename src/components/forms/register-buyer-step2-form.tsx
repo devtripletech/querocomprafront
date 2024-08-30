@@ -8,7 +8,6 @@ import { toast } from "sonner"
 import type { z } from "zod"
 
 import { catchError } from "@/lib/utils"
-import { createUserSchema } from "@/lib/validations/auth"
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -32,8 +31,9 @@ import {
   SelectValue,
 } from "../ui/select"
 import Link from "next/link"
+import { registerBuyerStep2Schema } from "@/lib/validations/auth"
 
-type Inputs = z.infer<typeof createUserSchema>
+type Inputs = z.infer<typeof registerBuyerStep2Schema>
 
 export function RegisterBuyerStep2Form() {
   const router = useRouter()
@@ -41,25 +41,22 @@ export function RegisterBuyerStep2Form() {
 
   const form = useForm<Inputs>({
     mode: "onChange",
-    resolver: zodResolver(createUserSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
+    resolver: zodResolver(registerBuyerStep2Schema),
+    defaultValues: {},
   })
 
   function onSubmit(data: Inputs) {
     startTransition(async () => {
       try {
-        const res = await createUserAccountAction(data)
-        router.push("/")
-        toast.message("Cadastro", {
-          description: res.msg,
-        })
-        signIn("Credentials", {
-          email: data.email,
-          password: data.password,
-        })
+        // const res = await createUserAccountAction(data)
+        // router.push("/")
+        // toast.message("Cadastro", {
+        //   description: res.msg,
+        // })
+        // signIn("Credentials", {
+        //   email: data.email,
+        //   password: data.password,
+        // })
       } catch (err) {
         catchError(err)
       }
@@ -74,91 +71,113 @@ export function RegisterBuyerStep2Form() {
           onSubmit={(...args) => void form.handleSubmit(onSubmit)(...args)}
         >
           <div className="text-base font-medium text-center  mb-2">
-            Preencha os campos abaixo
+            Estamos quase terminando, só mais algumas informações.
           </div>
           <FormField
             control={form.control}
-            name="name"
+            name="cpf"
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="Nome" {...field} />
+                  <Input placeholder="CPF" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="lastName"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Input placeholder="Sobrenome" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="gender"
-            render={({ field }) => (
-              <FormItem>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
+          <div className="grid grid-cols-2 gap-3">
+            <FormField
+              control={form.control}
+              name="telefone"
+              render={({ field }) => (
+                <FormItem>
                   <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Gênero" />
-                    </SelectTrigger>
+                    <Input placeholder="Telefone" {...field} />
                   </FormControl>
-                  <SelectContent>
-                    <SelectItem value="feminino">Feminino</SelectItem>
-                    <SelectItem value="masculino ">Masculino </SelectItem>
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Input placeholder="Email" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <PasswordInput placeholder="Senha" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="confirmPassword"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <PasswordInput placeholder="Repita sua senha" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="cep"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input placeholder="CEP" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <div className="grid grid-cols-4 gap-3">
+            <FormField
+              control={form.control}
+              name="rua"
+              render={({ field }) => (
+                <FormItem className="col-span-3">
+                  <FormControl>
+                    <Input placeholder="Rua" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="numero"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input placeholder="Número" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <div className="grid grid-cols-5 gap-3">
+            <FormField
+              control={form.control}
+              name="bairro"
+              render={({ field }) => (
+                <FormItem className="col-span-2">
+                  <FormControl>
+                    <Input placeholder="Bairro" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="cidade"
+              render={({ field }) => (
+                <FormItem className="col-span-2">
+                  <FormControl>
+                    <Input placeholder="Cidade" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="uf"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input placeholder="UF" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
           <Button className="mt-2" type="submit" disabled={isPending}>
             {isPending && (
               <Icons.spinner
@@ -166,14 +185,13 @@ export function RegisterBuyerStep2Form() {
                 aria-hidden="true"
               />
             )}
-            Continuar
-            <ChevronRight className="h-5" />
-            <span className="sr-only">Continuar</span>
+            Criar conta
+            <span className="sr-only">Criar conta</span>
           </Button>
         </form>
       </Form>
 
-      <div className="text-sm px-8 mt-5">
+      <div className="text-sm px-8 mt-2 text-center m-auto leading-6 w-[400px]">
         Ao criar uma conta, eu aceito os{" "}
         <Link
           aria-label="Termos e condições"

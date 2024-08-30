@@ -5,6 +5,7 @@ import { usePathname, useSearchParams } from "next/navigation"
 import { RegisterBuyerStep1Form } from "@/components/forms/register-buyer-step1-form"
 import { RegisterSellerStep1Form } from "@/components/forms/register-seller-step1-form"
 import { RegisterSellerStep2Form } from "@/components/forms/register-seller-step2-form"
+import { RegisterBuyerStep2Form } from "@/components/forms/register-buyer-step2-form"
 
 export function RegisterUserFinishContainer() {
   const searchParams = useSearchParams()
@@ -16,7 +17,7 @@ export function RegisterUserFinishContainer() {
       <CardHeader className="space-y-1"></CardHeader>
       <CardContent className="grid gap-3">
         {page === "comprador" ? (
-          <RegisterBuyerStep1Form />
+          <RegisterBuyerStep2Form />
         ) : (
           <RegisterSellerStep2Form />
         )}
