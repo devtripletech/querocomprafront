@@ -26,14 +26,14 @@ import { EditPasswordDialog } from "../dialog/edit-password-dialog"
 
 export function AccountAccessCard({ email }: { email: string }) {
   return (
-    <div className="flex flex-col gap-4 w-full">
+    <div className="flex flex-col gap-3 w-full">
       <div className="flex items-center">
         <KeyRound className="mr-2 h-5 w-5" />
         <h2 className="text-xl">Dados de acesso</h2>
       </div>
       <div className="flex flex-col">
         <div className="rounded-md border px-6 py-8 gap-2">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-3">
             <div>
               <Label>E-mail</Label>
               <div className="flex  w-full items-center rounded-md border px-4 ">

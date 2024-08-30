@@ -59,7 +59,7 @@ export default async function IndexPage() {
         aria-labelledby="featured-products-heading"
         className="space-y-6 pt-8 md:pt-10 lg:pt-12"
       >
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
           <div className="max-w-[58rem] flex-1 space-y-1">
             <h2 className="font-heading text-3xl font-bold leading-[1.1] md:text-4xl">
               Serviços ou Produtos
@@ -81,7 +81,7 @@ export default async function IndexPage() {
           </Link>
         </div>
         <div className="space-y-8">
-          <div className="grid gap-4 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          <div className="grid gap-3 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             <React.Suspense
               fallback={Array.from({ length: 8 }).map((_, i) => (
                 <ProductCardSkeleton key={i} />

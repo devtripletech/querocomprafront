@@ -51,7 +51,7 @@ export function ResetPasswordForm() {
   return (
     <Form {...form}>
       <form
-        className="grid gap-4"
+        className="grid gap-3"
         onSubmit={(...args) => void form.handleSubmit(onSubmit)(...args)}
       >
         <FormField
@@ -67,7 +67,7 @@ export function ResetPasswordForm() {
             </FormItem>
           )}
         />
-        <Button disabled={isPending}>
+        <Button className="mt-2" disabled={isPending}>
           {isPending && (
             <Icons.spinner
               className="mr-2 h-4 w-4 animate-spin"

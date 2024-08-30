@@ -5,24 +5,51 @@ import Link from "next/link"
 
 import { AspectRatio } from "@/components/ui/aspect-ratio"
 import { Icons } from "@/components/icons"
-import { useSearchParams } from "next/navigation"
+import { usePathname, useSearchParams } from "next/navigation"
 
 interface AuthLayoutProps {
   children: React.ReactNode
 }
 
 export default function AuthLayout({ children }: AuthLayoutProps) {
-  const searchParams = useSearchParams() // Usando o hook useSearchParams
+  const searchParams = useSearchParams()
+  const pathname = usePathname()
+  console.log(pathname)
   const pageParam = searchParams.get("page")
+
+  function renderIcon() {
+    if (pathname === "/cadastro") {
+      return pageParam === "vendedor" ? (
+        <Icons.bgCadastroV1
+          aria-hidden="true"
+          className="w-full transition-all duration-500 ease-in-out"
+        />
+      ) : (
+        <Icons.bgCadastroC1
+          aria-hidden="true"
+          className="w-full transition-all duration-500 ease-in-out"
+        />
+      )
+    } else if (pathname === "/cadastro/finalizar") {
+      return pageParam === "vendedor" ? (
+        <Icons.bgCadastroV2
+          aria-hidden="true"
+          className="w-full transition-allsition-opacity duration-500 ease-in-out"
+        />
+      ) : (
+        <Icons.bgCadastroC2
+          aria-hidden="true"
+          className="w-full transition-all duration-500 ease-in-out"
+        />
+      )
+    }
+    return null
+  }
 
   return (
     <div className="grid min-h-screen grid-cols-1 overflow-hidden lg:grid-cols-2">
       <AspectRatio ratio={16 / 9} className="hidden lg:block">
-        {pageParam === "vendedor" ? (
-          <Icons.bgCadastroV1 aria-hidden="true" className="w-full" />
-        ) : (
-          <Icons.bgCadastroC1 aria-hidden="true" className="w-full" />
-        )}
+        {renderIcon()}
 
         {/* <Link
           href="/"

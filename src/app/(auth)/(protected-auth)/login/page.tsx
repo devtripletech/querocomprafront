@@ -4,7 +4,7 @@ import { Toaster } from "sonner"
 
 const AuthPage = () => {
   return (
-    <Shell className="max-w-lg">
+    <Shell className="max-w-xl">
       <AuthForm />
       <Toaster />
     </Shell>

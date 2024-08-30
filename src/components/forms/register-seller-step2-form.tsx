@@ -8,7 +8,6 @@ import { toast } from "sonner"
 import type { z } from "zod"
 
 import { catchError } from "@/lib/utils"
-import { createUserSchema } from "@/lib/validations/auth"
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -32,33 +31,32 @@ import {
   SelectValue,
 } from "../ui/select"
 import Link from "next/link"
+import { registerSellerStep2Schema } from "@/lib/validations/auth"
 
-type Inputs = z.infer<typeof createUserSchema>
+type Inputs = z.infer<typeof registerSellerStep2Schema>
 
 export function RegisterSellerStep2Form() {
   const router = useRouter()
   const [isPending, startTransition] = React.useTransition()
 
   const form = useForm<Inputs>({
-    resolver: zodResolver(createUserSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
+    mode: "onChange",
+    resolver: zodResolver(registerSellerStep2Schema),
+    defaultValues: {},
   })
 
   function onSubmit(data: Inputs) {
     startTransition(async () => {
       try {
-        const res = await createUserAccountAction(data)
-        router.push("/")
-        toast.message("Cadastro", {
-          description: res.msg,
-        })
-        signIn("Credentials", {
-          email: data.email,
-          password: data.password,
-        })
+        // const res = await createUserAccountAction(data)
+        // router.push("/")
+        // toast.message("Cadastro", {
+        //   description: res.msg,
+        // })
+        // signIn("Credentials", {
+        //   email: data.email,
+        //   password: data.password,
+        // })
       } catch (err) {
         catchError(err)
       }
@@ -69,39 +67,15 @@ export function RegisterSellerStep2Form() {
     <>
       <Form {...form}>
         <form
-          className="grid gap-4"
+          className="grid gap-3"
           onSubmit={(...args) => void form.handleSubmit(onSubmit)(...args)}
         >
-          <div className="text-base font-medium text-center mt-8">
-            Preencha os campos abaixo
+          <div className="text-base font-medium text-center mb-2">
+            Estamos quase terminando, só mais algumas informações.
           </div>
           <FormField
             control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Input placeholder="Nome" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="lastName"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Input placeholder="Sobrenome" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="gender"
+            name="segmento"
             render={({ field }) => (
               <FormItem>
                 <Select
@@ -110,12 +84,12 @@ export function RegisterSellerStep2Form() {
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Gênero" />
+                      <SelectValue placeholder="Segmento" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="feminino">Feminino</SelectItem>
-                    <SelectItem value="masculino ">Masculino </SelectItem>
+                    <SelectItem value="feminino">Segmento 1</SelectItem>
+                    <SelectItem value="masculino ">Segmento 2</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -124,11 +98,49 @@ export function RegisterSellerStep2Form() {
           />
           <FormField
             control={form.control}
-            name="email"
+            name="cnpj"
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="Email" {...field} />
+                  <Input placeholder="CNPJ" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <div className="flex gap-3">
+            <FormField
+              control={form.control}
+              name="telefoneComercial"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input placeholder="Telefone Comercial" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="telefoneSecundario"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input placeholder="Telefone Secundário" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <FormField
+            control={form.control}
+            name="nomeRepresentante"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input placeholder="Nome do Representante" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -136,38 +148,26 @@ export function RegisterSellerStep2Form() {
           />
           <FormField
             control={form.control}
-            name="password"
+            name="sobreNomeRepresentante"
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <PasswordInput placeholder="Senha" {...field} />
+                  <Input placeholder="Sobrenome do Representante" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="confirmPassword"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <PasswordInput placeholder="Repita sua senha" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button type="submit" disabled={isPending}>
+
+          <Button className="mt-2" type="submit" disabled={isPending}>
             {isPending && (
               <Icons.spinner
                 className="mr-2 h-4 w-4 animate-spin"
                 aria-hidden="true"
               />
             )}
-            Continuar
-            <ChevronRight className="h-5" />
-            <span className="sr-only">Continuar</span>
+            Criar conta
+            <span className="sr-only">Criar conta</span>
           </Button>
         </form>
       </Form>

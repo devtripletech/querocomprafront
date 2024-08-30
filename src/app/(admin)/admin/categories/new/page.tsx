@@ -65,7 +65,7 @@ export default async function NewCategoryPage({
         aria-labelledby="user-account-info-heading"
         className="overflow-hidden"
       >
-        <div className="flex  gap-4">
+        <div className="flex  gap-3">
           <Card className="w-full max-w-2xl">
             <CardHeader className="space-y-1"></CardHeader>
             <CardContent>

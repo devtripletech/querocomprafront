@@ -98,6 +98,64 @@ export const registerSellerStep1Schema = z
     path: ["confirmPassword"],
   })
 
+export const registerSellerStep2Schema = z.object({
+  segmento: z.string({
+    required_error: "Segmento é obrigatório",
+    invalid_type_error: "O segmento deve ser uma string",
+  }),
+  cnpj: z
+    .string({
+      required_error: "CNPJ é obrigatório",
+      invalid_type_error: "O CNPJ deve ser uma string",
+    })
+    .regex(/^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/, {
+      message: "O CNPJ deve estar no formato XX.XXX.XXX/XXXX-XX",
+    }),
+
+  telefoneComercial: z
+    .string({
+      required_error: "Telefone Comercial é obrigatório",
+      invalid_type_error: "O Telefone Comercial deve ser uma string",
+    })
+    .regex(/^\(?\d{2}\)?\s?\d{4,5}-\d{4}$/, {
+      message:
+        "O Telefone Comercial deve estar no formato (XX) XXXXX-XXXX ou (XX) XXXX-XXXX",
+    }),
+
+  telefoneSecundario: z
+    .string({
+      required_error: "Telefone Secundário é obrigatório",
+      invalid_type_error: "O Telefone Secundário deve ser uma string",
+    })
+    .regex(/^\(?\d{2}\)?\s?\d{4,5}-\d{4}$/, {
+      message:
+        "O Telefone Secundário deve estar no formato (XX) XXXXX-XXXX ou (XX) XXXX-XXXX",
+    }),
+
+  nomeRepresentante: z
+    .string({
+      required_error: "Nome do Representante é obrigatório",
+      invalid_type_error: "O Nome do Representante deve ser uma string",
+    })
+    .min(2, {
+      message: "O Nome do Representante deve ter no mínimo 2 caracteres",
+    })
+    .max(50, {
+      message: "O Nome do Representante deve ter no máximo 50 caracteres",
+    }),
+  sobreNomeRepresentante: z
+    .string({
+      required_error: "Sobrenome do Representante é obrigatório",
+      invalid_type_error: "O Sobrenome do Representante deve ser uma string",
+    })
+    .min(2, {
+      message: "O Sobrenome do Representante deve ter no mínimo 2 caracteres",
+    })
+    .max(50, {
+      message: "O Sobrenome do Representante deve ter no máximo 50 caracteres",
+    }),
+})
+
 export const verifyEmailSchema = z.object({
   code: z
     .string({

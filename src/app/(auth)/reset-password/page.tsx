@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 
 export default function RecoverPasswordPage() {
   return (
-    <Shell className="max-w-lg">
+    <Shell className="max-w-xl">
       <ResetPasswordForm />
     </Shell>
   )

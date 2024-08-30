@@ -16,5 +16,5 @@ export const metadata: Metadata = {
 }
 
 export default function ResetPasswordStep2Page() {
-  return <Shell className="max-w-lg">{/* <ResetPasswordFormStep2 /> */}</Shell>
+  return <Shell className="max-w-xl">{/* <ResetPasswordFormStep2 /> */}</Shell>
 }

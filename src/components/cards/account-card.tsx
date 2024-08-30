@@ -32,7 +32,7 @@ interface AccountCardProps {
 }
 export function AccountCard({ user }: AccountCardProps) {
   return (
-    <div className="flex flex-col gap-4 w-full">
+    <div className="flex flex-col gap-3 w-full">
       <div className="rounded-md border px-6 py-8 gap-2">
         <div className="flex items-center">
           <KeyRound className="mr-2 h-4 w-4 text-zinc-600" />

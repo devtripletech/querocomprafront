@@ -38,7 +38,7 @@ export default function DashboardAccountLayout({
         aria-labelledby="user-account-info-heading"
         className="w-full overflow-hidden"
       >
-        <div className="flex gap-4">
+        <div className="flex gap-3">
           <SidebarSubNav items={accountDashboardConfig.sidebarNav} />
           {children}
         </div>

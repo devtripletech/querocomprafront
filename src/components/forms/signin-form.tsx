@@ -61,7 +61,7 @@ export function SignInForm() {
   return (
     <Form {...form}>
       <form
-        className="grid gap-4"
+        className="grid gap-3"
         onSubmit={(...args) => void form.handleSubmit(onSubmit)(...args)}
       >
         <FormField

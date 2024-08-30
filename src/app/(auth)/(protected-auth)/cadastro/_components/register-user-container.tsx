@@ -13,7 +13,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { RegisterBuyerStep1Form } from "@/components/forms/register-buyer-step1-form"
 import { RegisterSellerStep1Form } from "@/components/forms/register-seller-step1-form"
 
-export function RegisterContainer() {
+export function RegisterUserContainer() {
   const searchParams = useSearchParams()
   const page = searchParams?.get("page") ?? "comprador"
   const [tabName, setTabName] = React.useState(page)
@@ -46,7 +46,7 @@ export function RegisterContainer() {
   return (
     <Card className="border-spacing-0 border-none shadow-none">
       <CardHeader className="space-y-1"></CardHeader>
-      <CardContent className="grid gap-4">
+      <CardContent className="grid gap-3">
         <Tabs defaultValue={tabName} onValueChange={handleTabChange}>
           <div className="flex items-center justify-center">
             <TabsList className="grid w-[230px] grid-cols-2">

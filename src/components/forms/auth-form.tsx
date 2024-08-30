@@ -77,10 +77,10 @@ export function AuthForm() {
             Faça o login ou crie a sua conta
           </CardTitle>
         </CardHeader>
-        <CardContent className="grid gap-4">
+        <CardContent className="grid gap-3">
           <Form {...form}>
             <form
-              className="grid gap-4"
+              className="grid gap-3"
               onSubmit={(...args) => void form.handleSubmit(onSubmit)(...args)}
             >
               <FormField
@@ -117,7 +117,7 @@ export function AuthForm() {
                 </Link>
               </div>
 
-              <Button disabled={isLoading} type="submit">
+              <Button className="mt-2" disabled={isLoading} type="submit">
                 {isLoading && (
                   <Icons.spinner
                     className="mr-2 h-4 w-4 animate-spin"

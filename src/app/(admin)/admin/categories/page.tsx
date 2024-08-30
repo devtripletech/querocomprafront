@@ -81,7 +81,7 @@ export default async function ProductsPage({
           Gerenciar suas categorias
         </PageHeaderDescription>
       </PageHeader>
-      <section className="grid gap-4">
+      <section className="grid gap-3">
         <CategoriesTable promise={productsPromise} />
       </section>
     </Shell>

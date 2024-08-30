@@ -26,14 +26,14 @@ export default async function DashboardPage() {
         <PageHeaderDescription size="sm"></PageHeaderDescription>
       </PageHeader>
 
-      <section className="flex flex-col gap-4">
-        <div className="grid grid-cols-4 gap-4">
+      <section className="flex flex-col gap-3">
+        <div className="grid grid-cols-4 gap-3">
           <UsersAmountCard />
           <MonthProductsAmountCard />
           <MonthNegotiationsAmountCard />
           <DayNegotiationsAmountCard monthUser={data} />
         </div>
-        <div className="grid grid-cols-9 gap-4">
+        <div className="grid grid-cols-9 gap-3">
           <NegotiationsChart />
           <PopularCategoriesChart />
         </div>

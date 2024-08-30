@@ -77,7 +77,7 @@ export default async function NegotiationsMyPage() {
           Gerenciar suas Negociações
         </PageHeaderDescription>
       </PageHeader>
-      <section className="grid gap-4">
+      <section className="grid gap-3">
         <NegotiationTable items={negotiations} />
       </section>
     </Shell>

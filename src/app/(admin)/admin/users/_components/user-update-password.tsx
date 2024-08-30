@@ -88,7 +88,7 @@ export function UpdatePassword({ userId, open, setOpen }: UserDetailsProps) {
         {/* <DialogDescription>Detalhes</DialogDescription> */}
         <Form {...form}>
           <form
-            className="grid gap-4 py-4"
+            className="grid gap-3 py-4"
             onSubmit={(...args) => void form.handleSubmit(onSubmit)(...args)}
           >
             <FormField

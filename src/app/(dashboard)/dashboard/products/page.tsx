@@ -92,7 +92,7 @@ export default async function ProductsPage({
           <span className="font-semibold">100</span> produtos.
         </AlertDescription>
       </Alert> */}
-      <section className="grid gap-4">
+      <section className="grid gap-3">
         <ProductsTableShell transaction={transaction} categories={categories} />
       </section>
     </Shell>

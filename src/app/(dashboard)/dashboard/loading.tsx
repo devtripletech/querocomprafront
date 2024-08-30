@@ -19,7 +19,7 @@ export default function StoreLoading() {
           <Skeleton className="h-4 w-2/4" />
         </CardHeader>
         <CardContent>
-          <div className="grid w-full max-w-xl gap-4">
+          <div className="grid w-full max-w-xl gap-3">
             <div className="space-y-2.5">
               <Skeleton className="h-4 w-32" />
               <Skeleton className="h-6" />

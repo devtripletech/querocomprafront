@@ -106,7 +106,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           }}
         />
         <Separator className="mt-4 md:hidden" />
-        <div className="flex w-full flex-col gap-4 md:w-1/2 md:mr-8">
+        <div className="flex w-full flex-col gap-3 md:w-1/2 md:mr-8">
           <div className="space-y-6">
             <h2 className="line-clamp-1 text-2xl font-bold">{product.nome}</h2>
             <div>

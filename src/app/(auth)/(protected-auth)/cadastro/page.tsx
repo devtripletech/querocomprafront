@@ -5,7 +5,7 @@ import { env } from "@/env.mjs"
 import { Shell } from "@/components/shells/shell"
 import { currentUser } from "@/app/_actions/user"
 import { UserPayload } from "@/lib/validations/auth"
-import { RegisterContainer } from "./_components/register-container"
+import { RegisterUserContainer } from "./_components/register-user-container"
 import { SearchParams } from "@/types"
 
 export const metadata: Metadata = {
@@ -22,8 +22,8 @@ export default async function SignUpPage() {
   }
 
   return (
-    <Shell className="max-w-lg">
-      <RegisterContainer />
+    <Shell className="max-w-xl">
+      <RegisterUserContainer />
     </Shell>
   )
 }

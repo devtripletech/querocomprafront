@@ -39,7 +39,7 @@ export function AccountPersonalCard({
   user: User
 }) {
   return (
-    <div className="flex flex-col gap-4 w-full">
+    <div className="flex flex-col gap-3 w-full">
       {!userValid && (
         <Alert variant="destructive">
           <AlertTriangle className="h-4 w-4" />

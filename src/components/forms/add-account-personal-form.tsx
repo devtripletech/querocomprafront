@@ -131,7 +131,7 @@ export function AddAccountPersonalForm({ user }: AddAccountPersonalFormProps) {
         </div>
 
         <div className="rounded-md border px-6 py-8">
-          <div className="grid grid-cols-3 grid-rows-2 gap-4">
+          <div className="grid grid-cols-3 grid-rows-2 gap-3">
             <div className="col-span-2">
               <FormField
                 control={form.control}
@@ -194,7 +194,7 @@ export function AddAccountPersonalForm({ user }: AddAccountPersonalFormProps) {
         <div className="rounded-md border px-6 py-8">
           <h2 className="font-medium">Endereço</h2>
           <Separator className="my-4" />
-          <div className="grid grid-cols-5 grid-rows-3 gap-4">
+          <div className="grid grid-cols-5 grid-rows-3 gap-3">
             <div className="col-span-2">
               <FormField
                 control={form.control}

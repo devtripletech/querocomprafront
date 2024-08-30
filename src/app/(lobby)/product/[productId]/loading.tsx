@@ -40,7 +40,7 @@ export default function ProductLoading() {
           </div>
         </div>
         <Separator className="mt-4 md:hidden" />
-        <div className="flex w-full flex-col gap-4 md:w-1/2">
+        <div className="flex w-full flex-col gap-3 md:w-1/2">
           <div className="space-y-2">
             <Skeleton className="h-9 w-16" />
             <Skeleton className="h-6 w-10" />
@@ -62,7 +62,7 @@ export default function ProductLoading() {
       <div className="overflow-hidden md:pt-6">
         <Skeleton className="h-9 w-14" />
         <div className="overflow-x-auto pb-2 pt-6">
-          <div className="flex gap-4">
+          <div className="flex gap-3">
             {Array.from({ length: 4 }).map((_, i) => (
               <Card key={i} className="min-w-[260px] rounded-sm">
                 <CardHeader className="border-b p-0">

@@ -40,13 +40,13 @@ export default async function NegotiationsLayout({
         aria-labelledby="user-account-info-heading"
         className="overflow-hidden"
       >
-        <div className="flex gap-4 w-full">
+        <div className="flex gap-3 w-full">
           <ConversationList initialItems={conversations} />
           {children}
         </div>
       </section>
 
-      {/* <section className="grid gap-4">
+      {/* <section className="grid gap-3">
         
         <ConversationList initialItems={conversations} />
         {children}

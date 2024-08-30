@@ -35,7 +35,7 @@ export default async function NegotiationsPage() {
           Gerenciar negociações
         </PageHeaderDescription>
       </PageHeader>
-      <section className="grid gap-4">
+      <section className="grid gap-3">
         <NegotiationTableFilters />
         <React.Suspense fallback={<DataTableSkeleton columnCount={4} />}>
           <NegotiationTable />

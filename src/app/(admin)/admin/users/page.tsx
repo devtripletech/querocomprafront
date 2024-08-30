@@ -70,7 +70,7 @@ export default async function ProductsPage({
           Gerenciar usuários
         </PageHeaderDescription>
       </PageHeader>
-      <section className="grid gap-4">
+      <section className="grid gap-3">
         <UserTableFilters />
         {/* <React.Suspense fallback={<DataTableSkeleton columnCount={4} />}> */}
         <UserTable />

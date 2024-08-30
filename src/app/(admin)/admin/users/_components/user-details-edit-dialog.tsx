@@ -189,7 +189,7 @@ export function UserDetailsEdit({
       </DialogHeader>
       <Form {...form}>
         <form
-          className="grid gap-4 py-4"
+          className="grid gap-3 py-4"
           onSubmit={(...args) => void form.handleSubmit(onSubmit)(...args)}
         >
           <div className="flex gap-2">

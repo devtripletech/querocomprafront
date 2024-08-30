@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function UnauthorizedPage() {
   return (
     <Shell variant="sidebar">
-      <section className="grid gap-4">
+      <section className="grid gap-3">
         <ErrorCard
           title="Não autorizado"
           description="Você não tem permissão para acessar esta página."
