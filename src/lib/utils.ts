@@ -121,19 +121,6 @@ export function catchError(err: unknown) {
   }
 }
 
-export function catchClerkError(err: unknown) {
-  const unknownErr = "Something went wrong, please try again later."
-
-  if (err instanceof z.ZodError) {
-    const errors = err.issues.map((issue) => {
-      return issue.message
-    })
-    return toast(errors.join("\n"))
-  } else {
-    return toast.error(unknownErr)
-  }
-}
-
 export function isMacOs() {
   if (typeof window === "undefined") return false
 

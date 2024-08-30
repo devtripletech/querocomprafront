@@ -8,9 +8,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { SignUpForm } from "@/components/forms/signup-form"
 import React from "react"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { RegisterBuyerStep1Form } from "@/components/forms/register-buyer-step1-form"
+import { RegisterSellerStep1Form } from "@/components/forms/register-seller-step1-form"
 
 export function RegisterContainer() {
   const searchParams = useSearchParams()
@@ -54,10 +55,10 @@ export function RegisterContainer() {
             </TabsList>
           </div>
           <TabsContent value="comprador">
-            <SignUpForm />
+            <RegisterBuyerStep1Form />
           </TabsContent>
           <TabsContent value="vendedor">
-            <SignUpForm />
+            <RegisterSellerStep1Form />
           </TabsContent>
         </Tabs>
       </CardContent>

@@ -7,8 +7,8 @@ import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import type { z } from "zod"
 
-import { catchClerkError } from "@/lib/utils"
-import { createUserSchema } from "@/lib/validations/auth"
+import { catchError } from "@/lib/utils"
+import { registerBuyerStep1Schema } from "@/lib/validations/auth"
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -33,16 +33,14 @@ import {
 } from "../ui/select"
 import Link from "next/link"
 
-type Inputs = z.infer<typeof createUserSchema>
+type Inputs = z.infer<typeof registerBuyerStep1Schema>
 
-export function SignUpForm() {
+export function RegisterBuyerStep1Form() {
   const router = useRouter()
-  const [isLoaded, setIsLoaded] = React.useState(false)
   const [isPending, startTransition] = React.useTransition()
 
-  // react-hook-form
   const form = useForm<Inputs>({
-    resolver: zodResolver(createUserSchema),
+    resolver: zodResolver(registerBuyerStep1Schema),
     defaultValues: {
       email: "",
       password: "",
@@ -50,21 +48,19 @@ export function SignUpForm() {
   })
 
   function onSubmit(data: Inputs) {
-    // if (!isLoaded) return
-
     startTransition(async () => {
       try {
-        const res = await createUserAccountAction(data)
-        router.push("/")
-        toast.message("Cadastro", {
-          description: res.msg,
-        })
-        signIn("Credentials", {
-          email: data.email,
-          password: data.password,
-        })
+        // const res = await createUserAccountAction(data)
+        // router.push("/")
+        // toast.message("Cadastro", {
+        //   description: res.msg,
+        // })
+        // signIn("Credentials", {
+        //   email: data.email,
+        //   password: data.password,
+        // })
       } catch (err) {
-        catchClerkError(err)
+        catchError(err)
       }
     })
   }

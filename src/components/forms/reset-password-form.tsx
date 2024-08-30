@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import type { z } from "zod"
 
-import { catchClerkError } from "@/lib/utils"
+import { catchError } from "@/lib/utils"
 import { checkEmailSchema } from "@/lib/validations/auth"
 import { Button } from "@/components/ui/button"
 import {
@@ -43,7 +43,7 @@ export function ResetPasswordForm() {
     startTransition(async () => {
       try {
       } catch (err) {
-        catchClerkError(err)
+        catchError(err)
       }
     })
   }

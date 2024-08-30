@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import type { z } from "zod"
 
-import { catchClerkError } from "@/lib/utils"
+import { catchError } from "@/lib/utils"
 import { authSchema } from "@/lib/validations/auth"
 import { Button } from "@/components/ui/button"
 import {
@@ -53,7 +53,7 @@ export function SignInForm() {
         //   console.log(result)
         // }
       } catch (err) {
-        catchClerkError(err)
+        catchError(err)
       }
     })
   }

@@ -39,7 +39,6 @@ type Inputs = z.infer<typeof authSchema>
 export function AuthForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const mounted = useMounted()
   const callbackUrl = searchParams && searchParams.get("callbackUrl")
 
   const [isLoading, setIsLoading] = useState(false)

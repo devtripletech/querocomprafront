@@ -6,19 +6,68 @@ export const authSchema = z.object({
   }),
   password: z
     .string()
-    .min(3, {
-      message: "A senha deve ter pelo menos 3 caracteres",
+    .min(8, {
+      message: "A senha deve ter pelo menos 8 caracteres",
     })
-    .max(100),
+    .max(100, {
+      message: "A senha deve ter no máximo 100 caracteres",
+    })
+    .regex(/[a-z]/, {
+      message: "A senha deve conter pelo menos uma letra minúscula",
+    })
+    .regex(/[A-Z]/, {
+      message: "A senha deve conter pelo menos uma letra maiúscula",
+    })
+    .regex(/[0-9]/, {
+      message: "A senha deve conter pelo menos um número",
+    })
+    .regex(/[^a-zA-Z0-9]/, {
+      message: "A senha deve conter pelo menos um caractere especial",
+    }),
 })
-
-export const createUserSchema = z
+export const registerBuyerStep1Schema = z
   .object({
-    name: z.string(),
-    lastName: z.string(),
-    gender: z.string(),
+    name: z
+      .string()
+      .min(2, { message: "O nome deve ter no mínimo 2 caracteres" })
+      .max(50, { message: "O nome deve ter no máximo 50 caracteres" }),
+
+    lastName: z
+      .string()
+      .min(2, { message: "O sobrenome deve ter no mínimo 2 caracteres" })
+      .max(50, { message: "O sobrenome deve ter no máximo 50 caracteres" }),
+
+    gender: z.string().min(2, { message: "O gênero é obrigatório" }),
+
     email: authSchema.shape.email,
+
     password: authSchema.shape.password,
+
+    confirmPassword: authSchema.shape.password,
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Senhas não combinam",
+    path: ["confirmPassword"],
+  })
+
+export const registerSellerStep1Schema = z
+  .object({
+    razaoSocial: z
+      .string()
+      .min(2, { message: "A razão social deve ter no mínimo 2 caracteres" })
+      .max(50, {
+        message: "O A razão social deve ter no máximo 50 caracteres",
+      }),
+
+    nomeFantasia: z
+      .string()
+      .min(2, { message: "O nome fantasia deve ter no mínimo 2 caracteres" })
+      .max(50, { message: "O nome fantasia deve ter no máximo 50 caracteres" }),
+
+    email: authSchema.shape.email,
+
+    password: authSchema.shape.password,
+
     confirmPassword: authSchema.shape.password,
   })
   .refine((data) => data.password === data.confirmPassword, {
