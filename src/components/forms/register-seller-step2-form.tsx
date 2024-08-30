@@ -46,7 +46,14 @@ export function RegisterSellerStep2Form() {
   const form = useForm<Inputs>({
     mode: "onChange",
     resolver: zodResolver(registerSellerStep2Schema),
-    defaultValues: {},
+    defaultValues: {
+      cnpj: "",
+      nomeRepresentante: "",
+      segmento: "",
+      sobreNomeRepresentante: "",
+      telefoneComercial: "",
+      telefoneSecundario: "",
+    },
   })
 
   function onSubmit(data: Inputs) {

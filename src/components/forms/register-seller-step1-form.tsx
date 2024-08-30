@@ -40,6 +40,8 @@ export function RegisterSellerStep1Form() {
     defaultValues: {
       email: "",
       password: "",
+      nomeFantasia: "",
+      razaoSocial: "",
     },
   })
 
@@ -65,6 +67,7 @@ export function RegisterSellerStep1Form() {
     <>
       <Form {...form}>
         <form
+          autoComplete="off"
           className="grid gap-3"
           onSubmit={(...args) => void form.handleSubmit(onSubmit)(...args)}
         >
@@ -113,7 +116,11 @@ export function RegisterSellerStep1Form() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <PasswordInput placeholder="Senha" {...field} />
+                  <PasswordInput
+                    placeholder="Senha"
+                    autoComplete="off"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -125,7 +132,11 @@ export function RegisterSellerStep1Form() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <PasswordInput placeholder="Repita sua senha" {...field} />
+                  <PasswordInput
+                    autoComplete="password"
+                    placeholder="Repita sua senha"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

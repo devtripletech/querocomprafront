@@ -45,6 +45,9 @@ export function RegisterBuyerStep1Form() {
     defaultValues: {
       email: "",
       password: "",
+      gender: "",
+      lastName: "",
+      nome: "",
     },
   })
 
@@ -70,6 +73,7 @@ export function RegisterBuyerStep1Form() {
     <>
       <Form {...form}>
         <form
+          autoComplete="off"
           className="grid gap-3"
           onSubmit={(...args) => void form.handleSubmit(onSubmit)(...args)}
         >
@@ -78,11 +82,11 @@ export function RegisterBuyerStep1Form() {
           </div>
           <FormField
             control={form.control}
-            name="name"
+            name="nome"
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="Nome" {...field} />
+                  <Input placeholder="Nome" autoComplete="off" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -129,7 +133,7 @@ export function RegisterBuyerStep1Form() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="Email" {...field} />
+                  <Input placeholder="Email" autoComplete="off" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -141,7 +145,11 @@ export function RegisterBuyerStep1Form() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <PasswordInput placeholder="Senha" {...field} />
+                  <PasswordInput
+                    placeholder="Senha"
+                    autoComplete="off"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -153,7 +161,11 @@ export function RegisterBuyerStep1Form() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <PasswordInput placeholder="Repita sua senha" {...field} />
+                  <PasswordInput
+                    autoComplete="password"
+                    placeholder="Repita sua senha"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

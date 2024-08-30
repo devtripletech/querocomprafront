@@ -36,7 +36,7 @@ export const authSchema = z.object({
 })
 export const registerBuyerStep1Schema = z
   .object({
-    name: z
+    nome: z
       .string({
         required_error: "Nome é obrigatório",
         invalid_type_error: "O nome deve ser uma string",
