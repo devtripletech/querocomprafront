@@ -14,7 +14,7 @@ interface AuthLayoutProps {
 export default function AuthLayout({ children }: AuthLayoutProps) {
   const searchParams = useSearchParams()
   const pathname = usePathname()
-  console.log(pathname)
+
   const pageParam = searchParams.get("page")
 
   function renderIcon() {

@@ -7,7 +7,12 @@ import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import type { z } from "zod"
 
-import { catchError } from "@/lib/utils"
+import {
+  catchError,
+  normalizeCepNumber,
+  normalizeCpfNumber,
+  normalizePhoneNumber,
+} from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -46,6 +51,7 @@ export function RegisterBuyerStep2Form() {
   })
 
   function onSubmit(data: Inputs) {
+    console.log(data)
     startTransition(async () => {
       try {
         // const res = await createUserAccountAction(data)
@@ -62,6 +68,22 @@ export function RegisterBuyerStep2Form() {
       }
     })
   }
+
+  const cpfValue = form.watch("cpf")
+  const telefoneValue = form.watch("telefone")
+  const cepValue = form.watch("cep")
+
+  React.useEffect(() => {
+    form.setValue("cpf", normalizeCpfNumber(cpfValue))
+  }, [cpfValue, form])
+
+  React.useEffect(() => {
+    form.setValue("cep", normalizeCepNumber(cepValue))
+  }, [cepValue, form])
+
+  React.useEffect(() => {
+    form.setValue("telefone", normalizePhoneNumber(telefoneValue))
+  }, [telefoneValue, form])
 
   return (
     <>

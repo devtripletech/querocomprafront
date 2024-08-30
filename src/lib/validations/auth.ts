@@ -1,4 +1,5 @@
 import * as z from "zod"
+import { normalizeCepNumber } from "../utils"
 
 export const authSchema = z.object({
   email: z
@@ -68,42 +69,56 @@ export const registerBuyerStep1Schema = z
   })
 
 export const registerBuyerStep2Schema = z.object({
-  cpf: z.string({
-    required_error: "CPF é obrigatório",
-    invalid_type_error: "O CPF deve ser uma string",
-  }),
+  cpf: z
+    .string({
+      required_error: "CPF é obrigatório",
+      invalid_type_error: "O CPF deve ser uma string",
+    })
+    .regex(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, {
+      message: "O CPF deve estar no formato XXX.XXX.XXX-XX",
+    }),
+
   telefone: z
     .string({
       required_error: "Telefone é obrigatório",
       invalid_type_error: "O Telefone deve ser uma string",
     })
-    .regex(/^\(?\d{2}\)?\s?\d{4,5}-\d{4}$/, {
+    .regex(/^\(\d{2}\)\s?\d{4,5}-\d{4}$/, {
       message:
         "O Telefone deve estar no formato (XX) XXXXX-XXXX ou (XX) XXXX-XXXX",
     }),
-  cep: z.string({
-    required_error: "Sobrenome é obrigatório",
-    invalid_type_error: "O sobrenome deve ser uma string",
-  }),
+
+  cep: z
+    .string({
+      required_error: "CEP é obrigatório",
+      invalid_type_error: "O CEP deve ser uma string",
+    })
+    .regex(/^\d{5}-\d{3}$/, {
+      message: "O CEP deve estar no formato XXXXX-XXX",
+    }),
   rua: z.string({
     required_error: "Rua é obrigatório",
-    invalid_type_error: "O rua deve ser uma string",
+    invalid_type_error: "A rua deve ser uma string",
   }),
+
   numero: z.string({
-    required_error: "obrigatório",
+    required_error: "Número é obrigatório",
     invalid_type_error: "O número deve ser uma string",
   }),
+
   bairro: z.string({
     required_error: "Bairro é obrigatório",
     invalid_type_error: "O bairro deve ser uma string",
   }),
+
   cidade: z.string({
     required_error: "Cidade é obrigatório",
-    invalid_type_error: "O cidade deve ser uma string",
+    invalid_type_error: "A cidade deve ser uma string",
   }),
+
   uf: z.string({
-    required_error: "obrigatório",
-    invalid_type_error: "O uf deve ser uma string",
+    required_error: "UF é obrigatório",
+    invalid_type_error: "A UF deve ser uma string",
   }),
 })
 

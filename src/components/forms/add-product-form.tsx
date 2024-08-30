@@ -136,7 +136,6 @@ export function AddProductForm({ categories }: AddProductFormProps) {
         console.log(e)
       }
     })
-    console.log(data)
   }
 
   return (

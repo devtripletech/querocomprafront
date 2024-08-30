@@ -127,47 +127,6 @@ export function isMacOs() {
   return window.navigator.userAgent.includes("Mac")
 }
 
-export const normalizePhoneNumber = (value: String | undefined) => {
-  if (!value) return ""
-
-  return value
-    .replace(/[\D]/g, "")
-    .replace(/(\d{2})(\d)/, "($1) $2")
-    .replace(/(\d{5})(\d)/, "$1-$2")
-    .replace(/(-\d{4})(\d+?)/, "$1")
-}
-
-export const normalizeCnpjNumber = (value: String | undefined) => {
-  if (!value) return ""
-
-  return value
-    .replace(/[\D]/g, "")
-    .replace(/(\d{2})(\d)/, "$1.$2")
-    .replace(/(\d{3})(\d)/, "$1.$2")
-    .replace(/(\d{3})(\d)/, "$1/$2")
-    .replace(/(\d{4})(\d)/, "$1-$2")
-    .replace(/(-\d{2})\d+?$/, "$1")
-}
-
-export const normalizeCepNumber = (value: String | undefined) => {
-  if (!value) return ""
-  return value
-    .replace(/\D/g, "")
-    .replace(/^(\d{5})(\d{3})+?$/, "$1-$2")
-    .replace(/(-\d{3})(\d+?)/, "$1")
-}
-
-export const normalizeCpfNumber = (value: string | undefined) => {
-  if (!value) return ""
-
-  return value
-    .replace(/[\D]/g, "")
-    .replace(/(\d{3})(\d)/, "$1.$2")
-    .replace(/(\d{3})(\d)/, "$1.$2")
-    .replace(/(\d{3})(\d)/, "$1-$2")
-    .replace(/(-\d{2})\d+?$/, "$1")
-}
-
 export function getInitialLetters(name: string) {
   const formattedName = name?.charAt(0)?.toLocaleUpperCase() ?? ""
   return formattedName
@@ -205,4 +164,45 @@ export function formatAddress(address: any): FormatAddressResponse {
   const secondLine = `${bairro}, ${cidade} - ${uf}, ${cep}`
 
   return { firstLine, secondLine }
+}
+
+export const normalizePhoneNumber = (value: string | undefined): string => {
+  if (!value) return ""
+
+  return value
+    .replace(/[\D]/g, "")
+    .replace(/(\d{2})(\d)/, "($1) $2")
+    .replace(/(\d{5})(\d)/, "$1-$2")
+    .replace(/(-\d{4})(\d+?)/, "$1")
+}
+
+export const normalizeCnpjNumber = (value: string | undefined): string => {
+  if (!value) return ""
+
+  return value
+    .replace(/[\D]/g, "")
+    .replace(/(\d{2})(\d)/, "$1.$2")
+    .replace(/(\d{3})(\d)/, "$1.$2")
+    .replace(/(\d{3})(\d)/, "$1/$2")
+    .replace(/(\d{4})(\d)/, "$1-$2")
+    .replace(/(-\d{2})\d+?$/, "$1")
+}
+
+export const normalizeCepNumber = (value: string | undefined): string => {
+  if (!value) return ""
+  return value
+    .replace(/\D/g, "")
+    .replace(/^(\d{5})(\d{3})+?$/, "$1-$2")
+    .replace(/(-\d{3})(\d+?)/, "$1")
+}
+
+export const normalizeCpfNumber = (value: string | undefined): string => {
+  if (!value) return ""
+
+  return value
+    .replace(/[\D]/g, "")
+    .replace(/(\d{3})(\d)/, "$1.$2")
+    .replace(/(\d{3})(\d)/, "$1.$2")
+    .replace(/(\d{3})(\d)/, "$1-$2")
+    .replace(/(-\d{2})\d+?$/, "$1")
 }
