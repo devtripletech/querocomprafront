@@ -1,11 +1,19 @@
 import * as z from "zod"
 
 export const authSchema = z.object({
-  email: z.string().email({
-    message: "Por favor insira um endereço de e-mail válido",
-  }),
+  email: z
+    .string({
+      required_error: "Email é obrigatório",
+      invalid_type_error: "O email deve ser uma string",
+    })
+    .email({
+      message: "Por favor insira um endereço de e-mail válido",
+    }),
   password: z
-    .string()
+    .string({
+      required_error: "Senha é obrigatório",
+      invalid_type_error: "A senha deve ser uma string",
+    })
     .min(8, {
       message: "A senha deve ter pelo menos 8 caracteres",
     })
@@ -28,16 +36,25 @@ export const authSchema = z.object({
 export const registerBuyerStep1Schema = z
   .object({
     name: z
-      .string()
+      .string({
+        required_error: "Nome é obrigatório",
+        invalid_type_error: "O nome deve ser uma string",
+      })
       .min(2, { message: "O nome deve ter no mínimo 2 caracteres" })
       .max(50, { message: "O nome deve ter no máximo 50 caracteres" }),
 
     lastName: z
-      .string()
+      .string({
+        required_error: "Sobrenome é obrigatório",
+        invalid_type_error: "O sobrenome deve ser uma string",
+      })
       .min(2, { message: "O sobrenome deve ter no mínimo 2 caracteres" })
       .max(50, { message: "O sobrenome deve ter no máximo 50 caracteres" }),
 
-    gender: z.string().min(2, { message: "O gênero é obrigatório" }),
+    gender: z.string({
+      required_error: "Gênero é obrigatório",
+      invalid_type_error: "O gênero deve ser uma string",
+    }),
 
     email: authSchema.shape.email,
 
@@ -53,14 +70,20 @@ export const registerBuyerStep1Schema = z
 export const registerSellerStep1Schema = z
   .object({
     razaoSocial: z
-      .string()
+      .string({
+        required_error: "Razão Social é obrigatório",
+        invalid_type_error: "O razão social deve ser uma string",
+      })
       .min(2, { message: "A razão social deve ter no mínimo 2 caracteres" })
       .max(50, {
         message: "O A razão social deve ter no máximo 50 caracteres",
       }),
 
     nomeFantasia: z
-      .string()
+      .string({
+        required_error: "Nome Fantasia é obrigatório",
+        invalid_type_error: "O nome fantasia deve ser uma string",
+      })
       .min(2, { message: "O nome fantasia deve ter no mínimo 2 caracteres" })
       .max(50, { message: "O nome fantasia deve ter no máximo 50 caracteres" }),
 
@@ -77,7 +100,10 @@ export const registerSellerStep1Schema = z
 
 export const verifyEmailSchema = z.object({
   code: z
-    .string()
+    .string({
+      required_error: "Código é obrigatório",
+      invalid_type_error: "O código deve ser uma string",
+    })
     .min(6, {
       message: "O código de verificação deve ter 6 caracteres",
     })

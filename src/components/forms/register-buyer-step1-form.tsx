@@ -40,6 +40,7 @@ export function RegisterBuyerStep1Form() {
   const [isPending, startTransition] = React.useTransition()
 
   const form = useForm<Inputs>({
+    mode: "onChange",
     resolver: zodResolver(registerBuyerStep1Schema),
     defaultValues: {
       email: "",
