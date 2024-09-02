@@ -1,5 +1,4 @@
 import { env } from "@/env.mjs"
-import { NavItem } from "./../types/index"
 import type { NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 

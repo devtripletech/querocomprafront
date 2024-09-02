@@ -43,7 +43,12 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
         />
       )
     }
-    return null
+    return (
+      <Icons.bgCadastroC1
+        aria-hidden="true"
+        className="w-full transition-all duration-500 ease-in-out"
+      />
+    )
   }
 
   return (

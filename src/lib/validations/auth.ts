@@ -16,22 +16,22 @@ export const authSchema = z.object({
       invalid_type_error: "A senha deve ser uma string",
     })
     .min(8, {
-      message: "A senha deve ter pelo menos 8 caracteres",
+      message: "😖 A senha deve ter pelo menos 8 caracteres",
     })
     .max(100, {
       message: "A senha deve ter no máximo 100 caracteres",
     })
     .regex(/[a-z]/, {
-      message: "A senha deve conter pelo menos uma letra minúscula",
+      message: "😐 A senha deve conter pelo menos uma letra minúscula",
     })
     .regex(/[A-Z]/, {
-      message: "A senha deve conter pelo menos uma letra maiúscula",
+      message: "😉 A senha deve conter pelo menos uma letra maiúscula",
     })
     .regex(/[0-9]/, {
-      message: "A senha deve conter pelo menos um número",
+      message: "🙂 A senha deve conter pelo menos um número",
     })
     .regex(/[^a-zA-Z0-9]/, {
-      message: "A senha deve conter pelo menos um caractere especial",
+      message: "😎 A senha deve conter pelo menos um caractere especial",
     }),
 })
 export const registerBuyerStep1Schema = z
