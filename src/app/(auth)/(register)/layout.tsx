@@ -16,20 +16,34 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
   const pathname = usePathname()
 
   const pageParam = searchParams.get("page")
+  console.log(pathname)
 
   function renderIcon() {
-    if (pathname === "/cadastro") {
-      return pageParam === "vendedor" ? (
-        <Icons.bgCadastroV1
+    if (pathname === "/esqueceu-a-senha") {
+      return (
+        <Icons.bgCadastroV2
           aria-hidden="true"
-          className="w-full transition-all duration-500 ease-in-out"
-        />
-      ) : (
-        <Icons.bgCadastroC1
-          aria-hidden="true"
-          className="w-full transition-all duration-500 ease-in-out"
+          className="w-full transition-allsition-opacity duration-500 ease-in-out"
         />
       )
+    } else if (pageParam === "/login") {
+      return <Icons.bgLogin aria-hidden="true" className="w-full" />
+    } else if (pathname === "/cadastro") {
+      if (pageParam === "vendedor") {
+        return (
+          <Icons.bgCadastroV1
+            aria-hidden="true"
+            className="w-full transition-all duration-500 ease-in-out"
+          />
+        )
+      } else {
+        return (
+          <Icons.bgCadastroC1
+            aria-hidden="true"
+            className="w-full transition-all duration-500 ease-in-out"
+          />
+        )
+      }
     } else if (pathname === "/cadastro/finalizar") {
       return pageParam === "vendedor" ? (
         <Icons.bgCadastroV2
@@ -42,13 +56,14 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
           className="w-full transition-all duration-500 ease-in-out"
         />
       )
+    } else {
+      return (
+        <Icons.bgCadastroC1
+          aria-hidden="true"
+          className="w-full transition-all duration-500 ease-in-out"
+        />
+      )
     }
-    return (
-      <Icons.bgCadastroC1
-        aria-hidden="true"
-        className="w-full transition-all duration-500 ease-in-out"
-      />
-    )
   }
 
   return (

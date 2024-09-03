@@ -54,14 +54,19 @@ export function ResetPasswordForm() {
         className="grid gap-3"
         onSubmit={(...args) => void form.handleSubmit(onSubmit)(...args)}
       >
+        <div className="flex justify-center items-center flex-col mb-3">
+          <h2 className="font-medium text-base">Esqueceu a sua senha?</h2>
+          <p className="from-neutral-300 text-sm">
+            Nós enviaremos o passo a passo para o seu email
+          </p>
+        </div>
         <FormField
           control={form.control}
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="rodneymullen180@gmail.com" {...field} />
+                <Input placeholder="Email" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -74,10 +79,8 @@ export function ResetPasswordForm() {
               aria-hidden="true"
             />
           )}
-          Continue
-          <span className="sr-only">
-            Continue to reset password verification
-          </span>
+          Enviar
+          <span className="sr-only">Enviar para reset a senha</span>
         </Button>
       </form>
     </Form>

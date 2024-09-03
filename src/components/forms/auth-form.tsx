@@ -110,7 +110,7 @@ export function AuthForm() {
               <div className="flex items-center justify-center">
                 <Link
                   aria-label="esqueceu a senha?"
-                  href="/reset-password"
+                  href="/esqueceu-a-senha"
                   className="text-base font-medium text-primary underline  transition-colors"
                 >
                   esqueceu a senha?
@@ -132,7 +132,7 @@ export function AuthForm() {
                 type="button"
                 variant="outline"
                 onClick={() => {
-                  router.push("/cadastro")
+                  router.push("/cadastro", { scroll: false })
                 }}
               >
                 Criar conta

@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 
 const outfit = Outfit({
-  weight: ["300", "400", "500", "600"],
+  weight: ["300", "400", "500", "600", "900"],
   variable: "--font-outfit",
   style: ["normal"],
   subsets: ["latin"],

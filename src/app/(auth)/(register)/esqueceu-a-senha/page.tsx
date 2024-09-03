@@ -1,23 +1,15 @@
 import type { Metadata } from "next"
-
-import {
-  PageHeader,
-  PageHeaderDescription,
-  PageHeaderHeading,
-} from "@/components/page-header"
 import { Shell } from "@/components/shells/shell"
-import { LogOutButtons } from "@/components/auth/logout-buttons"
-import { Toaster } from "sonner"
 import { ResetPasswordForm } from "@/components/forms/reset-password-form"
 
 export const metadata: Metadata = {
-  title: "Recover Password",
-  description: "Recover Password",
+  title: "Esqueceu a sua senha?",
+  description: "Nós enviaremos o passo a passo para o seu email",
 }
 
 export default function RecoverPasswordPage() {
   return (
-    <Shell className="max-w-xl">
+    <Shell className="max-w-md">
       <ResetPasswordForm />
     </Shell>
   )
