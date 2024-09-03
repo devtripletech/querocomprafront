@@ -25,15 +25,6 @@ import {
 } from "../_actions/product"
 
 export default async function IndexPage() {
-  // See the unstable_cache API docs: https://nextjs.org/docs/app/api-reference/functions/unstable_cache
-  const user = (await currentUser()) as unknown as UserPayload
-
-  const userData = await getUserAction(user?.id_user)
-
-  // if (user && !userData.uservalido) {
-  //   redirect("/dashboard/account/personal")
-  // }
-
   const limit = 8
   const offset = 0
 
@@ -53,7 +44,7 @@ export default async function IndexPage() {
   // )()
 
   return (
-    <Shell className="max-w-6xl pt-0 md:pt-0">
+    <Shell className="container pt-0 md:pt-0">
       <section
         id="featured-products"
         aria-labelledby="featured-products-heading"
