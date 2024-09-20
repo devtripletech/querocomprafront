@@ -6,9 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form"
 import type { z } from "zod"
 
-import { cn } from "@/lib/utils"
-import { authSchema } from "@/lib/validations/auth"
-import { Button, buttonVariants } from "@/components/ui/button"
+import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
@@ -21,7 +19,7 @@ import { Input } from "@/components/ui/input"
 import { Icons } from "@/components/icons"
 import { PasswordInput } from "@/components/password-input"
 import { useState } from "react"
-import { signIn } from "next-auth/react"
+import { login } from "next-auth/react"
 import { toast } from "sonner"
 import {
   Card,
@@ -33,8 +31,9 @@ import {
 import Link from "next/link"
 import { useMounted } from "@/hooks/use-mounted"
 import { Skeleton } from "../ui/skeleton"
+import { loginSchema } from "@/lib/validations/auth"
 
-type Inputs = z.infer<typeof authSchema>
+type Inputs = z.infer<typeof loginSchema>
 
 export function AuthForm() {
   const router = useRouter()
@@ -46,7 +45,7 @@ export function AuthForm() {
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true)
 
-    signIn("Credentials", {
+    login("Credentials", {
       ...data,
       redirect: false,
     })
@@ -62,7 +61,7 @@ export function AuthForm() {
 
   // react-hook-form
   const form = useForm<Inputs>({
-    resolver: zodResolver(authSchema),
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
       password: "",

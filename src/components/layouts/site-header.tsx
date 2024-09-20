@@ -33,7 +33,7 @@ export async function SiteHeader({ user }: SiteHeaderProps) {
   }
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b bg-background">
+    <header className="sticky top-0 z-40 w-full bg-background">
       <div className="container flex h-16 items-center">
         <MainNav items={siteConfig.mainNav} />
         <MobileNav
@@ -42,6 +42,17 @@ export async function SiteHeader({ user }: SiteHeaderProps) {
         />
         <div className="flex flex-1 items-center justify-end space-x-4">
           <nav className="flex items-center space-x-2">
+            <Link href="/">
+              <div
+                className={buttonVariants({
+                  size: "sm",
+                  variant: "outline",
+                })}
+              >
+                Anunciar produto
+                <span className="sr-only">Anunciar produto</span>
+              </div>
+            </Link>
             {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -103,14 +114,14 @@ export async function SiteHeader({ user }: SiteHeaderProps) {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Link href="/signin">
+              <Link href="/login">
                 <div
                   className={buttonVariants({
                     size: "sm",
                   })}
                 >
-                  Entrar
-                  <span className="sr-only">Entrar</span>
+                  Login
+                  <span className="sr-only">Login</span>
                 </div>
               </Link>
             )}

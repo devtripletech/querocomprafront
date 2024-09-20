@@ -26,7 +26,7 @@ export default async function AccountAccessPage() {
   const user = await currentUser()
 
   if (!user) {
-    redirect("/signin")
+    redirect("/login")
   }
 
   const userData = await getUserAction(user?.id_user)

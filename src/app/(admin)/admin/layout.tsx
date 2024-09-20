@@ -16,7 +16,7 @@ export default async function AdminLayout({
   const user = (await currentUser()) as UserPayload
 
   if (!user) {
-    redirect("/signin")
+    redirect("/login")
   }
 
   return (

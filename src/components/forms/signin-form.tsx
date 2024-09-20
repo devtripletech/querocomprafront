@@ -23,7 +23,7 @@ import { PasswordInput } from "@/components/password-input"
 
 type Inputs = z.infer<typeof authSchema>
 
-export function SignInForm() {
+export function loginForm() {
   const router = useRouter()
   const [isLoaded, setIsLoaded] = React.useState(false)
   const [isPending, startTransition] = React.useTransition()
@@ -42,7 +42,7 @@ export function SignInForm() {
 
     startTransition(async () => {
       try {
-        // const result = await signIn.create({
+        // const result = await login.create({
         //   identifier: data.email,
         //   password: data.password,
         // })

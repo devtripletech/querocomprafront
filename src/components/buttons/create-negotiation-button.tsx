@@ -19,7 +19,7 @@ export function CreateNegotiationButton({
   async function handleNegotiation() {
     startTransition(async () => {
       if (!isAuthenticated) {
-        return router.push(`/signin?callbackUrl=${pathname}`)
+        return router.push(`/login?callbackUrl=${pathname}`)
       }
       try {
         await createNegotiationAction({ productId })

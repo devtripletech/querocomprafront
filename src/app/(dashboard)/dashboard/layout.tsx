@@ -15,7 +15,7 @@ export default async function DashboardLayout({
   const user = (await currentUser()) as UserPayload
 
   if (!user) {
-    redirect("/signin")
+    redirect("/login")
   }
 
   return (

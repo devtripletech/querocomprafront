@@ -3,6 +3,7 @@ import { SiteHeader } from "@/components/layouts/site-header"
 import { currentUser, getUserAction } from "../_actions/user"
 import { UserPayload } from "@/lib/validations/auth"
 import { ReactQueryProvider } from "@/components/react-query-provider"
+import { SiteToolbar } from "@/components/layouts/site-toolbar"
 
 export default async function LobbyLayout({
   children,
@@ -12,6 +13,7 @@ export default async function LobbyLayout({
   return (
     <div className="relative flex min-h-screen flex-col">
       <SiteHeader user={user} />
+      <SiteToolbar />
       <main className="flex-1">{children}</main>
       <SiteFooter />
     </div>

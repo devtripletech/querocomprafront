@@ -58,7 +58,7 @@ export function RegisterBuyerStep2Form() {
         // toast.message("Cadastro", {
         //   description: res.msg,
         // })
-        // signIn("Credentials", {
+        // login("Credentials", {
         //   email: data.email,
         //   password: data.password,
         // })

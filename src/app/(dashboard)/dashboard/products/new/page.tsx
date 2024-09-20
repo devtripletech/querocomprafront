@@ -37,7 +37,7 @@ export default async function NewProductPage({ params }: NewProductPageProps) {
   const user = await currentUser()
 
   if (!user) {
-    redirect("/signin")
+    redirect("/login")
   }
   const userData = await getUserAction(user?.id_user)
 

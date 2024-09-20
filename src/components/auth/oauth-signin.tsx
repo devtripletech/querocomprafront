@@ -6,7 +6,6 @@ import { toast } from "sonner"
 
 import { Button } from "@/components/ui/button"
 import { Icons } from "@/components/icons"
-import { signIn } from "next-auth/react"
 
 const oauthProviders = [
   { name: "Google", strategy: "oauth_google", icon: "google" },
@@ -16,14 +15,13 @@ const oauthProviders = [
   strategy: string
 }[]
 
-export function OAuthSignIn() {
+export function OAuthlogin() {
   const [isLoading, setIsLoading] = React.useState(false)
 
-  async function oauthSignIn() {
+  async function oauthlogin() {
     if (isLoading) return null
     try {
       setIsLoading(true)
-      await signIn("google")
     } catch (error) {
       setIsLoading(false)
       const unknownError = "Something went wrong, please try again."
@@ -41,7 +39,7 @@ export function OAuthSignIn() {
             key={provider.strategy}
             variant="outline"
             className="w-full bg-background sm:w-auto"
-            onClick={() => void oauthSignIn()}
+            onClick={() => void oauthlogin()}
             disabled={isLoading}
           >
             {isLoading ? (

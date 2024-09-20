@@ -50,7 +50,7 @@ export default async function NegotiationsMyPage() {
   const user = await currentUser()
 
   if (!user) {
-    redirect("/signin")
+    redirect("/login")
   }
 
   const userData = await getUserAction(user?.id_user)
@@ -62,7 +62,7 @@ export default async function NegotiationsMyPage() {
   try {
     negotiations = await getNegotiationsAction()
   } catch (error) {
-    redirect("/signin")
+    redirect("/login")
   }
 
   return (

@@ -22,7 +22,7 @@ import { Input } from "@/components/ui/input"
 import { Icons } from "@/components/icons"
 import { PasswordInput } from "@/components/password-input"
 import { createUserAccountAction } from "@/app/_actions/user"
-import { signIn } from "next-auth/react"
+import { login } from "next-auth/react"
 import { ChevronRight } from "lucide-react"
 import {
   Select,
@@ -59,7 +59,7 @@ export function RegisterBuyerStep1Form() {
         // toast.message("Cadastro", {
         //   description: res.msg,
         // })
-        // signIn("Credentials", {
+        // login("Credentials", {
         //   email: data.email,
         //   password: data.password,
         // })

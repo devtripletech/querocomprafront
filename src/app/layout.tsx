@@ -13,6 +13,7 @@ const outfit = Outfit({
   style: ["normal"],
   subsets: ["latin"],
   display: "swap",
+  adjustFontFallback: false,
 })
 
 export const metadata: Metadata = {

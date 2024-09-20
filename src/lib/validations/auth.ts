@@ -34,6 +34,18 @@ export const authSchema = z.object({
       message: "😎 A senha deve conter pelo menos um caractere especial",
     }),
 })
+
+export const loginSchema = z.object({
+  email: authSchema.shape.email,
+  password: z
+    .string({
+      required_error: "Senha é obrigatório",
+      invalid_type_error: "A senha deve ser uma string",
+    })
+    .max(100, {
+      message: "A senha deve ter no máximo 100 caracteres",
+    }),
+})
 export const registerBuyerStep1Schema = z
   .object({
     nome: z
