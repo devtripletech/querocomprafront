@@ -23,9 +23,10 @@ import {
   listProductsAction,
   listProductsWithParamsAction,
 } from "../_actions/product"
+import { HomeBanner } from "@/components/banners/home-banner"
 
 export default async function IndexPage() {
-  const limit = 8
+  const limit = 5
   const offset = 0
 
   const allProducts = await listProductsWithParamsAction({ limit, offset })
@@ -48,33 +49,64 @@ export default async function IndexPage() {
       <section
         id="featured-products"
         aria-labelledby="featured-products-heading"
-        className="space-y-6 pt-8 md:pt-10 lg:pt-12"
+        className="space-y-3 pt-8 md:pt-10 lg:pt-12"
       >
-        <div className="flex items-center gap-3">
-          <div className="max-w-[58rem] flex-1 space-y-1">
-            <h2 className="font-heading text-3xl font-bold leading-[1.1] md:text-4xl">
-              Serviços ou Produtos
+        <div className="flex items-center">
+          <div className="max-w-[58rem] flex-1">
+            <h2 className="text-foreground text-xl font-medium leading-[1.1] md:text-lg">
+              Em destaque
             </h2>
             <Balancer className="max-w-[46rem] leading-normal text-muted-foreground sm:text-lg sm:leading-7"></Balancer>
+          </div>
+        </div>
+        <div className="space-y-8">
+          <div className="grid gap-6 xs:grid-cols-2 md:grid-cols-5 lg:grid-cols-5">
+            <React.Suspense
+              fallback={Array.from({ length: 5 }).map((_, i) => (
+                <ProductCardSkeleton key={i} />
+              ))}
+            >
+              {allProducts.produtos.map((product: any) => (
+                <ProductCard key={product.id_produto} product={product} />
+              ))}
+            </React.Suspense>
           </div>
           <Link
             href="/products"
             className={cn(
               buttonVariants({
                 variant: "ghost",
-                className: "hidden sm:flex",
+                className: "mx-auto flex w-fit sm:hidden",
               })
             )}
           >
-            Ver todos
+            Ver todos os produtos
             <ArrowRightIcon className="ml-2 h-4 w-4" aria-hidden="true" />
-            <span className="sr-only">ver todos</span>
+            <span className="sr-only">Ver todos os produtos</span>
           </Link>
         </div>
+      </section>
+      <HomeBanner />
+
+      <section
+        id="categories-products"
+        aria-labelledby="categories-products-heading"
+        className="space-y-3"
+      >
+        <div className="flex items-center">
+          <div className="max-w-[58rem] flex-1">
+            <h2 className="text-foreground text-xl font-medium leading-[1.1] md:text-lg">
+              Veja por categorias
+            </h2>
+            <h3 className="text-foreground text-xl font-medium leading-[1.1] md:text-lg pt-2">
+              Automotivo
+            </h3>
+          </div>
+        </div>
         <div className="space-y-8">
-          <div className="grid gap-3 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          <div className="grid gap-6 xs:grid-cols-2 md:grid-cols-5 lg:grid-cols-5">
             <React.Suspense
-              fallback={Array.from({ length: 8 }).map((_, i) => (
+              fallback={Array.from({ length: 5 }).map((_, i) => (
                 <ProductCardSkeleton key={i} />
               ))}
             >

@@ -19,7 +19,7 @@ import { Input } from "@/components/ui/input"
 import { Icons } from "@/components/icons"
 import { PasswordInput } from "@/components/password-input"
 import { useState } from "react"
-import { login } from "next-auth/react"
+
 import { toast } from "sonner"
 import {
   Card,
@@ -32,6 +32,7 @@ import Link from "next/link"
 import { useMounted } from "@/hooks/use-mounted"
 import { Skeleton } from "../ui/skeleton"
 import { loginSchema } from "@/lib/validations/auth"
+import { signIn } from "next-auth/react"
 
 type Inputs = z.infer<typeof loginSchema>
 
@@ -45,7 +46,7 @@ export function AuthForm() {
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true)
 
-    login("Credentials", {
+    signIn("Credentials", {
       ...data,
       redirect: false,
     })

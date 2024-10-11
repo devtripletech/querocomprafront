@@ -4,6 +4,7 @@ import { Button } from "../ui/button"
 import React from "react"
 import { toast } from "sonner"
 import { usePathname, useRouter } from "next/navigation"
+import { Icons } from "../icons"
 
 export function CreateNegotiationButton({
   productId,
@@ -32,6 +33,7 @@ export function CreateNegotiationButton({
   return (
     <Button disabled={isPending} onClick={handleNegotiation} size={"lg"}>
       Iniciar Negociação
+      <Icons.messageSquare size={20} className="text-white ml-2" />
     </Button>
   )
 }

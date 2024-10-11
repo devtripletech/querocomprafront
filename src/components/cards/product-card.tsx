@@ -42,17 +42,20 @@ export function ProductCard({
 
   return (
     <Card
-      className={cn("h-full overflow-hidden rounded-sm", className)}
+      className={cn(
+        "h-full overflow-hidden border-spacing-0 border-none shadow-none",
+        className
+      )}
       {...props}
     >
       <Link aria-label={product.nome} href={`/product/${product.id_produto}`}>
-        <CardHeader className="border-b p-0">
-          <AspectRatio ratio={4 / 3}>
+        <CardHeader className="border rounded-xl p-0">
+          <AspectRatio ratio={1 / 1}>
             {product?.img_01?.length ? (
               <Image
                 src={product.img_01 ?? "/images/product-placeholder.webp"}
                 alt={product.nome}
-                className="object-cover"
+                className="object-cover rounded-xl"
                 sizes="(min-width: 1024px) 20vw, (min-width: 768px) 25vw, (min-width: 640px) 33vw, (min-width: 475px) 50vw, 100vw"
                 fill
                 loading="lazy"
@@ -72,61 +75,16 @@ export function ProductCard({
             )}
           </AspectRatio>
         </CardHeader>
-        <span className="sr-only">{product.nome}</span>
       </Link>
-      <Link href={`/product/${product.id_produto}`} tabIndex={-1}>
-        <CardContent className="grid gap-2.5 p-4">
-          <CardTitle className="line-clamp-1 text-lg">{product.nome}</CardTitle>
-          <CardDescription className="line-clamp-2">
-            {formatPrice(product.valor)}
-          </CardDescription>
-        </CardContent>
-      </Link>
-      <CardFooter className="p-4">
-        {variant === "default" ? (
-          <Button
-            aria-label="Negociar Agora"
-            size="sm"
-            className="h-8 w-full rounded-sm"
-            onClick={() => {
-              router.push(`/product/${product.id_produto}`)
-            }}
-            disabled={isPending}
-          >
-            {isPending && (
-              <Icons.spinner
-                className="mr-2 h-4 w-4 animate-spin"
-                aria-hidden="true"
-              />
-            )}
-            Negociar Agora
-          </Button>
-        ) : (
-          <Button
-            aria-label={isAddedToCart ? "Remove from cart" : "Negociar Agora"}
-            size="sm"
-            className="h-8 w-full rounded-sm"
-            onClick={() => {
-              startTransition(async () => {
-                await onSwitch?.()
-              })
-            }}
-            disabled={isPending}
-          >
-            {isPending ? (
-              <Icons.spinner
-                className="mr-2 h-4 w-4 animate-spin"
-                aria-hidden="true"
-              />
-            ) : isAddedToCart ? (
-              <CheckIcon className="mr-2 h-4 w-4" aria-hidden="true" />
-            ) : (
-              <PlusIcon className="mr-2 h-4 w-4" aria-hidden="true" />
-            )}
-            {isAddedToCart ? "Added" : "Add to cart"}
-          </Button>
-        )}
-      </CardFooter>
+
+      <CardContent className="flex flex-col px-0 py-4">
+        <CardTitle className="line-clamp-1 text-base font-light">
+          {product.nome}
+        </CardTitle>
+        <CardDescription className="line-clamp-2 text-base font-medium text-foreground">
+          {formatPrice(product.valor)}
+        </CardDescription>
+      </CardContent>
     </Card>
   )
 }

@@ -54,65 +54,117 @@ export async function SiteHeader({ user }: SiteHeaderProps) {
               </div>
             </Link>
             {user ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="secondary"
-                    className="relative h-8 w-8 rounded-full"
+              <>
+                <Link href="/">
+                  <div
+                    className={buttonVariants({
+                      size: "icon",
+                      variant: "secondary",
+                      className: "rounded-lg w-8 h-8",
+                    })}
                   >
-                    <Avatar className="h-8 w-8">
-                      <AvatarFallback>{initials}</AvatarFallback>
-                    </Avatar>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56" align="end" forceMount>
-                  <DropdownMenuLabel className="font-normal">
-                    <div className="flex flex-col space-y-1">
-                      <p className="text-sm font-medium leading-none">
-                        {user.name}
-                      </p>
-                      <p className="text-xs leading-none text-muted-foreground">
-                        {user.email}
-                      </p>
-                    </div>
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuGroup>
+                    <Icons.chartNoAxesCombined
+                      size={20}
+                      className="text-black-dark"
+                    />
+                  </div>
+                </Link>
+                <Link href="/">
+                  <div
+                    className={buttonVariants({
+                      size: "icon",
+                      variant: "ghost",
+                      className: "rounded-lg w-8 h-8",
+                    })}
+                  >
+                    <Icons.messageSquare size={20} className="text-black-mid" />
+                  </div>
+                </Link>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="relative rounded-lg w-8 h-8"
+                    >
+                      <Icons.menu size={20} className="text-black-mid" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-56" align="end" forceMount>
+                    <DropdownMenuLabel className="font-normal">
+                      <div className="flex flex-col space-y-1">
+                        <p className="text-sm font-medium leading-none">
+                          Meu Perfil
+                        </p>
+                      </div>
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuGroup>
+                      <DropdownMenuItem asChild>
+                        <Link
+                          href="/dashboard/settings"
+                          className="cursor-pointer"
+                        >
+                          <Icons.userAccount
+                            className="mr-2 h-4 w-4"
+                            aria-hidden="true"
+                          />
+                          Conta
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link
+                          href="/dashboard/settings"
+                          className="cursor-pointer"
+                        >
+                          <Icons.myNegotiation
+                            className="mr-2 h-4 w-4"
+                            aria-hidden="true"
+                          />
+                          Minhas Negociações
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link
+                          href="/dashboard/settings"
+                          className="cursor-pointer"
+                        >
+                          <Icons.archive
+                            className="mr-2 h-4 w-4 text-black-dark"
+                            aria-hidden="true"
+                          />
+                          Meus Produtos
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link
+                          href="/dashboard/settings"
+                          className="cursor-pointer"
+                        >
+                          <Icons.store
+                            className="mr-2 h-4 w-4 text-black-dark"
+                            aria-hidden="true"
+                          />
+                          Minha Loja
+                        </Link>
+                      </DropdownMenuItem>
+                    </DropdownMenuGroup>
+                    <DropdownMenuSeparator />
                     <DropdownMenuItem asChild>
-                      <Link href="/dashboard/account">
-                        <Icons.user
+                      <Link
+                        href="/signout"
+                        className="text-red-500 font-semibold cursor-pointer"
+                      >
+                        <Icons.logout
                           className="mr-2 h-4 w-4"
                           aria-hidden="true"
                         />
-                        Perfil
-                        <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+                        Sair
                       </Link>
                     </DropdownMenuItem>
-
-                    <DropdownMenuItem asChild disabled>
-                      <Link href="/dashboard/settings">
-                        <Icons.settings
-                          className="mr-2 h-4 w-4"
-                          aria-hidden="true"
-                        />
-                        Configuração
-                        <DropdownMenuShortcut>⌘C</DropdownMenuShortcut>
-                      </Link>
-                    </DropdownMenuItem>
-                  </DropdownMenuGroup>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem asChild>
-                    <Link href="/signout">
-                      <Icons.logout
-                        className="mr-2 h-4 w-4"
-                        aria-hidden="true"
-                      />
-                      Sair
-                      <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-                    </Link>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </>
             ) : (
               <Link href="/login">
                 <div

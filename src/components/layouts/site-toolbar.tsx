@@ -52,7 +52,9 @@ export function SiteToolbar() {
             >
               <span className="flex items-center gap-3 md:hidden:gap-3">
                 <Icon className="h-6 w-6 " />
-                <span className="hidden xl:block">{category.label}</span>
+                <span className="hidden xl:block text-white">
+                  {category.label}
+                </span>
               </span>
             </Link>
           )

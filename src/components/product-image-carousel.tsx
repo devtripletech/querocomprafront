@@ -88,11 +88,11 @@ export function ProductImageCarousel({
 
   return (
     <div
-      aria-label="Product image carousel"
+      aria-label="Product image carousel "
       className={cn("flex flex-col gap-2", className)}
       {...props}
     >
-      <div ref={emblaRef} className="overflow-hidden">
+      <div ref={emblaRef} className="overflow-hidden rounded-lg">
         <div
           className="-ml-4 flex touch-pan-y"
           style={{
@@ -113,7 +113,7 @@ export function ProductImageCarousel({
                 alt={image.name}
                 fill
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                className="object-cover"
+                className="object-cover rounded-lg"
                 priority={index === 0}
               />
             </div>
