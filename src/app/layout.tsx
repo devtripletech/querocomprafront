@@ -1,11 +1,9 @@
 import type { Metadata } from "next"
 import { ThemeProvider } from "@/components/theme-provider"
 import "@/styles/globals.css"
-import AuthProvider from "@/components/auth-provider"
 import { siteConfig } from "@/config/site"
 import { Outfit } from "next/font/google"
-import { cn } from "@/lib/utils"
-import { TailwindIndicator } from "@/components/tailwind-indicator"
+import { Providers } from "@/components/providers"
 
 const outfit = Outfit({
   weight: ["300", "400", "500", "600", "900"],
@@ -48,8 +46,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <AuthProvider>{children}</AuthProvider>
-          <TailwindIndicator />
+          <Providers>{children}</Providers>
         </ThemeProvider>
       </body>
     </html>

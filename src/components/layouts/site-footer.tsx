@@ -1,15 +1,9 @@
-import Link from "next/link"
-
-import { siteConfig } from "@/config/site"
-import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
 import { Icons } from "@/components/icons"
-import { ThemeToggle } from "@/components/layouts/theme-toggle"
 import { Shell } from "@/components/shells/shell"
 
 export function SiteFooter() {
   return (
-    <footer className="w-full bg-background h-80 border-t">
+    <footer className="w-full bg-background h-80 ">
       <Shell>
         <section
           id="footer-content"

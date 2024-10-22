@@ -47,20 +47,7 @@ export function RegisterUserContainer() {
     <Card className="border-spacing-0 border-none shadow-none">
       <CardHeader className="space-y-1"></CardHeader>
       <CardContent className="grid gap-3">
-        <Tabs defaultValue={tabName} onValueChange={handleTabChange}>
-          <div className="flex items-center justify-center">
-            <TabsList className="grid w-[230px] grid-cols-2">
-              <TabsTrigger value="comprador">Comprador</TabsTrigger>
-              <TabsTrigger value="vendedor">Vendedor</TabsTrigger>
-            </TabsList>
-          </div>
-          <TabsContent value="comprador">
-            <RegisterBuyerStep1Form />
-          </TabsContent>
-          <TabsContent value="vendedor">
-            <RegisterSellerStep1Form />
-          </TabsContent>
-        </Tabs>
+        <RegisterBuyerStep1Form />
       </CardContent>
     </Card>
   )

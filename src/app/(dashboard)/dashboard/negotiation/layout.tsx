@@ -7,15 +7,6 @@ import {
 } from "@/components/page-header"
 import { ConversationList } from "./_components/conversation-list"
 import { getAllNegotiationsByUser } from "@/lib/actions/get-all-negotiations-by-user"
-import { ReactQueryProvider } from "@/components/react-query-provider"
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import { ScrollArea } from "@/components/ui/scroll-area"
 
 export default async function NegotiationsLayout({
   children,
@@ -45,12 +36,6 @@ export default async function NegotiationsLayout({
           {children}
         </div>
       </section>
-
-      {/* <section className="grid gap-3">
-        
-        <ConversationList initialItems={conversations} />
-        {children}
-      </section> */}
     </Shell>
   )
 }

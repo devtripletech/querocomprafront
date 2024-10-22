@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -144,105 +145,91 @@ export function AddProductForm({ categories }: AddProductFormProps) {
         className="grid w-full max-w-2xl gap-5"
         onSubmit={form.handleSubmit(onSubmit)}
       >
-        <FormField
-          control={form.control}
-          name="nome"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Nome</FormLabel>
-              <FormControl>
-                <Input placeholder="Nome do produto aqui." {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <div className="flex flex-col items-start gap-6 sm:flex-row">
+        <div className="font-medium text-2xl">Formulário de cadastro</div>
+        <div className="grid grid-cols-2 gap-4">
           <FormField
             control={form.control}
-            name="id_categoria"
+            name="nome"
             render={({ field }) => (
-              <FormItem className="w-full">
-                <FormLabel>Category</FormLabel>
-                <Select
-                  value={field.value}
-                  onValueChange={(value: typeof field.value) =>
-                    field.onChange(value)
-                  }
-                >
-                  <FormControl>
-                    <SelectTrigger className="capitalize">
-                      <SelectValue
-                        placeholder={field.value ?? "Sem categoria"}
-                      />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectGroup>
-                      {Object.values(categories).map((option) => (
-                        <SelectItem
-                          key={option.ID_Categoria}
-                          value={String(option.ID_Categoria)}
-                          className="capitalize"
-                        >
-                          {option.Descricao}
-                        </SelectItem>
-                      ))}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
+              <FormItem>
+                <FormLabel>Nome do produto</FormLabel>
+                <FormControl>
+                  <Input placeholder="Nome do produto aqui." {...field} />
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
+          <div className="flex gap-4">
+            <FormField
+              control={form.control}
+              name="id_categoria"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel>Category</FormLabel>
+                  <Select
+                    value={field.value}
+                    onValueChange={(value: typeof field.value) =>
+                      field.onChange(value)
+                    }
+                  >
+                    <FormControl>
+                      <SelectTrigger className="capitalize">
+                        <SelectValue
+                          placeholder={field.value ?? "Sem categoria"}
+                        />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectGroup>
+                        {Object.values(categories).map((option) => (
+                          <SelectItem
+                            key={option.ID_Categoria}
+                            value={String(option.ID_Categoria)}
+                            className="capitalize"
+                          >
+                            {option.Descricao}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="valor"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel>Valor</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Adicione o valor do produto aqui."
+                      value={field.value}
+                      onChange={field.onChange}
+                      type="number"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
         </div>
-        <FormField
-          control={form.control}
-          name="descricao"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Descrição</FormLabel>
-              <FormControl>
-                <Textarea
-                  placeholder="Type product description here."
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="link_ref"
-          render={({ field }) => (
-            <FormItem className="w-full">
-              <FormLabel>Link de referência</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Adicione um link de referência do produto aqui."
-                  value={field.value}
-                  onChange={field.onChange}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <div className="flex flex-col items-start gap-6 sm:flex-row">
+        <div className="grid grid-cols-4 gap-4">
           <FormField
             control={form.control}
-            name="valor"
+            name="link_ref"
             render={({ field }) => (
-              <FormItem className="w-full">
-                <FormLabel>Valor</FormLabel>
+              <FormItem className="w-full col-span-3">
+                <FormLabel>Link de referência</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Adicione o valor do produto aqui."
+                    placeholder="Adicione um link de referência do produto aqui."
                     value={field.value}
                     onChange={field.onChange}
-                    type="number"
                   />
                 </FormControl>
                 <FormMessage />
@@ -268,8 +255,13 @@ export function AddProductForm({ categories }: AddProductFormProps) {
             )}
           />
         </div>
+
         <FormItem className="flex w-full flex-col gap-1.5">
-          <FormLabel>Images</FormLabel>
+          <FormLabel>Fotos do produto</FormLabel>
+          <FormDescription>
+            Recomendamos que adicione 3 fotos do seu produto para maior
+            confiança do cliente
+          </FormDescription>
           {files?.length ? (
             <div className="flex items-center gap-2">
               {files.map((file, i) => (
@@ -301,20 +293,38 @@ export function AddProductForm({ categories }: AddProductFormProps) {
             message={form.formState.errors.images?.message}
           />
         </FormItem>
-        <Button
-          onClick={() => void form.trigger(["nome", "descricao", "valor"])}
-          className="w-fit"
-          disabled={isPending}
-        >
-          {isPending && (
-            <Icons.spinner
-              className="mr-2 h-4 w-4 animate-spin"
-              aria-hidden="true"
-            />
+
+        <div className="flex flex-col items-start gap-6 sm:flex-row"></div>
+        <FormField
+          control={form.control}
+          name="descricao"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Descrição</FormLabel>
+              <FormControl>
+                <Textarea placeholder="Descreva o produto" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
           )}
-          Adicionar Produto
-          <span className="sr-only">Add Product</span>
-        </Button>
+        />
+
+        <div className="flex justify-end">
+          <Button
+            onClick={() => void form.trigger(["nome", "descricao", "valor"])}
+            className="w-fit"
+            disabled={isPending}
+          >
+            {isPending && (
+              <Icons.spinner
+                className="mr-2 h-4 w-4 animate-spin"
+                aria-hidden="true"
+              />
+            )}
+            Enviar
+            <span className="sr-only">Enviar</span>
+          </Button>
+        </div>
       </form>
     </Form>
   )

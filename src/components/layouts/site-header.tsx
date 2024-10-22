@@ -1,3 +1,4 @@
+"use client"
 import Link from "next/link"
 
 import { dashboardConfig } from "@/config/dashboard"
@@ -21,6 +22,7 @@ import { Icons } from "../icons"
 import { User } from "@/lib/validations/user"
 import { redirect } from "next/navigation"
 import { UserPayload } from "@/lib/validations/auth"
+import { signOut } from "next-auth/react"
 
 interface SiteHeaderProps {
   user?: UserPayload | null
@@ -151,16 +153,16 @@ export async function SiteHeader({ user }: SiteHeaderProps) {
                     </DropdownMenuGroup>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem asChild>
-                      <Link
-                        href="/signout"
-                        className="text-red-500 font-semibold cursor-pointer"
+                      <button
+                        className="text-red-500 font-semibold cursor-pointer underline-offset-4 w-full"
+                        onClick={() => signOut()}
                       >
                         <Icons.logout
                           className="mr-2 h-4 w-4"
                           aria-hidden="true"
                         />
                         Sair
-                      </Link>
+                      </button>
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>

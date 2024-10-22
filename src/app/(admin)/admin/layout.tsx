@@ -7,8 +7,6 @@ import { SiteFooter } from "@/components/layouts/site-footer"
 import { SiteHeader } from "@/components/layouts/site-header"
 import { currentUser } from "@/app/_actions/user"
 import { UserPayload } from "@/lib/validations/auth"
-import { ReactQueryProvider } from "@/components/react-query-provider"
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 
 export default async function AdminLayout({
   children,
@@ -31,10 +29,7 @@ export default async function AdminLayout({
             />
           </ScrollArea>
         </aside>
-        <main className="flex w-full flex-col overflow-hidden">
-          <ReactQueryProvider>{children}</ReactQueryProvider>
-          {/* {children} */}
-        </main>
+        <main className="flex w-full flex-col overflow-hidden">{children}</main>
       </div>
       <SiteFooter />
     </div>

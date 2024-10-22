@@ -4,8 +4,9 @@ import { env } from "@/env.mjs"
 import { authOptions } from "@/lib/auth"
 import {
   UserPayload,
-  createUserSchema,
   updatePasswordSchema,
+  type registerBuyerStep1Schema,
+  type registerBuyerStep2Schema,
 } from "@/lib/validations/auth"
 import { GetUser, User, userSchema } from "@/lib/validations/user"
 import { getServerSession } from "next-auth"
@@ -61,7 +62,9 @@ export const updateUserAction = async (input: z.infer<typeof userSchema>) => {
   })
 }
 
-export const createUserAction = async (input: z.infer<typeof userSchema>) => {
+export const createUserAction = async (
+  input: z.infer<typeof registerBuyerStep2Schema>
+) => {
   return getTokenAction().then(async (token) => {
     const res = await fetch(`${env.API_URL}/usuario`, {
       method: "POST",
@@ -70,11 +73,8 @@ export const createUserAction = async (input: z.infer<typeof userSchema>) => {
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        nome: input.nome,
         telefone: input.telefone,
-        celular: input.celular,
-        endereco: input.endereco,
-        complemento: input.complemento,
+        endereco: input.rua,
         cep: input.cep,
         cpf: input.cpf,
         uf: input.uf,
@@ -95,34 +95,75 @@ export const createUserAction = async (input: z.infer<typeof userSchema>) => {
     return data
   })
 }
+export const userExistsAction = async (email: string): Promise<boolean> => {
+  noStore()
+
+  console.log(email)
+  const response = await fetch(`${env.API_URL}/v2/user/exists/${email}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+
+  console.log(response)
+  if (!response.ok) {
+    return true
+  }
+
+  return false
+}
 
 export const createUserAccountAction = async (
-  input: z.infer<typeof createUserSchema>
+  input: z.infer<typeof registerBuyerStep1Schema>
 ) => {
-  return getTokenAction().then(async (token) => {
-    const res = await fetch(`${env.API_URL}/user`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        name: input.name,
-        email: input.email,
-        password: input.password,
-      }),
-    })
+  const {
+    name,
+    lastName,
+    gender,
+    email,
+    password,
+    cpf,
+    telefone,
+    cep,
+    rua,
+    numero,
+    bairro,
+    cidade,
+    uf,
+  } = input
 
-    if (res.status === 401) throw new Error("Não autorizado")
-
-    const data = await res.json()
-
-    if (data?.error) throw new Error(data?.error)
-
-    //revalidatePath("/dashboard/client")
-
-    return data
+  const res = await fetch(`${env.API_URL}/v2/user`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      name,
+      lastName,
+      gender,
+      email,
+      password,
+      cpf,
+      telefone,
+      cep,
+      rua,
+      numero,
+      bairro,
+      cidade,
+      uf,
+    }),
   })
+
+  if (!res.ok) {
+    const { error } = await res.json()
+    console.log(error)
+    throw new Error(error.message)
+  }
+
+  const data = await res.json()
+
+  return data
 }
 
 export const getUserAction = async (userId: number): Promise<GetUser> => {

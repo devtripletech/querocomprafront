@@ -27,6 +27,7 @@ import { Icons } from "@/components/icons"
 
 import Link from "next/link"
 import { registerBuyerStep2Schema } from "@/lib/validations/auth"
+import { createUserAction } from "@/app/_actions/user"
 
 type Inputs = z.infer<typeof registerBuyerStep2Schema>
 
@@ -53,15 +54,8 @@ export function RegisterBuyerStep2Form() {
     console.log(data)
     startTransition(async () => {
       try {
-        // const res = await createUserAccountAction(data)
-        // router.push("/")
-        // toast.message("Cadastro", {
-        //   description: res.msg,
-        // })
-        // login("Credentials", {
-        //   email: data.email,
-        //   password: data.password,
-        // })
+        const res = await createUserAction(data)
+        router.push("/cadastro/concluido")
       } catch (err) {
         catchError(err)
       }

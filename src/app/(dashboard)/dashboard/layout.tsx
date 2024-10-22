@@ -7,7 +7,6 @@ import { SiteFooter } from "@/components/layouts/site-footer"
 import { SiteHeader } from "@/components/layouts/site-header"
 import { currentUser } from "@/app/_actions/user"
 import { UserPayload } from "@/lib/validations/auth"
-import { ReactQueryProvider } from "@/components/react-query-provider"
 
 export default async function DashboardLayout({
   children,
@@ -27,9 +26,7 @@ export default async function DashboardLayout({
             <SidebarNav items={dashboardConfig.sidebarNav} className="p-1" />
           </ScrollArea>
         </aside>
-        <main className="flex w-full flex-col overflow-hidden">
-          <ReactQueryProvider>{children}</ReactQueryProvider>
-        </main>
+        <main className="flex w-full flex-col overflow-hidden">{children}</main>
       </div>
       <SiteFooter />
     </div>

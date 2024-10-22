@@ -48,7 +48,7 @@ export const loginSchema = z.object({
 })
 export const registerBuyerStep1Schema = z
   .object({
-    nome: z
+    name: z
       .string({
         required_error: "Nome é obrigatório",
         invalid_type_error: "O nome deve ser uma string",
@@ -74,6 +74,52 @@ export const registerBuyerStep1Schema = z
     password: authSchema.shape.password,
 
     confirmPassword: authSchema.shape.password,
+    cpf: z
+      .string({
+        required_error: "CPF é obrigatório",
+        invalid_type_error: "O CPF deve ser uma string",
+      })
+      .regex(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, {
+        message: "O CPF deve estar no formato XXX.XXX.XXX-XX",
+      }),
+
+    telefone: z.string({
+      required_error: "Telefone é obrigatório",
+      invalid_type_error: "O Telefone deve ser uma string",
+    }),
+
+    cep: z
+      .string({
+        required_error: "CEP é obrigatório",
+        invalid_type_error: "O CEP deve ser uma string",
+      })
+      .regex(/^\d{5}-\d{3}$/, {
+        message: "O CEP deve estar no formato XXXXX-XXX",
+      }),
+    rua: z.string({
+      required_error: "Rua é obrigatório",
+      invalid_type_error: "A rua deve ser uma string",
+    }),
+
+    numero: z.string({
+      required_error: "Número é obrigatório",
+      invalid_type_error: "O número deve ser uma string",
+    }),
+
+    bairro: z.string({
+      required_error: "Bairro é obrigatório",
+      invalid_type_error: "O bairro deve ser uma string",
+    }),
+
+    cidade: z.string({
+      required_error: "Cidade é obrigatório",
+      invalid_type_error: "A cidade deve ser uma string",
+    }),
+
+    uf: z.string({
+      required_error: "UF é obrigatório",
+      invalid_type_error: "A UF deve ser uma string",
+    }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Senhas não combinam",
