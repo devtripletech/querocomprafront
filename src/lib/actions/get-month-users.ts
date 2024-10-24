@@ -1,7 +1,7 @@
 "use server"
 import { getTokenAction } from "@/app/_actions/user"
-import { env } from "@/env.mjs"
-import { unstable_noStore as noStore, revalidatePath } from "next/cache"
+import { env } from "@/env"
+import { revalidatePath } from "next/cache"
 
 export interface GetMonthUsersResponse {
   amount: number
@@ -9,7 +9,6 @@ export interface GetMonthUsersResponse {
 }
 
 export const getMonthUsersAmount = async (): Promise<GetMonthUsersResponse> => {
-  noStore()
   const response = await fetch(`${env.API_URL}/metrics/month-users-amount`, {
     method: "GET",
     headers: {

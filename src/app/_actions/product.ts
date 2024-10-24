@@ -1,6 +1,6 @@
 "use server"
 
-import { unstable_noStore as noStore, revalidatePath } from "next/cache"
+import { revalidatePath } from "next/cache"
 
 import { z } from "zod"
 
@@ -13,14 +13,12 @@ import {
   productSchema,
 } from "@/lib/validations/product"
 
-import { notFound, redirect } from "next/navigation"
-import { env } from "@/env.mjs"
+import { env } from "@/env"
 import { getTokenAction } from "./user"
 
 export const listProductsAction = async (): Promise<Product[]> => {
   return getTokenAction().then(async (token) => {
     try {
-      noStore()
       const res = await fetch(`${env.API_URL}/produto`, {
         method: "GET",
         headers: {
@@ -72,7 +70,6 @@ export const listProductsWithParamsAction = async (
     }
 
     try {
-      noStore()
       const res = await fetch(`${url}`, {
         method: "GET",
         headers: {
@@ -103,7 +100,6 @@ export const listProductsByUserIdAction = async (
 ): Promise<Product[]> => {
   return getTokenAction().then(async (token) => {
     try {
-      noStore()
       const res = await fetch(`${env.API_URL}/produtouser/${userId}`, {
         method: "GET",
         headers: {
@@ -135,7 +131,6 @@ export const getProductByIdAction = async (
 ): Promise<Product> => {
   return getTokenAction().then(async (token) => {
     try {
-      noStore()
       const res = await fetch(`${env.API_URL}/produto/${productId}`, {
         method: "GET",
         headers: {

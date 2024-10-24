@@ -1,8 +1,7 @@
 "use server"
-import { env } from "@/env.mjs"
-import { unstable_noStore as noStore, revalidatePath } from "next/cache"
+import { env } from "@/env"
+import { revalidatePath } from "next/cache"
 import { sendMessageSchema } from "@/lib/validations/negotiation"
-import { notFound, redirect } from "next/navigation"
 import { z } from "zod"
 import { getTokenAction } from "./user"
 
@@ -25,7 +24,6 @@ export type GetMessageResponse = {
 export const getNegotiationsAction = async () => {
   return getTokenAction().then(async (token) => {
     try {
-      noStore()
       const res = await fetch(`${env.API_URL}/negociacao`, {
         method: "GET",
         headers: {
@@ -55,7 +53,6 @@ export const getNegotiationsAction = async () => {
 export const getNegotiationsPartAction = async () => {
   return getTokenAction().then(async (token) => {
     try {
-      noStore()
       const res = await fetch(`${env.API_URL}/negociacaopart`, {
         method: "GET",
         headers: {
@@ -86,7 +83,6 @@ export const getMessagesNegotiationAction = async (
 ): Promise<GetMessageResponse> => {
   return getTokenAction().then(async (token) => {
     try {
-      noStore()
       const res = await fetch(`${env.API_URL}/negociacao/${negotiationId}`, {
         method: "GET",
         headers: {
@@ -116,7 +112,6 @@ export const isNegotiatingAction = async (
 ): Promise<boolean> => {
   return getTokenAction().then(async (token) => {
     try {
-      noStore()
       const res = await fetch(
         `${env.API_URL}/negociacao/produto/${productId}`,
         {
@@ -152,7 +147,6 @@ export const createNegotiationAction = async ({
 }: CreateNegotiationResponse) => {
   return getTokenAction().then(async (token) => {
     try {
-      noStore()
       const res = await fetch(`${env.API_URL}/negociacao`, {
         method: "POST",
         headers: {
@@ -185,7 +179,6 @@ export const sendMessageNegotiationAction = async (
 ) => {
   return getTokenAction().then(async (token) => {
     try {
-      noStore()
       const res = await fetch(`${env.API_URL}/enviamsg`, {
         method: "POST",
         headers: {

@@ -92,10 +92,6 @@ export function AddAccountPersonalForm({ user }: AddAccountPersonalFormProps) {
           const res = await updateUserAction(data)
           toast.success(res.mensagem)
           router.push("/dashboard/account/personal")
-        } else {
-          const res = await createUserAction(data)
-          toast.success(res.mensagem)
-          router.push("/dashboard/account/personal")
         }
       } catch (err) {
         catchError(err)
@@ -105,19 +101,19 @@ export function AddAccountPersonalForm({ user }: AddAccountPersonalFormProps) {
 
   useEffect(() => {
     form.setValue("telefone", normalizePhoneNumber(telefoneValue))
-  }, [telefoneValue, form.setValue])
+  }, [telefoneValue, form.setValue, form])
 
   useEffect(() => {
     form.setValue("celular", normalizePhoneNumber(celularValue))
-  }, [celularValue, form.setValue])
+  }, [celularValue, form.setValue, form])
 
   useEffect(() => {
     form.setValue("cep", normalizeCepNumber(cepValue))
-  }, [cepValue, form.setValue])
+  }, [cepValue, form.setValue, form])
 
   useEffect(() => {
     form.setValue("cpf", normalizeCpfNumber(cpfValue))
-  }, [cpfValue, form.setValue])
+  }, [cpfValue, form.setValue, form])
 
   return (
     <Form {...form}>

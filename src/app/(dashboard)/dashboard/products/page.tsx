@@ -1,15 +1,10 @@
 import * as React from "react"
 import { type Metadata } from "next"
-import { unstable_noStore as noStore } from "next/cache"
+
 import { notFound, redirect } from "next/navigation"
-import { env } from "@/env.mjs"
-import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton"
-import { DateRangePicker } from "@/components/date-range-picker"
-import { SeedProducts } from "@/components/seed-products-button"
-import { Product } from "@/lib/validations/product"
+import { env } from "@/env"
 
 import { Shell } from "@/components/shells/shell"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import Link from "next/link"
 import {
   PageHeader,
@@ -18,7 +13,6 @@ import {
 } from "@/components/page-header"
 import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-import { RocketIcon } from "lucide-react"
 import { currentUser, getUserAction } from "@/app/_actions/user"
 import { listProductsByUserIdAction } from "@/app/_actions/product"
 import { listCategoriesAction } from "@/app/_actions/categories"
@@ -43,7 +37,6 @@ export default async function ProductsPage({
   params,
   searchParams,
 }: ProductsPageProps) {
-  noStore()
   const user = await currentUser()
 
   if (!user) {

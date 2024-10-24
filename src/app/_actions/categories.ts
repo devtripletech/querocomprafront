@@ -1,15 +1,12 @@
 "use server"
-import { env } from "@/env.mjs"
+import { env } from "@/env"
 import { Category, createCategorySchema } from "@/lib/validations/category"
-import { unstable_noStore as noStore, revalidatePath } from "next/cache"
-import { redirect } from "next/navigation"
+import { revalidatePath } from "next/cache"
 import { z } from "zod"
 import { getTokenAction } from "./user"
-import { ErrorResponse } from "@/lib/validations/error"
 
 export const listCategoriesAction = async (): Promise<Category[]> => {
   try {
-    noStore()
     const res = await fetch(`${env.API_URL}/categoria`, {
       method: "GET",
       headers: {

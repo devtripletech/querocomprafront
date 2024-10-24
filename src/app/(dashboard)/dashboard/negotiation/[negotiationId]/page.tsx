@@ -1,6 +1,6 @@
 import { type Metadata } from "next"
 import { notFound, redirect } from "next/navigation"
-import { env } from "@/env.mjs"
+import { env } from "@/env"
 
 import {
   Card,
@@ -10,32 +10,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { UpdateProductForm } from "@/components/forms/update-product-form"
-import { ProductPager } from "@/components/pagers/product-pager"
-import { getProductByIdAction } from "@/app/_actions/product"
-import { Shell } from "@/components/shells/shell"
-import {
-  PageHeader,
-  PageHeaderDescription,
-  PageHeaderHeading,
-} from "@/components/page-header"
-import { listCategoriesAction } from "@/app/_actions/categories"
-import { Textarea } from "@/components/ui/textarea"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { currentUser, getUserAction } from "@/app/_actions/user"
-import {
-  getMessagesNegotiationAction,
-  sendMessageNegotiationAction,
-} from "@/app/_actions/negotiation"
-import {
-  catchError,
-  formatPrice,
-  getInitialLetters,
-  truncate,
-} from "@/lib/utils"
-import { SendMessageCard } from "@/components/cards/send-message-card"
+import { getMessagesNegotiationAction } from "@/app/_actions/negotiation"
+import { formatPrice, getInitialLetters, truncate } from "@/lib/utils"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { MessageBox } from "@/components/message-box"
 import { SedMessageForm } from "@/components/forms/send-message-form"

@@ -1,7 +1,7 @@
 "use server"
 import { getTokenAction } from "@/app/_actions/user"
-import { env } from "@/env.mjs"
-import { unstable_noStore as noStore, revalidatePath } from "next/cache"
+import { env } from "@/env"
+import { revalidatePath } from "next/cache"
 import { getToken } from "./get-token"
 
 export type GetNegotiationResponse = {
@@ -21,7 +21,6 @@ export const getAllNegotiationsByUser = async (): Promise<
   GetNegotiationResponse[]
 > => {
   return getToken().then(async (token) => {
-    noStore()
     const url = new URL(`${env.API_URL}/negotiations/user`)
 
     const response = await fetch(url.toString(), {

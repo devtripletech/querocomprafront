@@ -1,6 +1,6 @@
 "use server"
-import { env } from "@/env.mjs"
-import { unstable_noStore as noStore, revalidatePath } from "next/cache"
+import { env } from "@/env"
+import { revalidatePath } from "next/cache"
 import { getToken } from "./get-token"
 import { UserDetailsResponse } from "../validations/user"
 
@@ -14,7 +14,6 @@ export const updateUserDetails = async ({
   userId,
 }: UpdateUserDetailsRequest) => {
   return getToken().then(async (token) => {
-    noStore()
     const url = new URL(`${env.API_URL}/users/${userId}/details`)
 
     try {

@@ -1,13 +1,7 @@
 import { NextResponse } from "next/server"
 import { z } from "zod"
-import { env } from "@/env.mjs"
+import { env } from "@/env"
 import { getTokenAction } from "@/app/_actions/user"
-
-// export const config = {
-//   api: {
-//     bodyParser: false,
-//   },
-// }
 
 export async function POST(request: Request, response: Response) {
   return getTokenAction().then(async (token) => {

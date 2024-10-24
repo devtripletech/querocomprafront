@@ -22,7 +22,7 @@ import { Input } from "@/components/ui/input"
 import { Icons } from "@/components/icons"
 import { PasswordInput } from "@/components/password-input"
 import { createUserAccountAction } from "@/app/_actions/user"
-import { login } from "next-auth/react"
+import { signIn } from "next-auth/react"
 import { ChevronRight } from "lucide-react"
 
 import Link from "next/link"
@@ -48,12 +48,7 @@ export function RegisterSellerStep1Form() {
   function onSubmit(data: Inputs) {
     startTransition(async () => {
       try {
-        //const res = await createUserAccountAction(data)
-        // router.push("/")
-        // toast.message("Cadastro", {
-        //   description: res.msg,
-        // })
-        login("Credentials", {
+        signIn("Credentials", {
           email: data.email,
           password: data.password,
         })

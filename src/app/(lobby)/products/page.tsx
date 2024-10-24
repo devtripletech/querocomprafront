@@ -1,5 +1,5 @@
 import { type Metadata } from "next"
-import { env } from "@/env.mjs"
+import { env } from "@/env"
 
 import {
   PageHeader,
@@ -8,10 +8,7 @@ import {
 } from "@/components/page-header"
 import { Products } from "@/components/products"
 import { Shell } from "@/components/shells/shell"
-import {
-  listProductsAction,
-  listProductsWithParamsAction,
-} from "@/app/_actions/product"
+import { listProductsWithParamsAction } from "@/app/_actions/product"
 import { productsSearchParamsSchema } from "@/lib/validations/params"
 import { listCategoriesAction } from "@/app/_actions/categories"
 import { currentUser, getUserAction } from "@/app/_actions/user"

@@ -47,7 +47,6 @@ import {
   UpdateUserDetailsRequest,
   updateUserDetails,
 } from "@/lib/actions/update-user-details"
-import { GetUsersResponse } from "@/lib/actions/get-users"
 
 type Params = {
   pageIndex: number
@@ -76,7 +75,7 @@ export function UserDetailsEdit({
     queryKey: ["user", userId],
     queryFn: () => getUserDetails({ userId }),
     enabled: open,
-    staleTime: Infinity, //24 horas (86400000 tempo em milissegundos)
+    staleTime: Infinity,
   })
 
   function updateUserDataOnCache({ userId, input }: UpdateUserDetailsRequest) {
@@ -179,7 +178,7 @@ export function UserDetailsEdit({
         form.setValue("address.numero", user.address.numero)
       }
     }
-  }, [form.setValue, user])
+  }, [form, form.setValue, user])
 
   return (
     <DialogContent>

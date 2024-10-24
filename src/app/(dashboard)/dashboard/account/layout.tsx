@@ -1,7 +1,6 @@
 import type { Metadata } from "next"
-import { env } from "@/env.mjs"
+import { env } from "@/env"
 
-import { UserProfile } from "@/components/auth/user-profile"
 import {
   PageHeader,
   PageHeaderDescription,
@@ -10,7 +9,6 @@ import {
 import { Shell } from "@/components/shells/shell"
 import { SidebarSubNav } from "@/components/layouts/sidebar-sub-nav"
 import { accountDashboardConfig } from "@/config/dashboard"
-import { AccountCard } from "@/components/cards/account-card"
 
 export const metadata: Metadata = {
   metadataBase: new URL(env.NEXT_PUBLIC_APP_URL),

@@ -1,7 +1,7 @@
 "use server"
-import { env } from "@/env.mjs"
+import { env } from "@/env"
 import { Category } from "@/types"
-import { unstable_noStore as noStore, revalidatePath } from "next/cache"
+import { revalidatePath } from "next/cache"
 
 export type GetCategoriesResponse = {
   data: Category[]
@@ -10,7 +10,7 @@ export type GetCategoriesResponse = {
 
 export const getCategories = async (): Promise<GetCategoriesResponse> => {
   const url = new URL(`${env.API_URL}/categories`)
-  noStore()
+
   const response = await fetch(url.toString(), {
     method: "GET",
     headers: {

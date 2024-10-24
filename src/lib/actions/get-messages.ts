@@ -1,7 +1,7 @@
 "use server"
 import { getTokenAction } from "@/app/_actions/user"
-import { env } from "@/env.mjs"
-import { unstable_noStore as noStore, revalidatePath } from "next/cache"
+import { env } from "@/env"
+import { revalidatePath } from "next/cache"
 
 export interface GetNegotiationsQuery {
   pageIndex?: number | null
@@ -33,7 +33,6 @@ export const getNegotiations = async ({
   role,
   name,
 }: GetNegotiationsQuery): Promise<GetNegotiationsResponse> => {
-  noStore()
   const url = new URL(`${env.API_URL}/negotiations`)
 
   if (pageIndex || pageIndex === 0) {

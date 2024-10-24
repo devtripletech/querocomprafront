@@ -1,6 +1,6 @@
 import * as React from "react"
 import { type Metadata } from "next"
-import { env } from "@/env.mjs"
+import { env } from "@/env"
 import { Shell } from "@/components/shells/shell"
 import { ErrorCard } from "@/components/cards/error-card"
 

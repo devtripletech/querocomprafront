@@ -1,6 +1,6 @@
 "use server"
-import { env } from "@/env.mjs"
-import { unstable_noStore as noStore, revalidatePath } from "next/cache"
+import { env } from "@/env"
+import { revalidatePath } from "next/cache"
 
 export interface GetDailyNegotiationsInPeriodQuery {
   from?: Date
@@ -16,7 +16,6 @@ export async function getDailyNegotiationsInPeriod({
   from,
   to,
 }: GetDailyNegotiationsInPeriodQuery): Promise<GetDailyNegotiationsInPeriodResponse> {
-  noStore()
   const response = await fetch(
     `${env.API_URL}/metrics/daily-negotiations-in-period?from=${from}&to=${to}`,
     {

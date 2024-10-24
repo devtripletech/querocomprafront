@@ -1,4 +1,4 @@
-import { env } from "@/env.mjs"
+import { env } from "@/env"
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { toast } from "sonner"

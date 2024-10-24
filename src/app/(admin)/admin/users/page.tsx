@@ -1,16 +1,10 @@
 import * as React from "react"
 import { type Metadata } from "next"
-import { unstable_noStore as noStore } from "next/cache"
-import { notFound, redirect } from "next/navigation"
-import { env } from "@/env.mjs"
-import { DataTableSkeleton } from "@/components/data-table/data-table-skeleton"
-import { DateRangePicker } from "@/components/date-range-picker"
-import { SeedProducts } from "@/components/seed-products-button"
 
-import { Product } from "@/lib/validations/product"
+import { redirect } from "next/navigation"
+import { env } from "@/env"
 
 import { Shell } from "@/components/shells/shell"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import Link from "next/link"
 import {
   PageHeader,
@@ -20,7 +14,7 @@ import {
 import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
-import { currentUser, getUserAction, getUsers } from "@/app/_actions/user"
+import { currentUser } from "@/app/_actions/user"
 
 import { UserTable } from "./_components/user-table"
 import { UserTableFilters } from "./_components/user-table-filters"
@@ -40,7 +34,6 @@ interface ProductsPageProps {
 export default async function ProductsPage({
   searchParams,
 }: ProductsPageProps) {
-  noStore()
   const user = await currentUser()
 
   if (!user) {

@@ -1,14 +1,8 @@
 import type { Metadata } from "next"
 import { redirect } from "next/navigation"
-import { env } from "@/env.mjs"
+import { env } from "@/env"
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { AddProductForm } from "@/components/forms/add-product-form"
 import { currentUser, getUserAction } from "@/app/_actions/user"
 import {

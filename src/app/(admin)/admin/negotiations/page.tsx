@@ -1,15 +1,10 @@
 import * as React from "react"
-import { type Metadata } from "next"
-import { env } from "@/env.mjs"
 import { Shell } from "@/components/shells/shell"
-import Link from "next/link"
 import {
   PageHeader,
   PageHeaderDescription,
   PageHeaderHeading,
 } from "@/components/page-header"
-import { buttonVariants } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
 
 import { DataTableSkeleton } from "@/components/table-skeleton"
 import { NegotiationTable } from "./_components/negotiation-table"

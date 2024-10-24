@@ -1,6 +1,6 @@
 import { type Metadata } from "next"
 import { notFound, redirect } from "next/navigation"
-import { env } from "@/env.mjs"
+import { env } from "@/env"
 
 import {
   Card,
@@ -10,7 +10,6 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { UpdateProductForm } from "@/components/forms/update-product-form"
-import { ProductPager } from "@/components/pagers/product-pager"
 import { getProductByIdAction } from "@/app/_actions/product"
 import { Shell } from "@/components/shells/shell"
 import {

@@ -2,21 +2,15 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import { notFound, redirect } from "next/navigation"
 import * as React from "react"
-import { env } from "@/env.mjs"
 
 import { cn, formatPrice, toTitleCase, truncate } from "@/lib/utils"
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion"
+
 import { Separator } from "@/components/ui/separator"
 import { ProductCard } from "@/components/cards/product-card"
 import { Breadcrumbs } from "@/components/pagers/breadcrumbs"
 import { ProductImageCarousel } from "@/components/product-image-carousel"
 import { Shell } from "@/components/shells/shell"
-import { Image } from "@/types"
+
 import {
   getProductByIdAction,
   listProductsWithParamsAction,
@@ -25,12 +19,7 @@ import { StoredFile } from "@/config/products"
 import { listCategoriesAction } from "@/app/_actions/categories"
 import { currentUser, getUserAction } from "@/app/_actions/user"
 import { UserPayload } from "@/lib/validations/auth"
-import { Button, buttonVariants } from "@/components/ui/button"
-import {
-  createNegotiationAction,
-  isNegotiatingAction,
-} from "@/app/_actions/negotiation"
-import { CreateNegotiationButton } from "@/components/buttons/create-negotiation-button"
+import { buttonVariants } from "@/components/ui/button"
 import { ArrowRightIcon } from "lucide-react"
 import { ProductCardSkeleton } from "@/components/skeletons/product-card-skeleton"
 import { StartNegotiationDialog } from "./_components/start-negotiation-dialog"

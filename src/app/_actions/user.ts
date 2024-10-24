@@ -1,6 +1,6 @@
 "use server"
 
-import { env } from "@/env.mjs"
+import { env } from "@/env"
 import { authOptions } from "@/lib/auth"
 import {
   UserPayload,
@@ -8,19 +8,16 @@ import {
   type registerBuyerStep1Schema,
   type registerBuyerStep2Schema,
 } from "@/lib/validations/auth"
-import { GetUser, User, userSchema } from "@/lib/validations/user"
+import { GetUser, userSchema } from "@/lib/validations/user"
 import { getServerSession } from "next-auth"
-import { unstable_noStore as noStore, revalidatePath } from "next/cache"
-import { redirect } from "next/navigation"
+import { revalidatePath } from "next/cache"
+
 import { z } from "zod"
 
 export async function currentUser() {
   try {
     const session = await getServerSession(authOptions)
 
-    // if (!session?.user?.email) {
-    //   return null
-    // }
     return session?.user
   } catch (error: any) {
     return null
@@ -96,8 +93,6 @@ export const createUserAction = async (
   })
 }
 export const userExistsAction = async (email: string): Promise<boolean> => {
-  noStore()
-
   console.log(email)
   const response = await fetch(`${env.API_URL}/v2/user/exists/${email}`, {
     method: "GET",
@@ -168,7 +163,6 @@ export const createUserAccountAction = async (
 
 export const getUserAction = async (userId: number): Promise<GetUser> => {
   return getTokenAction().then(async (token) => {
-    noStore()
     const res = await fetch(`${env.API_URL}/usuario/${userId}`, {
       method: "GET",
       headers: {
@@ -183,7 +177,6 @@ export const getUserAction = async (userId: number): Promise<GetUser> => {
 
 export const getUsers = async (): Promise<UserPayload[]> => {
   return getTokenAction().then(async (token) => {
-    noStore()
     const response = await fetch(`${env.API_URL}/users`, {
       method: "GET",
       headers: {

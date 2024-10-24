@@ -4,7 +4,6 @@ import * as React from "react"
 import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { toast } from "sonner"
 import type { z } from "zod"
 
 import {
@@ -23,10 +22,6 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Icons } from "@/components/icons"
-import { PasswordInput } from "@/components/password-input"
-import { createUserAccountAction } from "@/app/_actions/user"
-import { login } from "next-auth/react"
-import { ChevronRight } from "lucide-react"
 import {
   Select,
   SelectContent,
