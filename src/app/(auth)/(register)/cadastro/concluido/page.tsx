@@ -1,4 +1,8 @@
+"use client"
 import { Shell } from "@/components/shells/shell"
+import { buttonVariants } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
+import Link from "next/link"
 
 export default function Page() {
   return (
@@ -7,6 +11,9 @@ export default function Page() {
         Cadastro concluído com sucesso, aguarde pela validação da sua conta.
         Entraremos em contato!
       </div>
+      <Link href={"/"} className={cn(buttonVariants({}))}>
+        voltar
+      </Link>
     </Shell>
   )
 }

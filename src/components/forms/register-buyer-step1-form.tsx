@@ -55,9 +55,21 @@ export function RegisterBuyerStep1Form() {
   const form = useForm<Inputs>({
     mode: "onChange",
     resolver: zodResolver(registerBuyerStep1Schema),
-    // defaultValues: {
-
-    // },
+    defaultValues: {
+      name: "",
+      lastName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      cpf: "",
+      telefone: "",
+      cep: "",
+      rua: "",
+      numero: "",
+      bairro: "",
+      cidade: "",
+      uf: "",
+    },
   })
 
   function onSubmit(data: Inputs) {
@@ -91,7 +103,7 @@ export function RegisterBuyerStep1Form() {
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Input placeholder="Nome" autoComplete="off" {...field} />
+                      <Input placeholder="Nome" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -200,7 +212,7 @@ export function RegisterBuyerStep1Form() {
                       const userExists = await userExistsAction(
                         form.getValues("email")
                       )
-                      console.log(userExists)
+
                       if (userExists) {
                         form.setError("email", {
                           type: "manual",
@@ -209,12 +221,14 @@ export function RegisterBuyerStep1Form() {
                         toast.error("O email já está registrado.")
                         return
                       } else {
+                        form.resetField("cpf")
+                        form.resetField("telefone")
+                        form.resetField("cep")
                         setStep("step2")
                       }
                     } catch (error) {
                       catchError(error)
                     }
-                    setStep("step2")
                   } else {
                     toast.error(
                       "Preencha os campos corretamente antes de continuar"
@@ -247,8 +261,7 @@ export function RegisterBuyerStep1Form() {
                       <Input
                         ref={inputCPFRef}
                         placeholder="CPF"
-                        autoComplete="off"
-                        value={field.value ?? ""}
+                        value={field.value}
                         onChange={field.onChange}
                       />
                     </FormControl>
@@ -266,7 +279,6 @@ export function RegisterBuyerStep1Form() {
                         <Input
                           ref={inputPhoneRef}
                           placeholder="Telefone"
-                          autoComplete="off"
                           value={field.value ?? ""}
                           onChange={field.onChange}
                         />
@@ -284,7 +296,6 @@ export function RegisterBuyerStep1Form() {
                         <Input
                           ref={inputCEPRef}
                           placeholder="CEP"
-                          autoComplete="off"
                           value={field.value ?? ""}
                           onChange={field.onChange}
                         />

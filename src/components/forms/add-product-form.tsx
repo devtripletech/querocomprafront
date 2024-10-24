@@ -9,9 +9,9 @@ import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { type z } from "zod"
 
-import { catchError, isArrayOfFile } from "@/lib/utils"
+import { catchError, cn, isArrayOfFile } from "@/lib/utils"
 import { productSchema } from "@/lib/validations/product"
-import { Button } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import {
   Form,
   FormControl,
@@ -40,6 +40,7 @@ import {
   SelectValue,
 } from "../ui/select"
 import { Category } from "@/lib/validations/category"
+import Link from "next/link"
 
 interface AddProductFormProps {
   categories: Category[]
@@ -309,7 +310,19 @@ export function AddProductForm({ categories }: AddProductFormProps) {
           )}
         />
 
-        <div className="flex justify-end">
+        <div className="flex justify-end gap-2">
+          <Link
+            className={cn(buttonVariants({ variant: "outline" }))}
+            href={"/"}
+          >
+            {isPending && (
+              <Icons.spinner
+                className="mr-2 h-4 w-4 animate-spin"
+                aria-hidden="true"
+              />
+            )}
+            voltar
+          </Link>
           <Button
             onClick={() => void form.trigger(["nome", "descricao", "valor"])}
             className="w-fit"
